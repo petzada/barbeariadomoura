@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { registerAction, type AuthState } from "@/lib/auth/actions";
@@ -25,17 +25,30 @@ export default function CadastroPage() {
     if (state.success) {
       const timer = setTimeout(() => {
         router.push("/agendar");
+        router.refresh();
       }, 1000);
       return () => clearTimeout(timer);
     }
   }, [state.success, router]);
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (isPending || state.success) return;
+    
     setIsPending(true);
     try {
-      const result = await registerAction(state, formData);
-      setState(result);
-    } catch {
+      const formData = new FormData(e.currentTarget);
+      const result = await registerAction(initialState, formData);
+      if (result) {
+        setState(result);
+      } else {
+        setState({
+          success: false,
+          message: "Erro inesperado. Tente novamente.",
+        });
+      }
+    } catch (error) {
+      console.error("Register error:", error);
       setState({
         success: false,
         message: "Erro ao criar conta. Tente novamente.",
@@ -54,7 +67,7 @@ export default function CadastroPage() {
         </CardDescription>
       </CardHeader>
 
-      <form action={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           {/* Mensagem de sucesso */}
           {state.success && (
@@ -186,9 +199,9 @@ export default function CadastroPage() {
             type="submit" 
             className="w-full" 
             loading={isPending}
-            disabled={state.success}
+            disabled={state.success || isPending}
           >
-            {state.success ? "Redirecionando..." : "Criar conta"}
+            {state.success ? "Redirecionando..." : isPending ? "Criando conta..." : "Criar conta"}
           </Button>
 
           <p className="text-sm text-center text-muted-foreground">

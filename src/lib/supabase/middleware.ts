@@ -47,11 +47,12 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   // Rotas públicas que não requerem autenticação
-  const publicPaths = ["/", "/login", "/cadastro", "/esqueci-senha"];
+  const publicPaths = ["/", "/login", "/cadastro", "/esqueci-senha", "/resetar-senha"];
+  const publicPrefixes = ["/api/webhooks", "/pagamento"];
   const isPublicPath = publicPaths.some(
-    (path) =>
-      request.nextUrl.pathname === path ||
-      request.nextUrl.pathname.startsWith("/api/webhooks")
+    (path) => request.nextUrl.pathname === path
+  ) || publicPrefixes.some(
+    (prefix) => request.nextUrl.pathname.startsWith(prefix)
   );
 
   // Se não está autenticado e tenta acessar rota protegida

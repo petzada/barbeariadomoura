@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { forgotPasswordAction, type AuthState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
@@ -18,11 +18,31 @@ export default function EsqueciSenhaPage() {
   const [state, setState] = useState<AuthState>(initialState);
   const [isPending, setIsPending] = useState(false);
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (isPending) return;
+    
     setIsPending(true);
-    const result = await forgotPasswordAction(state, formData);
-    setState(result);
-    setIsPending(false);
+    try {
+      const formData = new FormData(e.currentTarget);
+      const result = await forgotPasswordAction(initialState, formData);
+      if (result) {
+        setState(result);
+      } else {
+        setState({
+          success: false,
+          message: "Erro inesperado. Tente novamente.",
+        });
+      }
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      setState({
+        success: false,
+        message: "Erro ao enviar email. Tente novamente.",
+      });
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (
@@ -34,7 +54,7 @@ export default function EsqueciSenhaPage() {
         </CardDescription>
       </CardHeader>
 
-      <form action={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           {/* Mensagem de sucesso */}
           {state.success && (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { resetPasswordAction, type AuthState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
@@ -24,17 +24,30 @@ export default function ResetarSenhaPage() {
     if (state.success && state.redirectTo) {
       const timer = setTimeout(() => {
         router.push(state.redirectTo!);
+        router.refresh();
       }, 1500);
       return () => clearTimeout(timer);
     }
   }, [state.success, state.redirectTo, router]);
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (isPending || state.success) return;
+    
     setIsPending(true);
     try {
-      const result = await resetPasswordAction(state, formData);
-      setState(result);
-    } catch {
+      const formData = new FormData(e.currentTarget);
+      const result = await resetPasswordAction(initialState, formData);
+      if (result) {
+        setState(result);
+      } else {
+        setState({
+          success: false,
+          message: "Erro inesperado. Tente novamente.",
+        });
+      }
+    } catch (error) {
+      console.error("Reset password error:", error);
       setState({
         success: false,
         message: "Erro ao redefinir senha. Tente novamente.",
@@ -53,7 +66,7 @@ export default function ResetarSenhaPage() {
         </CardDescription>
       </CardHeader>
 
-      <form action={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           {/* Mensagem de sucesso */}
           {state.success && (
@@ -120,9 +133,9 @@ export default function ResetarSenhaPage() {
             type="submit" 
             className="w-full" 
             loading={isPending}
-            disabled={state.success}
+            disabled={state.success || isPending}
           >
-            {state.success ? "Redirecionando..." : "Redefinir senha"}
+            {state.success ? "Redirecionando..." : isPending ? "Redefinindo..." : "Redefinir senha"}
           </Button>
         </CardFooter>
       </form>

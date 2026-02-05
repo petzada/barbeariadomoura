@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, FormEvent, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { loginAction, type AuthState } from "@/lib/auth/actions";
@@ -23,23 +23,40 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const redirectParam = searchParams.get("redirect");
   const successMessage = searchParams.get("message");
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Redirect quando login for bem-sucedido
   useEffect(() => {
     if (state.success && state.redirectTo) {
       const timer = setTimeout(() => {
         router.push(state.redirectTo!);
+        router.refresh();
       }, 500);
       return () => clearTimeout(timer);
     }
   }, [state.success, state.redirectTo, router]);
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (isPending || state.success) return;
+    
     setIsPending(true);
     try {
-      const result = await loginAction(state, formData);
-      setState(result);
-    } catch {
+      const formData = new FormData(e.currentTarget);
+      if (redirectParam) {
+        formData.set("redirect", redirectParam);
+      }
+      const result = await loginAction(initialState, formData);
+      if (result) {
+        setState(result);
+      } else {
+        setState({
+          success: false,
+          message: "Erro inesperado. Tente novamente.",
+        });
+      }
+    } catch (error) {
+      console.error("Login error:", error);
       setState({
         success: false,
         message: "Erro ao fazer login. Tente novamente.",
@@ -58,7 +75,7 @@ function LoginForm() {
         </CardDescription>
       </CardHeader>
 
-      <form action={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           {/* Mensagem de sucesso (ex: senha alterada) */}
           {successMessage && !state.message && (
@@ -82,11 +99,6 @@ function LoginForm() {
               <AlertCircle className="h-4 w-4 flex-shrink-0" />
               <span>{state.message}</span>
             </div>
-          )}
-
-          {/* Campo de redirect oculto */}
-          {redirectParam && (
-            <input type="hidden" name="redirect" value={redirectParam} />
           )}
 
           {/* Email */}
@@ -145,9 +157,9 @@ function LoginForm() {
             type="submit" 
             className="w-full" 
             loading={isPending}
-            disabled={state.success}
+            disabled={state.success || isPending}
           >
-            {state.success ? "Redirecionando..." : "Entrar"}
+            {state.success ? "Redirecionando..." : isPending ? "Entrando..." : "Entrar"}
           </Button>
 
           <p className="text-sm text-center text-muted-foreground">
