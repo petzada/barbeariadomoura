@@ -1,6 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   // Otimização de imports para evitar barrel files (Vercel Best Practice)
   experimental: {
     optimizePackageImports: ["lucide-react", "date-fns"],
