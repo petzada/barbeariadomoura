@@ -1,0 +1,472 @@
+import Link from "next/link";
+import { Suspense } from "react";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getInitials, formatCurrency, getWhatsAppLink } from "@/lib/utils";
+import {
+  Scissors,
+  Clock,
+  Calendar,
+  Star,
+  ArrowRight,
+  Crown,
+  Check,
+  MapPin,
+  Phone,
+  MessageCircle,
+} from "lucide-react";
+
+// Dados mockados (serão substituídos por dados do Supabase)
+const SERVICES = [
+  {
+    id: "1",
+    nome: "Corte de Cabelo",
+    descricao: "Corte masculino tradicional ou moderno",
+    preco: 45.0,
+    duracao_minutos: 30,
+  },
+  {
+    id: "2",
+    nome: "Barba",
+    descricao: "Barba completa com navalha e toalha quente",
+    preco: 35.0,
+    duracao_minutos: 20,
+  },
+  {
+    id: "3",
+    nome: "Corte + Barba",
+    descricao: "Combo corte de cabelo e barba completa",
+    preco: 70.0,
+    duracao_minutos: 45,
+  },
+  {
+    id: "4",
+    nome: "Sobrancelha",
+    descricao: "Design e limpeza de sobrancelha",
+    preco: 15.0,
+    duracao_minutos: 10,
+  },
+  {
+    id: "5",
+    nome: "Pigmentação",
+    descricao: "Pigmentação de barba ou cabelo",
+    preco: 80.0,
+    duracao_minutos: 60,
+  },
+  {
+    id: "6",
+    nome: "Hidratação",
+    descricao: "Tratamento de hidratação capilar",
+    preco: 40.0,
+    duracao_minutos: 30,
+  },
+];
+
+const PROFESSIONALS = [
+  {
+    id: "1",
+    nome: "Moura",
+    bio: "Fundador da barbearia com mais de 15 anos de experiência",
+    foto_url: null,
+  },
+  {
+    id: "2",
+    nome: "Carlos Silva",
+    bio: "Especialista em cortes modernos e degradê",
+    foto_url: null,
+  },
+  {
+    id: "3",
+    nome: "João Santos",
+    bio: "Expert em barba e tratamentos capilares",
+    foto_url: null,
+  },
+];
+
+const PLANS = [
+  {
+    id: "1",
+    nome: "Plano Básico",
+    descricao: "Cortes ilimitados de terça a quinta",
+    preco_mensal: 89.9,
+    beneficios: [
+      "Cortes de cabelo ilimitados",
+      "Válido terça, quarta e quinta",
+      "Agendamento prioritário",
+    ],
+    popular: false,
+  },
+  {
+    id: "2",
+    nome: "Plano Premium",
+    descricao: "Corte + Barba ilimitados, qualquer dia",
+    preco_mensal: 149.9,
+    beneficios: [
+      "Corte + Barba ilimitados",
+      "Válido todos os dias",
+      "Agendamento prioritário",
+      "Produtos com desconto",
+    ],
+    popular: true,
+  },
+  {
+    id: "3",
+    nome: "Plano VIP",
+    descricao: "Todos os serviços inclusos",
+    preco_mensal: 199.9,
+    beneficios: [
+      "Todos os serviços inclusos",
+      "Válido todos os dias",
+      "Agendamento VIP",
+      "Produtos com 20% off",
+      "Cerveja cortesia",
+    ],
+    popular: false,
+  },
+];
+
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5511960234545";
+
+export default function HomePage() {
+  return (
+    <>
+      <Header />
+
+      <main>
+        {/* Hero Section */}
+        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-accent/20" />
+
+          {/* Content */}
+          <div className="container-app relative z-10 text-center py-20">
+            <Badge variant="default" className="mb-6">
+              <Crown className="h-3 w-3 mr-1" />
+              A melhor barbearia de Mauá-SP
+            </Badge>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-6">
+              Estilo e tradição na
+              <br />
+              <span className="text-gradient-gold">Barbearia do Moura</span>
+            </h1>
+
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+              Cortes modernos, barba tradicional e ambiente acolhedor. Agende
+              online 24/7 e descubra por que somos referência na região.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" asChild>
+                <Link href="/agendar">
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Agendar Agora
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/clube">
+                  <Crown className="mr-2 h-5 w-5" />
+                  Conhecer o Clube
+                </Link>
+              </Button>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto mt-16">
+              <div>
+                <p className="text-3xl font-bold text-primary">15+</p>
+                <p className="text-sm text-muted-foreground">Anos de experiência</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-primary">5000+</p>
+                <p className="text-sm text-muted-foreground">Clientes satisfeitos</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-primary">4.9</p>
+                <p className="text-sm text-muted-foreground">
+                  <Star className="h-4 w-4 inline text-primary" /> Avaliação
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Serviços Section */}
+        <section id="servicos" className="section-padding bg-card/50">
+          <div className="container-app">
+            <div className="text-center mb-12">
+              <Badge variant="secondary" className="mb-4">
+                <Scissors className="h-3 w-3 mr-1" />
+                Nossos Serviços
+              </Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                Serviços de <span className="text-gradient-gold">Qualidade</span>
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Oferecemos uma variedade de serviços para você ficar no estilo.
+                Todos executados por profissionais experientes.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {SERVICES.map((service) => (
+                <Card key={service.id} className="card-hover">
+                  <CardContent className="p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="font-semibold text-lg">{service.nome}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {service.descricao}
+                        </p>
+                      </div>
+                      <Badge variant="default" className="text-lg font-bold">
+                        {formatCurrency(service.preco)}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Clock className="h-4 w-4 mr-1" />
+                      {service.duracao_minutos} min
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="text-center mt-8">
+              <Button asChild>
+                <Link href="/agendar">
+                  Agendar Serviço
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Profissionais Section */}
+        <section id="profissionais" className="section-padding">
+          <div className="container-app">
+            <div className="text-center mb-12">
+              <Badge variant="secondary" className="mb-4">
+                Nossa Equipe
+              </Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                Profissionais <span className="text-gradient-gold">Experientes</span>
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Conheça os barbeiros que vão cuidar do seu visual com
+                dedicação e profissionalismo.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {PROFESSIONALS.map((prof) => (
+                <Card key={prof.id} className="card-hover text-center">
+                  <CardContent className="p-6">
+                    <Avatar className="h-24 w-24 mx-auto mb-4">
+                      <AvatarImage src={prof.foto_url || undefined} alt={prof.nome} />
+                      <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
+                        {getInitials(prof.nome)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <h3 className="font-semibold text-lg">{prof.nome}</h3>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {prof.bio}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Clube Section */}
+        <section id="clube" className="section-padding bg-card/50">
+          <div className="container-app">
+            <div className="text-center mb-12">
+              <Badge variant="default" className="mb-4">
+                <Crown className="h-3 w-3 mr-1" />
+                Clube do Moura
+              </Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                Assine e <span className="text-gradient-gold">Economize</span>
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Faça parte do nosso clube e tenha acesso a serviços ilimitados
+                com preços especiais. Escolha o plano ideal para você.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {PLANS.map((plan) => (
+                <Card
+                  key={plan.id}
+                  className={`relative ${
+                    plan.popular
+                      ? "border-primary shadow-lg scale-105"
+                      : "card-hover"
+                  }`}
+                >
+                  {plan.popular && (
+                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      Mais Popular
+                    </Badge>
+                  )}
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-xl mb-2">{plan.nome}</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {plan.descricao}
+                    </p>
+                    <div className="mb-6">
+                      <span className="text-4xl font-bold text-gradient-gold">
+                        {formatCurrency(plan.preco_mensal)}
+                      </span>
+                      <span className="text-muted-foreground">/mês</span>
+                    </div>
+                    <ul className="space-y-3 mb-6">
+                      {plan.beneficios.map((beneficio, i) => (
+                        <li key={i} className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-success flex-shrink-0" />
+                          {beneficio}
+                        </li>
+                      ))}
+                    </ul>
+                    <Button
+                      className="w-full"
+                      variant={plan.popular ? "default" : "outline"}
+                      asChild
+                    >
+                      <Link href="/clube">Assinar Agora</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Contato Section */}
+        <section id="contato" className="section-padding">
+          <div className="container-app">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <Badge variant="secondary" className="mb-4">
+                  Contato
+                </Badge>
+                <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                  Venha nos <span className="text-gradient-gold">Visitar</span>
+                </h2>
+                <p className="text-muted-foreground mb-8">
+                  Estamos localizados no centro de Mauá, com fácil acesso e
+                  estacionamento próximo. Venha conhecer nossa estrutura!
+                </p>
+
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-primary/10">
+                      <MapPin className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium">Endereço</h4>
+                      <p className="text-muted-foreground">
+                        Rua Exemplo, 123 - Centro
+                        <br />
+                        Mauá-SP, 09310-000
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-primary/10">
+                      <Clock className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium">Horário de Funcionamento</h4>
+                      <p className="text-muted-foreground">
+                        Terça a Sexta: 09h às 20h
+                        <br />
+                        Sábado: 09h às 18h
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-primary/10">
+                      <Phone className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium">Telefone / WhatsApp</h4>
+                      <p className="text-muted-foreground">(11) 96023-4545</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 mt-8">
+                  <Button asChild>
+                    <Link href="/agendar">
+                      <Calendar className="mr-2 h-4 w-4" />
+                      Agendar Online
+                    </Link>
+                  </Button>
+                  <Button variant="outline" asChild>
+                    <a
+                      href={getWhatsAppLink(
+                        WHATSAPP_NUMBER,
+                        "Olá! Gostaria de agendar um horário."
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <MessageCircle className="mr-2 h-4 w-4" />
+                      WhatsApp
+                    </a>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Mapa placeholder */}
+              <div className="aspect-square md:aspect-auto md:h-[500px] rounded-xl overflow-hidden bg-secondary">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3654.8889!2d-46.4614!3d-23.6676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDQwJzAzLjQiUyA0NsKwMjcnNDEuMCJX!5e0!3m2!1spt-BR!2sbr!4v1234567890"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Localização da Barbearia do Moura"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Final */}
+        <section className="py-20 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20">
+          <div className="container-app text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Pronto para ficar no estilo?
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+              Agende agora mesmo e venha conhecer a Barbearia do Moura.
+              Primeira visita? Ganhe 10% de desconto!
+            </p>
+            <Button size="lg" asChild>
+              <Link href="/agendar">
+                Agendar Meu Horário
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  );
+}

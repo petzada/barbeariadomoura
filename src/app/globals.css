@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Cores principais - Barbearia do Moura */
+    --primary: 45 56% 79%; /* #ECD8A8 - Bege dourado */
+    --primary-foreground: 0 0% 7%; /* #121212 */
+
+    --accent: 195 98% 14%; /* #013648 - Azul escuro */
+    --accent-foreground: 0 0% 100%;
+
+    --background: 0 0% 7%; /* #121212 - Preto */
+    --foreground: 0 0% 100%; /* #FFFFFF */
+
+    /* Cards e containers */
+    --card: 0 0% 10%; /* #1A1A1A */
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 100%;
+
+    /* Secundário e muted */
+    --secondary: 0 0% 14%; /* #242424 */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 14%;
+    --muted-foreground: 240 4% 65%; /* #A1A1AA */
+
+    /* Cores semânticas */
+    --success: 142 71% 45%; /* #22C55E */
+    --success-foreground: 0 0% 100%;
+
+    --warning: 27 100% 45%; /* #E67300 */
+    --warning-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%; /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+
+    --info: 217 91% 60%; /* #3B82F6 */
+    --info-foreground: 0 0% 100%;
+
+    /* Inputs e bordas */
+    --input: 0 0% 16%; /* #2A2A2A */
+    --border: 0 0% 16%;
+    --ring: 45 56% 79%; /* #ECD8A8 */
+
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Scrollbar personalizada para tema dark */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+
+  /* Focus visible para acessibilidade */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+  /* Card com hover effect */
+  .card-hover {
+    @apply transition-all duration-200 hover:bg-secondary/50 hover:border-border/60;
+  }
+
+  /* Botão primário estilizado */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground font-medium px-6 py-3 rounded-lg 
+           transition-all duration-200 hover:brightness-110 active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Badge de status */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-success/20 text-success;
+  }
+
+  .badge-warning {
+    @apply bg-warning/20 text-warning;
+  }
+
+  .badge-error {
+    @apply bg-destructive/20 text-destructive;
+  }
+
+  .badge-info {
+    @apply bg-info/20 text-info;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply bg-muted animate-pulse rounded-md;
+  }
+
+  /* Container responsivo */
+  .container-app {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section padding */
+  .section-padding {
+    @apply py-12 sm:py-16 lg:py-20;
+  }
+
+  /* Texto gradiente dourado */
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-primary via-[#D4B896] to-primary bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar mas permite scroll */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Animação de entrada suave */
+  .animate-in {
+    animation: animate-in 0.3s ease-out;
+  }
+
+  @keyframes animate-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Glass effect para cards especiais */
+  .glass {
+    @apply bg-card/80 backdrop-blur-sm;
+  }
+}
