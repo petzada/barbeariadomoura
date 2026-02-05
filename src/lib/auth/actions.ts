@@ -48,6 +48,7 @@ export type AuthState = {
   success: boolean;
   message: string;
   errors?: Record<string, string[]>;
+  redirectTo?: string;
 };
 
 // ============================================
@@ -95,7 +96,7 @@ export async function loginAction(
     };
   }
 
-  // Redirecionar baseado no role do usuário
+  // Determinar URL de redirecionamento baseado no role do usuário
   const { data: user } = await supabase
     .from("users")
     .select("role")
@@ -104,15 +105,20 @@ export async function loginAction(
 
   const redirectUrl = formData.get("redirect") as string;
   
+  let targetUrl = "/agendar";
   if (redirectUrl) {
-    redirect(redirectUrl);
+    targetUrl = redirectUrl;
   } else if (user?.role === "admin") {
-    redirect("/admin/dashboard");
+    targetUrl = "/admin/dashboard";
   } else if (user?.role === "barbeiro") {
-    redirect("/profissional/dashboard");
-  } else {
-    redirect("/agendar");
+    targetUrl = "/profissional/dashboard";
   }
+
+  return {
+    success: true,
+    message: "Login realizado com sucesso! Redirecionando...",
+    redirectTo: targetUrl,
+  };
 }
 
 /**
@@ -277,7 +283,11 @@ export async function resetPasswordAction(
     };
   }
 
-  redirect("/login?message=Senha alterada com sucesso");
+  return {
+    success: true,
+    message: "Senha alterada com sucesso! Redirecionando...",
+    redirectTo: "/login?message=Senha alterada com sucesso",
+  };
 }
 
 /**

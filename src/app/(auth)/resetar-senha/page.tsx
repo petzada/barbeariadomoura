@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { resetPasswordAction, type AuthState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lock, AlertCircle } from "lucide-react";
+import { Lock, AlertCircle, CheckCircle } from "lucide-react";
 
 const initialState: AuthState = {
   success: false,
@@ -14,14 +15,33 @@ const initialState: AuthState = {
 };
 
 export default function ResetarSenhaPage() {
+  const router = useRouter();
   const [state, setState] = useState<AuthState>(initialState);
   const [isPending, setIsPending] = useState(false);
 
+  // Redirect quando reset for bem-sucedido
+  useEffect(() => {
+    if (state.success && state.redirectTo) {
+      const timer = setTimeout(() => {
+        router.push(state.redirectTo!);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [state.success, state.redirectTo, router]);
+
   async function handleSubmit(formData: FormData) {
     setIsPending(true);
-    const result = await resetPasswordAction(state, formData);
-    setState(result);
-    setIsPending(false);
+    try {
+      const result = await resetPasswordAction(state, formData);
+      setState(result);
+    } catch {
+      setState({
+        success: false,
+        message: "Erro ao redefinir senha. Tente novamente.",
+      });
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (
@@ -35,6 +55,14 @@ export default function ResetarSenhaPage() {
 
       <form action={handleSubmit}>
         <CardContent className="space-y-4">
+          {/* Mensagem de sucesso */}
+          {state.success && (
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
+              <CheckCircle className="h-4 w-4 flex-shrink-0" />
+              <span>{state.message}</span>
+            </div>
+          )}
+
           {/* Mensagem de erro */}
           {state.message && !state.success && (
             <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
@@ -57,6 +85,7 @@ export default function ResetarSenhaPage() {
                 required
                 autoComplete="new-password"
                 minLength={6}
+                disabled={state.success}
               />
             </div>
             {state.errors?.password && (
@@ -77,6 +106,7 @@ export default function ResetarSenhaPage() {
                 className="pl-10"
                 required
                 autoComplete="new-password"
+                disabled={state.success}
               />
             </div>
             {state.errors?.confirmPassword && (
@@ -86,8 +116,13 @@ export default function ResetarSenhaPage() {
         </CardContent>
 
         <CardFooter>
-          <Button type="submit" className="w-full" loading={isPending}>
-            Redefinir senha
+          <Button 
+            type="submit" 
+            className="w-full" 
+            loading={isPending}
+            disabled={state.success}
+          >
+            {state.success ? "Redirecionando..." : "Redefinir senha"}
           </Button>
         </CardFooter>
       </form>

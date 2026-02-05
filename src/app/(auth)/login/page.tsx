@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { loginAction, type AuthState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
@@ -17,17 +17,36 @@ const initialState: AuthState = {
 };
 
 function LoginForm() {
+  const router = useRouter();
   const [state, setState] = useState<AuthState>(initialState);
   const [isPending, setIsPending] = useState(false);
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect");
+  const redirectParam = searchParams.get("redirect");
   const successMessage = searchParams.get("message");
+
+  // Redirect quando login for bem-sucedido
+  useEffect(() => {
+    if (state.success && state.redirectTo) {
+      const timer = setTimeout(() => {
+        router.push(state.redirectTo!);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [state.success, state.redirectTo, router]);
 
   async function handleSubmit(formData: FormData) {
     setIsPending(true);
-    const result = await loginAction(state, formData);
-    setState(result);
-    setIsPending(false);
+    try {
+      const result = await loginAction(state, formData);
+      setState(result);
+    } catch {
+      setState({
+        success: false,
+        message: "Erro ao fazer login. Tente novamente.",
+      });
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (
@@ -42,10 +61,18 @@ function LoginForm() {
       <form action={handleSubmit}>
         <CardContent className="space-y-4">
           {/* Mensagem de sucesso (ex: senha alterada) */}
-          {successMessage && (
+          {successMessage && !state.message && (
             <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
               <CheckCircle className="h-4 w-4 flex-shrink-0" />
               <span>{successMessage}</span>
+            </div>
+          )}
+
+          {/* Mensagem de sucesso do login */}
+          {state.success && (
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
+              <CheckCircle className="h-4 w-4 flex-shrink-0" />
+              <span>{state.message}</span>
             </div>
           )}
 
@@ -58,8 +85,8 @@ function LoginForm() {
           )}
 
           {/* Campo de redirect oculto */}
-          {redirect && (
-            <input type="hidden" name="redirect" value={redirect} />
+          {redirectParam && (
+            <input type="hidden" name="redirect" value={redirectParam} />
           )}
 
           {/* Email */}
@@ -75,6 +102,7 @@ function LoginForm() {
                 className="pl-10"
                 required
                 autoComplete="email"
+                disabled={state.success}
               />
             </div>
             {state.errors?.email && (
@@ -103,6 +131,7 @@ function LoginForm() {
                 className="pl-10"
                 required
                 autoComplete="current-password"
+                disabled={state.success}
               />
             </div>
             {state.errors?.password && (
@@ -112,8 +141,13 @@ function LoginForm() {
         </CardContent>
 
         <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" loading={isPending}>
-            Entrar
+          <Button 
+            type="submit" 
+            className="w-full" 
+            loading={isPending}
+            disabled={state.success}
+          >
+            {state.success ? "Redirecionando..." : "Entrar"}
           </Button>
 
           <p className="text-sm text-center text-muted-foreground">
