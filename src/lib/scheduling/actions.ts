@@ -370,7 +370,7 @@ export async function criarAgendamento(formData: {
 // ============================================
 // VALIDAR CANCELAMENTO
 // ============================================
-export function validarCancelamento(dataHoraInicio: string): CancelamentoValidation {
+export async function validarCancelamento(dataHoraInicio: string): Promise<CancelamentoValidation> {
   const agora = new Date();
   const inicioAgendamento = parseISO(dataHoraInicio);
   const horasAteAgendamento =
@@ -421,7 +421,7 @@ export async function cancelarAgendamento(
   }
 
   // Validar regra de 4 horas
-  const validacao = validarCancelamento(agendamento.data_hora_inicio);
+  const validacao = await validarCancelamento(agendamento.data_hora_inicio);
   if (!validacao.pode) {
     return { success: false, message: validacao.motivo! };
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { loginAction, type AuthState } from "@/lib/auth/actions";
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Mail, Lock, AlertCircle, CheckCircle } from "lucide-react";
 
 const initialState: AuthState = {
@@ -15,11 +16,19 @@ const initialState: AuthState = {
   message: "",
 };
 
-export default function LoginPage() {
-  const [state, formAction, isPending] = useActionState(loginAction, initialState);
+function LoginForm() {
+  const [state, setState] = useState<AuthState>(initialState);
+  const [isPending, setIsPending] = useState(false);
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
   const successMessage = searchParams.get("message");
+
+  async function handleSubmit(formData: FormData) {
+    setIsPending(true);
+    const result = await loginAction(state, formData);
+    setState(result);
+    setIsPending(false);
+  }
 
   return (
     <Card className="border-border bg-card">
@@ -30,7 +39,7 @@ export default function LoginPage() {
         </CardDescription>
       </CardHeader>
 
-      <form action={formAction}>
+      <form action={handleSubmit}>
         <CardContent className="space-y-4">
           {/* Mensagem de sucesso (ex: senha alterada) */}
           {successMessage && (
@@ -66,7 +75,6 @@ export default function LoginPage() {
                 className="pl-10"
                 required
                 autoComplete="email"
-                error={!!state.errors?.email}
               />
             </div>
             {state.errors?.email && (
@@ -95,7 +103,6 @@ export default function LoginPage() {
                 className="pl-10"
                 required
                 autoComplete="current-password"
-                error={!!state.errors?.password}
               />
             </div>
             {state.errors?.password && (
@@ -118,5 +125,31 @@ export default function LoginPage() {
         </CardFooter>
       </form>
     </Card>
+  );
+}
+
+function LoginSkeleton() {
+  return (
+    <Card className="border-border bg-card">
+      <CardHeader className="space-y-1 text-center">
+        <Skeleton className="h-8 w-48 mx-auto" />
+        <Skeleton className="h-4 w-64 mx-auto" />
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+      </CardContent>
+      <CardFooter>
+        <Skeleton className="h-10 w-full" />
+      </CardFooter>
+    </Card>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginSkeleton />}>
+      <LoginForm />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { registerAction, type AuthState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,15 @@ const initialState: AuthState = {
 };
 
 export default function CadastroPage() {
-  const [state, formAction, isPending] = useActionState(registerAction, initialState);
+  const [state, setState] = useState<AuthState>(initialState);
+  const [isPending, setIsPending] = useState(false);
+
+  async function handleSubmit(formData: FormData) {
+    setIsPending(true);
+    const result = await registerAction(state, formData);
+    setState(result);
+    setIsPending(false);
+  }
 
   return (
     <Card className="border-border bg-card">
@@ -26,7 +34,7 @@ export default function CadastroPage() {
         </CardDescription>
       </CardHeader>
 
-      <form action={formAction}>
+      <form action={handleSubmit}>
         <CardContent className="space-y-4">
           {/* Mensagem de erro */}
           {state.message && !state.success && (
@@ -49,7 +57,6 @@ export default function CadastroPage() {
                 className="pl-10"
                 required
                 autoComplete="name"
-                error={!!state.errors?.nome}
               />
             </div>
             {state.errors?.nome && (
@@ -70,7 +77,6 @@ export default function CadastroPage() {
                 className="pl-10"
                 required
                 autoComplete="email"
-                error={!!state.errors?.email}
               />
             </div>
             {state.errors?.email && (
@@ -93,7 +99,6 @@ export default function CadastroPage() {
                 placeholder="(11) 99999-9999"
                 className="pl-10"
                 autoComplete="tel"
-                error={!!state.errors?.telefone}
               />
             </div>
             {state.errors?.telefone && (
@@ -115,7 +120,6 @@ export default function CadastroPage() {
                 required
                 autoComplete="new-password"
                 minLength={6}
-                error={!!state.errors?.password}
               />
             </div>
             {state.errors?.password && (
@@ -136,7 +140,6 @@ export default function CadastroPage() {
                 className="pl-10"
                 required
                 autoComplete="new-password"
-                error={!!state.errors?.confirmPassword}
               />
             </div>
             {state.errors?.confirmPassword && (

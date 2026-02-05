@@ -117,11 +117,11 @@ export default function MeusAgendamentosPage() {
   }, [isAuthenticated, toast]);
 
   // Verificar se pode cancelar
-  const handleCancelClick = (appointment: Appointment) => {
+  const handleCancelClick = async (appointment: Appointment) => {
     setSelectedAppointment(appointment);
     setCancelError(null);
 
-    const validation = validarCancelamento(appointment.data_hora_inicio);
+    const validation = await validarCancelamento(appointment.data_hora_inicio);
     if (!validation.pode) {
       setCancelError(validation.motivo || "Não é possível cancelar este agendamento.");
     }

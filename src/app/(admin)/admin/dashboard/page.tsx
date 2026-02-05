@@ -96,7 +96,7 @@ async function getMetrics() {
     .eq("status", "concluido")
     .eq("payment_status", "pago");
 
-  const faturamentoHoje = faturamentoHojeData?.reduce(
+  const faturamentoHoje = (faturamentoHojeData as { valor_cobrado: number }[] | null)?.reduce(
     (acc, a) => acc + (a.valor_cobrado || 0),
     0
   ) || 0;
@@ -110,7 +110,7 @@ async function getMetrics() {
     .eq("status", "concluido")
     .eq("payment_status", "pago");
 
-  const faturamentoMes = faturamentoMesData?.reduce(
+  const faturamentoMes = (faturamentoMesData as { valor_cobrado: number }[] | null)?.reduce(
     (acc, a) => acc + (a.valor_cobrado || 0),
     0
   ) || 0;

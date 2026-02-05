@@ -162,7 +162,7 @@ export default function AdminAgendaPage() {
     const supabase = createClient();
 
     try {
-      let updateData: Record<string, any> = {};
+      let updateData: Record<string, string> = {};
 
       switch (actionType) {
         case "start":

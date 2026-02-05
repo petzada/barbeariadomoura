@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState } from "react";
 import { resetPasswordAction, type AuthState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +14,15 @@ const initialState: AuthState = {
 };
 
 export default function ResetarSenhaPage() {
-  const [state, formAction, isPending] = useActionState(resetPasswordAction, initialState);
+  const [state, setState] = useState<AuthState>(initialState);
+  const [isPending, setIsPending] = useState(false);
+
+  async function handleSubmit(formData: FormData) {
+    setIsPending(true);
+    const result = await resetPasswordAction(state, formData);
+    setState(result);
+    setIsPending(false);
+  }
 
   return (
     <Card className="border-border bg-card">
@@ -25,7 +33,7 @@ export default function ResetarSenhaPage() {
         </CardDescription>
       </CardHeader>
 
-      <form action={formAction}>
+      <form action={handleSubmit}>
         <CardContent className="space-y-4">
           {/* Mensagem de erro */}
           {state.message && !state.success && (
@@ -49,7 +57,6 @@ export default function ResetarSenhaPage() {
                 required
                 autoComplete="new-password"
                 minLength={6}
-                error={!!state.errors?.password}
               />
             </div>
             {state.errors?.password && (
@@ -70,7 +77,6 @@ export default function ResetarSenhaPage() {
                 className="pl-10"
                 required
                 autoComplete="new-password"
-                error={!!state.errors?.confirmPassword}
               />
             </div>
             {state.errors?.confirmPassword && (
