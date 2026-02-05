@@ -97,8 +97,8 @@ export function UserNav() {
             </DropdownMenuItem>
           )}
 
-          {/* Links exclusivos para clientes (não barbeiros) */}
-          {!isBarbeiro && (
+          {/* Links exclusivos para clientes (não barbeiros e não admins) */}
+          {!isBarbeiro && !isAdmin && (
             <>
               <DropdownMenuItem asChild>
                 <Link href="/meus-agendamentos">

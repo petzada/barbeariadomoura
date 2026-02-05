@@ -20,6 +20,7 @@ import {
 import { format, startOfDay, endOfDay, startOfMonth, endOfMonth } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Link from "next/link";
+import { AdminDashboardHeader } from "./header";
 
 export const metadata = {
   title: "Dashboard",
@@ -322,13 +323,8 @@ function ScheduleSkeleton() {
 export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Bem-vindo ao painel administrativo da Barbearia do Moura
-        </p>
-      </div>
+      {/* Header com Saudação */}
+      <AdminDashboardHeader />
 
       {/* Métricas */}
       <Suspense fallback={<MetricsSkeleton />}>

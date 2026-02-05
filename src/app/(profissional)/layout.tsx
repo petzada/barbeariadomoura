@@ -2,13 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { ProfessionalNav } from "@/components/layout/professional-nav";
-import { Calendar, DollarSign, CalendarOff, Home } from "lucide-react";
-
-const navItems = [
-  { href: "/profissional/dashboard", label: "Minha Agenda", icon: Calendar },
-  { href: "/profissional/comissoes", label: "Minhas Comissões", icon: DollarSign },
-  { href: "/profissional/bloqueios", label: "Bloqueios", icon: CalendarOff },
-];
+import { ProfessionalSidebar } from "@/components/layout/professional-sidebar";
 
 export default async function ProfissionalLayout({
   children,
@@ -39,40 +33,7 @@ export default async function ProfissionalLayout({
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
-      <aside className="hidden lg:flex w-64 flex-col border-r border-border bg-card">
-        {/* Logo */}
-        <div className="p-6 border-b border-border">
-          <Link href="/profissional/dashboard" className="text-xl font-bold text-gradient-gold">
-            Barbearia do Moura
-          </Link>
-          <p className="text-xs text-muted-foreground mt-1">Painel do Profissional</p>
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-1">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-            >
-              <item.icon className="h-4 w-4" />
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Footer */}
-        <div className="p-4 border-t border-border">
-          <Link
-            href="/"
-            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-          >
-            <Home className="h-4 w-4" />
-            Ver Site
-          </Link>
-        </div>
-      </aside>
+      <ProfessionalSidebar />
 
       {/* Main content */}
       <div className="flex-1 flex flex-col">

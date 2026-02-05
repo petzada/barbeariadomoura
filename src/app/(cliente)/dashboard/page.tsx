@@ -183,26 +183,32 @@ export default function DashboardPage() {
     },
   ];
 
+  // Saudação baseada no horário
+  const getSaudacao = () => {
+    const hora = new Date().getHours();
+    if (hora < 12) return "Bom dia";
+    if (hora < 18) return "Boa tarde";
+    return "Boa noite";
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container-app py-8">
-        {/* Header */}
+        {/* Header com Saudação */}
         <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold">
-                Olá, {user.nome.split(" ")[0]}!
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                Bem-vindo à Barbearia do Moura
-              </p>
-            </div>
-            <Avatar className="h-12 w-12">
+          <div className="flex items-center gap-4">
+            <Avatar className="h-14 w-14">
               <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
-              <AvatarFallback className="bg-primary text-primary-foreground">
+              <AvatarFallback className="bg-primary text-primary-foreground text-lg">
                 {getInitials(user.nome)}
               </AvatarFallback>
             </Avatar>
+            <div>
+              <p className="text-muted-foreground">{getSaudacao()},</p>
+              <h1 className="text-2xl sm:text-3xl font-bold">
+                {user.nome.split(" ")[0]}
+              </h1>
+            </div>
           </div>
         </div>
 
