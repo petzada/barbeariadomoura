@@ -124,15 +124,7 @@ function LoginForm() {
 
           {/* Senha */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Senha</Label>
-              <Link
-                href="/esqueci-senha"
-                className="text-sm text-primary hover:underline"
-              >
-                Esqueceu a senha?
-              </Link>
-            </div>
+            <Label htmlFor="password">Senha</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -149,6 +141,14 @@ function LoginForm() {
             {state.errors?.password && (
               <p className="text-sm text-destructive">{state.errors.password[0]}</p>
             )}
+            <div className="text-right">
+              <Link
+                href="/esqueci-senha"
+                className="text-sm text-primary hover:underline"
+              >
+                Esqueceu a senha?
+              </Link>
+            </div>
           </div>
         </CardContent>
 

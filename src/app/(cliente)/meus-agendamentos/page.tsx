@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -187,9 +185,7 @@ export default function MeusAgendamentosPage() {
 
   return (
     <>
-      <Header />
-
-      <main className="min-h-screen py-8">
+      <div className="py-8">
         <div className="container-app max-w-4xl">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
@@ -271,7 +267,7 @@ export default function MeusAgendamentosPage() {
             </div>
           )}
         </div>
-      </main>
+      </div>
 
       {/* Dialog de Cancelamento */}
       <Dialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
@@ -366,8 +362,6 @@ export default function MeusAgendamentosPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      <Footer />
     </>
   );
 }
@@ -386,6 +380,11 @@ function AppointmentCard({
 }) {
   const status = statusConfig[appointment.status] || statusConfig.agendado;
   const dataHora = parseISO(appointment.data_hora_inicio);
+  
+  // Calcular horas até o agendamento para determinar ações disponíveis
+  const horasAteAgendamento = (dataHora.getTime() - Date.now()) / (1000 * 60 * 60);
+  const podeCancelar = horasAteAgendamento >= 4 && appointment.status === "agendado";
+  const podeContatarWhatsApp = horasAteAgendamento > 0 && horasAteAgendamento < 4 && appointment.status === "agendado";
 
   return (
     <Card className={cn(isPast && "opacity-70")}>
@@ -447,7 +446,8 @@ function AppointmentCard({
               )}
             </div>
 
-            {!isPast && appointment.status === "agendado" && onCancel && (
+            {/* Botão Cancelar - disponível apenas se faltam 4+ horas */}
+            {!isPast && podeCancelar && onCancel && (
               <Button
                 variant="outline"
                 size="sm"
@@ -462,6 +462,31 @@ function AppointmentCard({
                     Cancelar
                   </>
                 )}
+              </Button>
+            )}
+
+            {/* Botão WhatsApp - disponível quando faltam menos de 4 horas */}
+            {!isPast && podeContatarWhatsApp && (
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+              >
+                <a
+                  href={getWhatsAppLink(
+                    WHATSAPP_NUMBER,
+                    `Olá! Preciso de ajuda com meu agendamento do dia ${format(
+                      dataHora,
+                      "dd/MM/yyyy 'às' HH:mm",
+                      { locale: ptBR }
+                    )}.`
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle className="h-4 w-4 mr-1" />
+                  WhatsApp
+                </a>
               </Button>
             )}
           </div>

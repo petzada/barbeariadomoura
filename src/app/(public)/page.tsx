@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials, formatCurrency, getWhatsAppLink } from "@/lib/utils";
+import { getActiveServices, getActiveProfessionals } from "@/lib/scheduling/actions";
 import {
   Scissors,
   Clock,
@@ -21,73 +22,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 
-// Dados mockados (serão substituídos por dados do Supabase)
-const SERVICES = [
-  {
-    id: "1",
-    nome: "Corte de Cabelo",
-    descricao: "Corte masculino tradicional ou moderno",
-    preco: 45.0,
-    duracao_minutos: 30,
-  },
-  {
-    id: "2",
-    nome: "Barba",
-    descricao: "Barba completa com navalha e toalha quente",
-    preco: 35.0,
-    duracao_minutos: 20,
-  },
-  {
-    id: "3",
-    nome: "Corte + Barba",
-    descricao: "Combo corte de cabelo e barba completa",
-    preco: 70.0,
-    duracao_minutos: 45,
-  },
-  {
-    id: "4",
-    nome: "Sobrancelha",
-    descricao: "Design e limpeza de sobrancelha",
-    preco: 15.0,
-    duracao_minutos: 10,
-  },
-  {
-    id: "5",
-    nome: "Pigmentação",
-    descricao: "Pigmentação de barba ou cabelo",
-    preco: 80.0,
-    duracao_minutos: 60,
-  },
-  {
-    id: "6",
-    nome: "Hidratação",
-    descricao: "Tratamento de hidratação capilar",
-    preco: 40.0,
-    duracao_minutos: 30,
-  },
-];
-
-const PROFESSIONALS = [
-  {
-    id: "1",
-    nome: "Moura",
-    bio: "Fundador da barbearia com mais de 15 anos de experiência",
-    foto_url: null,
-  },
-  {
-    id: "2",
-    nome: "Carlos Silva",
-    bio: "Especialista em cortes modernos e degradê",
-    foto_url: null,
-  },
-  {
-    id: "3",
-    nome: "João Santos",
-    bio: "Expert em barba e tratamentos capilares",
-    foto_url: null,
-  },
-];
-
+// Planos de assinatura (estáticos pois são gerenciados apenas pelo sistema)
 const PLANS = [
   {
     id: "1",
@@ -132,6 +67,129 @@ const PLANS = [
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5511960234545";
 
+// ============================================
+// COMPONENTES DE DADOS DINÂMICOS
+// ============================================
+
+// Componente para exibir serviços do banco de dados
+async function ServicesSection() {
+  const services = await getActiveServices();
+
+  if (!services || services.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-muted-foreground">
+          Nenhum serviço disponível no momento.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {services.map((service) => (
+        <Card key={service.id} className="card-hover">
+          <CardContent className="p-6">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="font-semibold text-lg">{service.nome}</h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {service.descricao}
+                </p>
+              </div>
+              <Badge variant="default" className="text-lg font-bold">
+                {formatCurrency(service.preco)}
+              </Badge>
+            </div>
+            <div className="flex items-center text-sm text-muted-foreground">
+              <Clock className="h-4 w-4 mr-1" />
+              {service.duracao_minutos} min
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+// Loading skeleton para serviços
+function ServicesLoadingSkeleton() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[...Array(6)].map((_, i) => (
+        <Card key={i}>
+          <CardContent className="p-6">
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex-1">
+                <Skeleton className="h-6 w-32 mb-2" />
+                <Skeleton className="h-4 w-48" />
+              </div>
+              <Skeleton className="h-8 w-20" />
+            </div>
+            <Skeleton className="h-4 w-16" />
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+// Componente para exibir profissionais do banco de dados
+async function ProfessionalsSection() {
+  const professionals = await getActiveProfessionals();
+
+  if (!professionals || professionals.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-muted-foreground">
+          Nenhum profissional disponível no momento.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+      {professionals.map((prof) => (
+        <Card key={prof.id} className="card-hover text-center">
+          <CardContent className="p-6">
+            <Avatar className="h-24 w-24 mx-auto mb-4">
+              <AvatarImage src={prof.user?.avatar_url || undefined} alt={prof.user?.nome || "Profissional"} />
+              <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
+                {getInitials(prof.user?.nome || "?")}
+              </AvatarFallback>
+            </Avatar>
+            <h3 className="font-semibold text-lg">{prof.user?.nome || "Profissional"}</h3>
+            <p className="text-sm text-muted-foreground mt-2">
+              {prof.bio || "Barbeiro profissional"}
+            </p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+// Loading skeleton para profissionais
+function ProfessionalsLoadingSkeleton() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+      {[...Array(3)].map((_, i) => (
+        <Card key={i} className="text-center">
+          <CardContent className="p-6">
+            <Skeleton className="h-24 w-24 rounded-full mx-auto mb-4" />
+            <Skeleton className="h-6 w-32 mx-auto mb-2" />
+            <Skeleton className="h-4 w-48 mx-auto" />
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+// ============================================
+// PÁGINA PRINCIPAL
+// ============================================
 export default function HomePage() {
   return (
     <>
@@ -213,29 +271,9 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {SERVICES.map((service) => (
-                <Card key={service.id} className="card-hover">
-                  <CardContent className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="font-semibold text-lg">{service.nome}</h3>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {service.descricao}
-                        </p>
-                      </div>
-                      <Badge variant="default" className="text-lg font-bold">
-                        {formatCurrency(service.preco)}
-                      </Badge>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4 mr-1" />
-                      {service.duracao_minutos} min
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <Suspense fallback={<ServicesLoadingSkeleton />}>
+              <ServicesSection />
+            </Suspense>
 
             <div className="text-center mt-8">
               <Button asChild>
@@ -264,24 +302,9 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              {PROFESSIONALS.map((prof) => (
-                <Card key={prof.id} className="card-hover text-center">
-                  <CardContent className="p-6">
-                    <Avatar className="h-24 w-24 mx-auto mb-4">
-                      <AvatarImage src={prof.foto_url || undefined} alt={prof.nome} />
-                      <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
-                        {getInitials(prof.nome)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <h3 className="font-semibold text-lg">{prof.nome}</h3>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {prof.bio}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <Suspense fallback={<ProfessionalsLoadingSkeleton />}>
+              <ProfessionalsSection />
+            </Suspense>
           </div>
         </section>
 

@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -270,9 +268,7 @@ export default function AgendarPage() {
 
   return (
     <>
-      <Header showNav={false} />
-
-      <main className="min-h-screen py-8">
+      <div className="py-8">
         <div className="container-app max-w-4xl">
           {/* Header */}
           <div className="text-center mb-8">
@@ -658,9 +654,7 @@ export default function AgendarPage() {
             )}
           </div>
         </div>
-      </main>
-
-      <Footer />
+      </div>
     </>
   );
 }

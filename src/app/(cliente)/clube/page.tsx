@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -209,9 +207,7 @@ export default function ClubePage() {
 
   return (
     <>
-      <Header />
-
-      <main className="min-h-screen py-8">
+      <div className="py-8">
         <div className="container-app max-w-5xl">
           {/* Header */}
           <div className="text-center mb-12">
@@ -438,7 +434,7 @@ export default function ClubePage() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       {/* Dialog de Assinatura */}
       <Dialog open={showSubscribeDialog} onOpenChange={setShowSubscribeDialog}>
@@ -543,8 +539,6 @@ export default function ClubePage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      <Footer />
     </>
   );
 }
