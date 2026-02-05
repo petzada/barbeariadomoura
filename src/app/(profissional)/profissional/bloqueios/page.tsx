@@ -42,7 +42,11 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { format, parseISO, isBefore, isAfter } from "date-fns";
+import { fromZonedTime, toZonedTime, formatInTimeZone } from "date-fns-tz";
 import { ptBR } from "date-fns/locale";
+
+// Timezone do Brasil (GMT-3)
+const TIMEZONE = "America/Sao_Paulo";
 
 interface BlockedSlot {
   id: string;
@@ -150,13 +154,12 @@ export default function BloqueiosPage() {
   // Abrir dialog de edição
   const openEditDialog = (block: BlockedSlot) => {
     setSelectedBlock(block);
-    const inicio = parseISO(block.data_inicio);
-    const fim = parseISO(block.data_fim);
+    // Converter para timezone Brasil para exibição
     setFormData({
-      dataInicio: format(inicio, "yyyy-MM-dd"),
-      horaInicio: format(inicio, "HH:mm"),
-      dataFim: format(fim, "yyyy-MM-dd"),
-      horaFim: format(fim, "HH:mm"),
+      dataInicio: formatInTimeZone(parseISO(block.data_inicio), TIMEZONE, "yyyy-MM-dd"),
+      horaInicio: formatInTimeZone(parseISO(block.data_inicio), TIMEZONE, "HH:mm"),
+      dataFim: formatInTimeZone(parseISO(block.data_fim), TIMEZONE, "yyyy-MM-dd"),
+      horaFim: formatInTimeZone(parseISO(block.data_fim), TIMEZONE, "HH:mm"),
       motivo: block.motivo || "",
     });
     setShowEditDialog(true);
@@ -173,8 +176,12 @@ export default function BloqueiosPage() {
     e.preventDefault();
     if (!professionalId || processing) return;
 
-    const dataInicio = new Date(`${formData.dataInicio}T${formData.horaInicio}`);
-    const dataFim = new Date(`${formData.dataFim}T${formData.horaFim}`);
+    // Converter horário local do Brasil para UTC
+    const dataInicioLocal = new Date(`${formData.dataInicio}T${formData.horaInicio}:00`);
+    const dataFimLocal = new Date(`${formData.dataFim}T${formData.horaFim}:00`);
+    
+    const dataInicio = fromZonedTime(dataInicioLocal, TIMEZONE);
+    const dataFim = fromZonedTime(dataFimLocal, TIMEZONE);
 
     if (isAfter(dataInicio, dataFim) || dataInicio.getTime() === dataFim.getTime()) {
       toast({
@@ -225,8 +232,12 @@ export default function BloqueiosPage() {
     e.preventDefault();
     if (!selectedBlock || processing) return;
 
-    const dataInicio = new Date(`${formData.dataInicio}T${formData.horaInicio}`);
-    const dataFim = new Date(`${formData.dataFim}T${formData.horaFim}`);
+    // Converter horário local do Brasil para UTC
+    const dataInicioLocal = new Date(`${formData.dataInicio}T${formData.horaInicio}:00`);
+    const dataFimLocal = new Date(`${formData.dataFim}T${formData.horaFim}:00`);
+    
+    const dataInicio = fromZonedTime(dataInicioLocal, TIMEZONE);
+    const dataFim = fromZonedTime(dataFimLocal, TIMEZONE);
 
     if (isAfter(dataInicio, dataFim) || dataInicio.getTime() === dataFim.getTime()) {
       toast({
@@ -315,7 +326,7 @@ export default function BloqueiosPage() {
     setProcessing(false);
   };
 
-  // Verificar se bloqueio está ativo
+  // Verificar se bloqueio está ativo (usando timezone Brasil)
   const isBlockActive = (block: BlockedSlot) => {
     const now = new Date();
     const inicio = parseISO(block.data_inicio);
@@ -323,9 +334,14 @@ export default function BloqueiosPage() {
     return isAfter(now, inicio) && isBefore(now, fim);
   };
 
-  // Verificar se bloqueio é passado
+  // Verificar se bloqueio é passado (usando timezone Brasil)
   const isBlockPast = (block: BlockedSlot) => {
     return isBefore(parseISO(block.data_fim), new Date());
+  };
+
+  // Formatar data no timezone do Brasil
+  const formatDateBR = (dateStr: string, formatStr: string) => {
+    return formatInTimeZone(parseISO(dateStr), TIMEZONE, formatStr, { locale: ptBR });
   };
 
   if (loadingUser || loading) {
@@ -506,22 +522,18 @@ export default function BloqueiosPage() {
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-medium">
-                          {format(parseISO(block.data_inicio), "dd/MM/yyyy", {
-                            locale: ptBR,
-                          })}
-                          {format(parseISO(block.data_inicio), "yyyy-MM-dd") !==
-                            format(parseISO(block.data_fim), "yyyy-MM-dd") &&
-                            ` - ${format(parseISO(block.data_fim), "dd/MM/yyyy", {
-                              locale: ptBR,
-                            })}`}
+                          {formatDateBR(block.data_inicio, "dd/MM/yyyy")}
+                          {formatDateBR(block.data_inicio, "yyyy-MM-dd") !==
+                            formatDateBR(block.data_fim, "yyyy-MM-dd") &&
+                            ` - ${formatDateBR(block.data_fim, "dd/MM/yyyy")}`}
                         </span>
                         {isBlockActive(block) && (
                           <Badge variant="default">Ativo</Badge>
                         )}
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        {format(parseISO(block.data_inicio), "HH:mm")} às{" "}
-                        {format(parseISO(block.data_fim), "HH:mm")}
+                        {formatDateBR(block.data_inicio, "HH:mm")} às{" "}
+                        {formatDateBR(block.data_fim, "HH:mm")}
                       </p>
                       {block.motivo && (
                         <p className="text-sm text-muted-foreground mt-1">
@@ -570,18 +582,14 @@ export default function BloqueiosPage() {
                     </div>
                     <div>
                       <span className="font-medium">
-                        {format(parseISO(block.data_inicio), "dd/MM/yyyy", {
-                          locale: ptBR,
-                        })}
-                        {format(parseISO(block.data_inicio), "yyyy-MM-dd") !==
-                          format(parseISO(block.data_fim), "yyyy-MM-dd") &&
-                          ` - ${format(parseISO(block.data_fim), "dd/MM/yyyy", {
-                            locale: ptBR,
-                          })}`}
+                        {formatDateBR(block.data_inicio, "dd/MM/yyyy")}
+                        {formatDateBR(block.data_inicio, "yyyy-MM-dd") !==
+                          formatDateBR(block.data_fim, "yyyy-MM-dd") &&
+                          ` - ${formatDateBR(block.data_fim, "dd/MM/yyyy")}`}
                       </span>
                       <p className="text-sm text-muted-foreground">
-                        {format(parseISO(block.data_inicio), "HH:mm")} às{" "}
-                        {format(parseISO(block.data_fim), "HH:mm")}
+                        {formatDateBR(block.data_inicio, "HH:mm")} às{" "}
+                        {formatDateBR(block.data_fim, "HH:mm")}
                       </p>
                       {block.motivo && (
                         <p className="text-sm text-muted-foreground mt-1">

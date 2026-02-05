@@ -63,10 +63,26 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Se está autenticado e tenta acessar login/cadastro, redireciona para home
+  // Se está autenticado e tenta acessar login/cadastro, redireciona para dashboard do role
   if (user && ["/login", "/cadastro"].includes(request.nextUrl.pathname)) {
+    // Buscar role do usuário para redirecionar para o dashboard correto
+    const { data: profile } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
     const url = request.nextUrl.clone();
-    url.pathname = "/";
+    
+    // Redirecionar baseado no role
+    if (profile?.role === "admin") {
+      url.pathname = "/admin/dashboard";
+    } else if (profile?.role === "barbeiro") {
+      url.pathname = "/profissional/dashboard";
+    } else {
+      url.pathname = "/dashboard";
+    }
+    
     return NextResponse.redirect(url);
   }
 

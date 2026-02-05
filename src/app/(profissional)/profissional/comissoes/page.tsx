@@ -36,7 +36,7 @@ import { ptBR } from "date-fns/locale";
 interface Commission {
   id: string;
   valor_servico: number;
-  percentual_comissao: number;
+  percentual: number;
   valor_comissao: number;
   created_at: string;
   agendamento: {
@@ -106,7 +106,7 @@ export default function ComissoesPage() {
         .select(`
           id,
           valor_servico,
-          percentual_comissao,
+          percentual,
           valor_comissao,
           created_at,
           agendamento:appointments(
@@ -132,7 +132,7 @@ export default function ComissoesPage() {
         const ticketMedio = atendimentos > 0 ? totalComissoes / atendimentos : 0;
         const percentualMedio =
           atendimentos > 0
-            ? data.reduce((acc, c) => acc + (c.percentual_comissao || 0), 0) /
+            ? data.reduce((acc, c) => acc + (c.percentual || 0), 0) /
               atendimentos
             : 0;
 
@@ -285,7 +285,7 @@ export default function ComissoesPage() {
                         {commission.agendamento?.servico?.nome || "Serviço"}
                       </p>
                       <Badge variant="secondary">
-                        {commission.percentual_comissao}%
+                        {commission.percentual}%
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">

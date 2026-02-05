@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -36,8 +37,12 @@ import {
   Loader2,
   Crown,
   DollarSign,
+  CalendarOff,
+  User,
+  Settings,
+  ArrowRight,
 } from "lucide-react";
-import { format, addDays, subDays, startOfDay, endOfDay, parseISO, startOfMonth, endOfMonth } from "date-fns";
+import { format, addDays, subDays, startOfDay, endOfDay, parseISO, startOfMonth, endOfMonth, isAfter } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface Appointment {
@@ -88,7 +93,11 @@ export default function ProfissionalDashboardPage() {
   const [metricas, setMetricas] = useState({
     atendimentosHoje: 0,
     ganhosMes: 0,
+    atendimentosMes: 0,
   });
+
+  // Próximo atendimento
+  const [proximoAtendimento, setProximoAtendimento] = useState<Appointment | null>(null);
 
   // Buscar professional_id
   useEffect(() => {
@@ -149,6 +158,14 @@ export default function ProfissionalDashboardPage() {
         .lte("data_hora_inicio", dayEnd)
         .eq("status", "concluido");
 
+      const { count: atendimentosMes } = await supabase
+        .from("appointments")
+        .select("*", { count: "exact", head: true })
+        .eq("profissional_id", professionalId)
+        .gte("data_hora_inicio", monthStart)
+        .lte("data_hora_inicio", monthEnd)
+        .eq("status", "concluido");
+
       const { data: comissoesData } = await supabase
         .from("commissions")
         .select("valor_comissao")
@@ -164,7 +181,30 @@ export default function ProfissionalDashboardPage() {
       setMetricas({
         atendimentosHoje: atendimentosHoje || 0,
         ganhosMes,
+        atendimentosMes: atendimentosMes || 0,
       });
+
+      // Buscar próximo atendimento
+      const agora = new Date().toISOString();
+      const { data: proximoData } = await supabase
+        .from("appointments")
+        .select(`
+          *,
+          cliente:users!appointments_cliente_id_fkey(nome, telefone, avatar_url),
+          servico:services(nome, duracao_minutos)
+        `)
+        .eq("profissional_id", professionalId)
+        .gte("data_hora_inicio", agora)
+        .in("status", ["agendado", "em_andamento"])
+        .order("data_hora_inicio")
+        .limit(1)
+        .single();
+
+      if (proximoData) {
+        setProximoAtendimento(proximoData as Appointment);
+      } else {
+        setProximoAtendimento(null);
+      }
 
       setLoading(false);
     }
@@ -249,18 +289,109 @@ export default function ProfissionalDashboardPage() {
     }
   };
 
+  // Saudação baseada no horário
+  const getSaudacao = () => {
+    const hora = new Date().getHours();
+    if (hora < 12) return "Bom dia";
+    if (hora < 18) return "Boa tarde";
+    return "Boa noite";
+  };
+
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Minha Agenda</h1>
-        <p className="text-muted-foreground">
-          Gerencie seus atendimentos do dia
-        </p>
+      {/* Header com Saudação */}
+      <div className="flex items-center gap-4">
+        <Avatar className="h-16 w-16">
+          <AvatarImage src={user?.avatar_url || undefined} alt={user?.nome || ""} />
+          <AvatarFallback className="bg-primary text-primary-foreground text-xl">
+            {getInitials(user?.nome || "")}
+          </AvatarFallback>
+        </Avatar>
+        <div>
+          <p className="text-muted-foreground">{getSaudacao()},</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">{user?.nome?.split(" ")[0]}</h1>
+        </div>
       </div>
 
+      {/* Ações Rápidas */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Link href="/profissional/dashboard#agenda" className="block">
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+            <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
+              <Calendar className="h-8 w-8 mb-2 text-primary" />
+              <p className="text-sm font-medium">Minha Agenda</p>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/profissional/comissoes" className="block">
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+            <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
+              <DollarSign className="h-8 w-8 mb-2 text-success" />
+              <p className="text-sm font-medium">Comissões</p>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/profissional/bloqueios" className="block">
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+            <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
+              <CalendarOff className="h-8 w-8 mb-2 text-warning" />
+              <p className="text-sm font-medium">Bloqueios</p>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/profissional/perfil" className="block">
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+            <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
+              <User className="h-8 w-8 mb-2 text-muted-foreground" />
+              <p className="text-sm font-medium">Meu Perfil</p>
+            </CardContent>
+          </Card>
+        </Link>
+      </div>
+
+      {/* Próximo Atendimento */}
+      {proximoAtendimento && (
+        <Card className="border-primary/30 bg-primary/5">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              Próximo Atendimento
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Avatar className="h-12 w-12">
+                  <AvatarImage
+                    src={proximoAtendimento.cliente.avatar_url || undefined}
+                    alt={proximoAtendimento.cliente.nome}
+                  />
+                  <AvatarFallback className="bg-secondary text-secondary-foreground">
+                    {getInitials(proximoAtendimento.cliente.nome)}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium">{proximoAtendimento.cliente.nome}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {proximoAtendimento.servico.nome}
+                  </p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-bold">
+                  {format(parseISO(proximoAtendimento.data_hora_inicio), "HH:mm")}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {format(parseISO(proximoAtendimento.data_hora_inicio), "dd/MM", { locale: ptBR })}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Métricas */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -269,6 +400,17 @@ export default function ProfissionalDashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{metricas.atendimentosHoje}</div>
+            <p className="text-xs text-muted-foreground">Concluídos</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Atendimentos no Mês
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{metricas.atendimentosMes}</div>
             <p className="text-xs text-muted-foreground">Concluídos</p>
           </CardContent>
         </Card>
@@ -285,6 +427,27 @@ export default function ProfissionalDashboardPage() {
             <p className="text-xs text-muted-foreground">Em comissões</p>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Link para Configurações */}
+      <Card className="hover:border-primary/30 transition-colors">
+        <Link href="/profissional/perfil/configuracoes">
+          <CardContent className="p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Settings className="h-5 w-5 text-muted-foreground" />
+              <span className="font-medium">Configurações</span>
+            </div>
+            <ArrowRight className="h-5 w-5 text-muted-foreground" />
+          </CardContent>
+        </Link>
+      </Card>
+
+      {/* Título da Agenda */}
+      <div id="agenda">
+        <h2 className="text-xl font-bold">Agenda do Dia</h2>
+        <p className="text-muted-foreground text-sm">
+          Gerencie seus atendimentos
+        </p>
       </div>
 
       {/* Navegação de data */}

@@ -4,7 +4,11 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import type { CalculoAgendamento, CancelamentoValidation } from "@/types";
 import { addMinutes, format, parseISO, isBefore, subHours } from "date-fns";
+import { toZonedTime, fromZonedTime, formatInTimeZone } from "date-fns-tz";
 import { ptBR } from "date-fns/locale";
+
+// Timezone do Brasil (GMT-3)
+const TIMEZONE = "America/Sao_Paulo";
 
 // ============================================
 // BUSCAR SERVIÇOS ATIVOS
@@ -219,15 +223,22 @@ export async function buscarHorariosDisponiveis(
   const [aberturaHora, aberturaMin] = abertura.split(":").map(Number);
   const [fechamentoHora, fechamentoMin] = fechamento.split(":").map(Number);
 
-  const aberturaDate = new Date(data);
-  aberturaDate.setHours(aberturaHora, aberturaMin, 0, 0);
+  // Criar datas no timezone do Brasil
+  // Usando fromZonedTime para converter horário local do Brasil para UTC
+  const aberturaDate = fromZonedTime(
+    new Date(`${data}T${String(aberturaHora).padStart(2, '0')}:${String(aberturaMin).padStart(2, '0')}:00`),
+    TIMEZONE
+  );
 
-  const fechamentoDate = new Date(data);
-  fechamentoDate.setHours(fechamentoHora, fechamentoMin, 0, 0);
+  const fechamentoDate = fromZonedTime(
+    new Date(`${data}T${String(fechamentoHora).padStart(2, '0')}:${String(fechamentoMin).padStart(2, '0')}:00`),
+    TIMEZONE
+  );
 
-  // Tempo mínimo de antecedência (1 hora)
-  const agora = new Date();
-  const minimoAntecedencia = addMinutes(agora, 60);
+  // Tempo mínimo de antecedência (1 hora) - considerando timezone Brasil
+  const agoraUTC = new Date();
+  const agoraBrasil = toZonedTime(agoraUTC, TIMEZONE);
+  const minimoAntecedencia = addMinutes(agoraUTC, 60);
 
   let currentSlot = new Date(aberturaDate);
 
@@ -264,7 +275,8 @@ export async function buscarHorariosDisponiveis(
       });
 
       if (!temConflito && !temBloqueio) {
-        slots.push(format(currentSlot, "HH:mm"));
+        // Formatar no timezone do Brasil
+        slots.push(formatInTimeZone(currentSlot, TIMEZONE, "HH:mm"));
       }
     }
 
@@ -308,12 +320,16 @@ export async function criarAgendamento(formData: {
     return { success: false, message: "Serviço não encontrado" };
   }
 
-  // Montar data/hora
-  const dataHoraInicio = `${data}T${horario}:00`;
-  const dataHoraFim = format(
-    addMinutes(parseISO(dataHoraInicio), servico.duracao_minutos),
-    "yyyy-MM-dd'T'HH:mm:ss"
+  // Montar data/hora com timezone do Brasil (GMT-3)
+  // Converte o horário local do Brasil para UTC para salvar no banco
+  const inicioLocal = fromZonedTime(
+    new Date(`${data}T${horario}:00`),
+    TIMEZONE
   );
+  const fimLocal = addMinutes(inicioLocal, servico.duracao_minutos);
+  
+  const dataHoraInicio = inicioLocal.toISOString();
+  const dataHoraFim = fimLocal.toISOString();
 
   // Verificar se horário ainda está disponível
   const horariosDisponiveis = await buscarHorariosDisponiveis(
@@ -371,10 +387,11 @@ export async function criarAgendamento(formData: {
 // VALIDAR CANCELAMENTO
 // ============================================
 export async function validarCancelamento(dataHoraInicio: string): Promise<CancelamentoValidation> {
-  const agora = new Date();
+  // Usar timezone do Brasil para validação
+  const agoraUTC = new Date();
   const inicioAgendamento = parseISO(dataHoraInicio);
   const horasAteAgendamento =
-    (inicioAgendamento.getTime() - agora.getTime()) / (1000 * 60 * 60);
+    (inicioAgendamento.getTime() - agoraUTC.getTime()) / (1000 * 60 * 60);
 
   if (horasAteAgendamento < 4) {
     return {
