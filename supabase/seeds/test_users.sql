@@ -55,32 +55,30 @@ WHERE email = 'rafael@barbeariadomoura.com';
 -- =====================================================
 
 -- Criar profissional Carlos
-INSERT INTO public.professionals (user_id, especialidades, bio, ativo)
+INSERT INTO public.professionals (user_id, bio, ativo)
 SELECT 
   id,
-  ARRAY['corte', 'barba', 'pigmentacao'],
   'Barbeiro especialista com 10 anos de experiência em cortes modernos e barba.',
   true
 FROM public.users
 WHERE email = 'carlos@barbeariadomoura.com'
-ON CONFLICT DO NOTHING;
+ON CONFLICT (user_id) DO NOTHING;
 
 -- Criar profissional Rafael
-INSERT INTO public.professionals (user_id, especialidades, bio, ativo)
+INSERT INTO public.professionals (user_id, bio, ativo)
 SELECT 
   id,
-  ARRAY['corte', 'barba', 'sobrancelha'],
   'Especialista em degradê e cortes clássicos. Atendimento personalizado.',
   true
 FROM public.users
 WHERE email = 'rafael@barbeariadomoura.com'
-ON CONFLICT DO NOTHING;
+ON CONFLICT (user_id) DO NOTHING;
 
 -- =====================================================
 -- PASSO 4: Criar taxas de comissão para os profissionais
 -- =====================================================
 
--- Comissão padrão de 50% para Carlos
+-- Comissão padrão de 50% para Carlos em todos os serviços
 INSERT INTO public.commission_rates (profissional_id, servico_id, percentual)
 SELECT p.id, s.id, 50.00
 FROM public.professionals p
@@ -89,7 +87,7 @@ JOIN public.users u ON p.user_id = u.id
 WHERE u.email = 'carlos@barbeariadomoura.com'
 ON CONFLICT DO NOTHING;
 
--- Comissão padrão de 50% para Rafael
+-- Comissão padrão de 50% para Rafael em todos os serviços
 INSERT INTO public.commission_rates (profissional_id, servico_id, percentual)
 SELECT p.id, s.id, 50.00
 FROM public.professionals p
@@ -112,7 +110,7 @@ SELECT
   p.id,
   u.nome,
   u.email,
-  p.especialidades,
+  p.bio,
   p.ativo
 FROM public.professionals p
 JOIN public.users u ON p.user_id = u.id;

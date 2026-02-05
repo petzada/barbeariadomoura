@@ -23,28 +23,25 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Barbearia do Moura" }],
   creator: "Barbearia do Moura",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/icon.svg",
+  },
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: "https://barbeariadomoura.com.br",
+    url: "https://barbeariadomoura.vercel.app",
     siteName: "Barbearia do Moura",
     title: "Barbearia do Moura | Agendamento Online",
     description:
       "Agende seu horário na Barbearia do Moura. Cortes de cabelo, barba e tratamentos com profissionais especializados.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Barbearia do Moura",
-      },
-    ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Barbearia do Moura | Agendamento Online",
     description: "Agende seu horário na melhor barbearia de Mauá-SP.",
-    images: ["/og-image.png"],
   },
   robots: {
     index: true,
