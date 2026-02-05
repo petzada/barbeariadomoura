@@ -1,12 +1,13 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { UserNav } from "@/components/layout/user-nav";
-import { LayoutDashboard, Calendar, DollarSign, Settings } from "lucide-react";
+import { ProfessionalNav } from "@/components/layout/professional-nav";
+import { Calendar, DollarSign, CalendarOff, Home } from "lucide-react";
 
 const navItems = [
   { href: "/profissional/dashboard", label: "Minha Agenda", icon: Calendar },
   { href: "/profissional/comissoes", label: "Minhas Comissões", icon: DollarSign },
+  { href: "/profissional/bloqueios", label: "Bloqueios", icon: CalendarOff },
 ];
 
 export default async function ProfissionalLayout({
@@ -67,7 +68,7 @@ export default async function ProfissionalLayout({
             href="/"
             className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
           >
-            <Settings className="h-4 w-4" />
+            <Home className="h-4 w-4" />
             Ver Site
           </Link>
         </div>
@@ -83,7 +84,7 @@ export default async function ProfissionalLayout({
             </Link>
           </div>
           <div className="hidden lg:block" />
-          <UserNav />
+          <ProfessionalNav />
         </header>
 
         {/* Page content */}

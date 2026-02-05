@@ -97,29 +97,34 @@ export function UserNav() {
             </DropdownMenuItem>
           )}
 
-          <DropdownMenuItem asChild>
-            <Link href="/meus-agendamentos">
-              <Calendar className="mr-2 h-4 w-4" />
-              Meus Agendamentos
-            </Link>
-          </DropdownMenuItem>
+          {/* Links exclusivos para clientes (não barbeiros) */}
+          {!isBarbeiro && (
+            <>
+              <DropdownMenuItem asChild>
+                <Link href="/meus-agendamentos">
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Meus Agendamentos
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <Link href="/clube">
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  Clube do Moura
+                </Link>
+              </DropdownMenuItem>
+            </>
+          )}
 
           <DropdownMenuItem asChild>
-            <Link href="/clube">
-              <CreditCard className="mr-2 h-4 w-4" />
-              Clube do Moura
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
-            <Link href="/perfil">
+            <Link href={isBarbeiro ? "/profissional/perfil" : "/perfil"}>
               <User className="mr-2 h-4 w-4" />
               Meu Perfil
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <Link href="/perfil/configuracoes">
+            <Link href={isBarbeiro ? "/profissional/perfil/configuracoes" : "/perfil/configuracoes"}>
               <Settings className="mr-2 h-4 w-4" />
               Configurações
             </Link>
