@@ -181,7 +181,10 @@ export async function registerAction(
     }
   }
 
-  redirect("/agendar");
+  return {
+    success: true,
+    message: "Conta criada com sucesso! Redirecionando...",
+  };
 }
 
 /**

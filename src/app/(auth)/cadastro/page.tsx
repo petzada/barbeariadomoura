@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { registerAction, type AuthState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Mail, Phone, Lock, AlertCircle } from "lucide-react";
+import { User, Mail, Phone, Lock, AlertCircle, CheckCircle } from "lucide-react";
 
 const initialState: AuthState = {
   success: false,
@@ -15,14 +16,33 @@ const initialState: AuthState = {
 };
 
 export default function CadastroPage() {
+  const router = useRouter();
   const [state, setState] = useState<AuthState>(initialState);
   const [isPending, setIsPending] = useState(false);
 
+  // Redirect quando cadastro for bem-sucedido
+  useEffect(() => {
+    if (state.success) {
+      const timer = setTimeout(() => {
+        router.push("/agendar");
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [state.success, router]);
+
   async function handleSubmit(formData: FormData) {
     setIsPending(true);
-    const result = await registerAction(state, formData);
-    setState(result);
-    setIsPending(false);
+    try {
+      const result = await registerAction(state, formData);
+      setState(result);
+    } catch {
+      setState({
+        success: false,
+        message: "Erro ao criar conta. Tente novamente.",
+      });
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (
@@ -36,6 +56,14 @@ export default function CadastroPage() {
 
       <form action={handleSubmit}>
         <CardContent className="space-y-4">
+          {/* Mensagem de sucesso */}
+          {state.success && (
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
+              <CheckCircle className="h-4 w-4 flex-shrink-0" />
+              <span>{state.message}</span>
+            </div>
+          )}
+
           {/* Mensagem de erro */}
           {state.message && !state.success && (
             <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
@@ -57,6 +85,7 @@ export default function CadastroPage() {
                 className="pl-10"
                 required
                 autoComplete="name"
+                disabled={state.success}
               />
             </div>
             {state.errors?.nome && (
@@ -77,6 +106,7 @@ export default function CadastroPage() {
                 className="pl-10"
                 required
                 autoComplete="email"
+                disabled={state.success}
               />
             </div>
             {state.errors?.email && (
@@ -99,6 +129,7 @@ export default function CadastroPage() {
                 placeholder="(11) 99999-9999"
                 className="pl-10"
                 autoComplete="tel"
+                disabled={state.success}
               />
             </div>
             {state.errors?.telefone && (
@@ -120,6 +151,7 @@ export default function CadastroPage() {
                 required
                 autoComplete="new-password"
                 minLength={6}
+                disabled={state.success}
               />
             </div>
             {state.errors?.password && (
@@ -140,6 +172,7 @@ export default function CadastroPage() {
                 className="pl-10"
                 required
                 autoComplete="new-password"
+                disabled={state.success}
               />
             </div>
             {state.errors?.confirmPassword && (
@@ -149,8 +182,13 @@ export default function CadastroPage() {
         </CardContent>
 
         <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" loading={isPending}>
-            Criar conta
+          <Button 
+            type="submit" 
+            className="w-full" 
+            loading={isPending}
+            disabled={state.success}
+          >
+            {state.success ? "Redirecionando..." : "Criar conta"}
           </Button>
 
           <p className="text-sm text-center text-muted-foreground">
