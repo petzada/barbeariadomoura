@@ -35,6 +35,7 @@ import {
   Settings,
   LogOut,
   Scissors,
+  Star,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -42,6 +43,7 @@ const navItems = [
   { href: "/dashboard", label: "Início", icon: Home },
   { href: "/agendar", label: "Agendar", icon: Calendar },
   { href: "/meus-agendamentos", label: "Agendamentos", icon: CalendarCheck },
+  { href: "/feedback", label: "Avaliações", icon: Star },
   { href: "/clube", label: "Clube", icon: Crown },
   { href: "/perfil", label: "Perfil", icon: User },
 ];

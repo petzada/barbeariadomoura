@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import Link from "next/link";
 import { forgotPasswordAction, type AuthState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, AlertCircle, CheckCircle, ArrowLeft } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Mail, AlertCircle, CheckCircle, ArrowLeft, Loader2 } from "lucide-react";
 
 const initialState: AuthState = {
   success: false,
@@ -15,13 +16,30 @@ const initialState: AuthState = {
 };
 
 export default function EsqueciSenhaPage() {
+  const { toast } = useToast();
   const [state, setState] = useState<AuthState>(initialState);
   const [isPending, setIsPending] = useState(false);
+
+  useEffect(() => {
+    if (state.success) {
+      toast({
+        title: "Email enviado",
+        description: state.message,
+        variant: "success",
+      });
+    } else if (state.message && !state.success) {
+      toast({
+        title: "Erro",
+        description: state.message,
+        variant: "destructive",
+      });
+    }
+  }, [state.success, state.message, toast]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isPending) return;
-    
+
     setIsPending(true);
     try {
       const formData = new FormData(e.currentTarget);
@@ -46,7 +64,18 @@ export default function EsqueciSenhaPage() {
   }
 
   return (
-    <Card className="border-border bg-card">
+    <div className="relative">
+      {/* Overlay de loading */}
+      {isPending && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Enviando email...</p>
+          </div>
+        </div>
+      )}
+
+      <Card className="border-border bg-card">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold">Esqueceu a senha?</CardTitle>
         <CardDescription>
@@ -115,5 +144,6 @@ export default function EsqueciSenhaPage() {
         </CardFooter>
       </form>
     </Card>
+    </div>
   );
 }

@@ -63,6 +63,7 @@ interface Appointment {
   coberto_assinatura: boolean;
   payment_status: string;
   payment_method: string | null;
+  profissional_nome: string | null;
   cliente: {
     id: string;
     nome: string;
@@ -79,7 +80,7 @@ interface Appointment {
     user: {
       nome: string;
     };
-  };
+  } | null;
 }
 
 const statusConfig: Record<
@@ -368,7 +369,7 @@ export default function AdminAgendaPage() {
                             <p className="font-medium">{appointment.cliente.nome}</p>
                             <p className="text-sm text-muted-foreground">
                               {appointment.servico.nome} •{" "}
-                              {appointment.profissional.user.nome}
+                              {appointment.profissional?.user.nome || appointment.profissional_nome || "Profissional removido"}
                             </p>
                           </div>
                         </div>

@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Mail, Phone, Lock, AlertCircle, CheckCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { User, Mail, Phone, Lock, AlertCircle, CheckCircle, Loader2 } from "lucide-react";
 
 const initialState: AuthState = {
   success: false,
@@ -17,24 +18,36 @@ const initialState: AuthState = {
 
 export default function CadastroPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [state, setState] = useState<AuthState>(initialState);
   const [isPending, setIsPending] = useState(false);
 
   // Redirect quando cadastro for bem-sucedido
   useEffect(() => {
     if (state.success) {
+      toast({
+        title: "Conta criada",
+        description: state.message,
+        variant: "success",
+      });
       const timer = setTimeout(() => {
         router.push("/agendar");
         router.refresh();
       }, 1000);
       return () => clearTimeout(timer);
+    } else if (state.message && !state.success) {
+      toast({
+        title: "Erro no cadastro",
+        description: state.message,
+        variant: "destructive",
+      });
     }
-  }, [state.success, router]);
+  }, [state.success, state.message, router, toast]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isPending || state.success) return;
-    
+
     setIsPending(true);
     try {
       const formData = new FormData(e.currentTarget);
@@ -59,7 +72,18 @@ export default function CadastroPage() {
   }
 
   return (
-    <Card className="border-border bg-card">
+    <div className="relative">
+      {/* Overlay de loading */}
+      {isPending && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Criando conta...</p>
+          </div>
+        </div>
+      )}
+
+      <Card className="border-border bg-card">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold">Criar conta</CardTitle>
         <CardDescription>
@@ -213,5 +237,6 @@ export default function CadastroPage() {
         </CardFooter>
       </form>
     </Card>
+    </div>
   );
 }

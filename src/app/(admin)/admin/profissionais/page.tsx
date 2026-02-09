@@ -746,8 +746,9 @@ export default function AdminProfissionaisPage() {
           <DialogHeader>
             <DialogTitle>Excluir Profissional</DialogTitle>
             <DialogDescription>
-              Tem certeza que deseja remover este profissional? Os agendamentos futuros
-              dele serão mantidos, mas ele não poderá receber novos agendamentos.
+              Tem certeza que deseja remover este profissional? Todo o histórico de
+              agendamentos será mantido para consulta, porém ele não poderá mais
+              receber novos agendamentos.
             </DialogDescription>
           </DialogHeader>
 

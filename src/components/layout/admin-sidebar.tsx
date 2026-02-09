@@ -13,6 +13,7 @@ import {
   Crown,
   Clock,
   Home,
+  Star,
 } from "lucide-react";
 
 const navItems = [
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/admin/assinantes", label: "Assinantes", icon: Crown },
   { href: "/admin/financeiro", label: "Financeiro", icon: CreditCard },
   { href: "/admin/comissoes", label: "Comissões", icon: PieChart },
+  { href: "/admin/feedbacks", label: "Feedbacks", icon: Star },
   { href: "/admin/bloqueios", label: "Bloqueios", icon: Clock },
 ];
 

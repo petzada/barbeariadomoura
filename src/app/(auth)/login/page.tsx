@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Mail, Lock, AlertCircle, CheckCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Mail, Lock, AlertCircle, CheckCircle, Loader2 } from "lucide-react";
 
 const initialState: AuthState = {
   success: false,
@@ -18,6 +19,7 @@ const initialState: AuthState = {
 
 function LoginForm() {
   const router = useRouter();
+  const { toast } = useToast();
   const [state, setState] = useState<AuthState>(initialState);
   const [isPending, setIsPending] = useState(false);
   const searchParams = useSearchParams();
@@ -25,21 +27,43 @@ function LoginForm() {
   const successMessage = searchParams.get("message");
   const formRef = useRef<HTMLFormElement>(null);
 
+  // Mostrar toast quando chegar com mensagem de sucesso (ex: senha alterada)
+  useEffect(() => {
+    if (successMessage) {
+      toast({
+        title: "Sucesso",
+        description: successMessage,
+        variant: "success",
+      });
+    }
+  }, [successMessage, toast]);
+
   // Redirect quando login for bem-sucedido
   useEffect(() => {
     if (state.success && state.redirectTo) {
+      toast({
+        title: "Login realizado",
+        description: state.message,
+        variant: "success",
+      });
       const timer = setTimeout(() => {
         router.push(state.redirectTo!);
         router.refresh();
       }, 500);
       return () => clearTimeout(timer);
+    } else if (state.message && !state.success) {
+      toast({
+        title: "Erro no login",
+        description: state.message,
+        variant: "destructive",
+      });
     }
-  }, [state.success, state.redirectTo, router]);
+  }, [state.success, state.redirectTo, state.message, router, toast]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isPending || state.success) return;
-    
+
     setIsPending(true);
     try {
       const formData = new FormData(e.currentTarget);
@@ -50,16 +74,18 @@ function LoginForm() {
       if (result) {
         setState(result);
       } else {
+        const errorMsg = "Erro inesperado. Tente novamente.";
         setState({
           success: false,
-          message: "Erro inesperado. Tente novamente.",
+          message: errorMsg,
         });
       }
     } catch (error) {
       console.error("Login error:", error);
+      const errorMsg = "Erro ao fazer login. Tente novamente.";
       setState({
         success: false,
-        message: "Erro ao fazer login. Tente novamente.",
+        message: errorMsg,
       });
     } finally {
       setIsPending(false);
@@ -67,41 +93,44 @@ function LoginForm() {
   }
 
   return (
-    <Card className="border-border bg-card">
-      <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold">Bem-vindo de volta</CardTitle>
-        <CardDescription>
-          Entre com seu email e senha para acessar sua conta
-        </CardDescription>
-      </CardHeader>
+    <div className="relative">
+      {/* Overlay de loading */}
+      {isPending && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Entrando...</p>
+          </div>
+        </div>
+      )}
 
-      <form ref={formRef} onSubmit={handleSubmit}>
-        <CardContent className="space-y-4">
-          {/* Mensagem de sucesso (ex: senha alterada) */}
-          {successMessage && !state.message && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
-              <CheckCircle className="h-4 w-4 flex-shrink-0" />
-              <span>{successMessage}</span>
-            </div>
-          )}
+      <Card className="border-border bg-card">
+        <CardHeader className="space-y-1 text-center">
+          <CardTitle className="text-2xl font-bold">Bem-vindo de volta</CardTitle>
+          <CardDescription>
+            Entre com seu email e senha para acessar sua conta
+          </CardDescription>
+        </CardHeader>
 
-          {/* Mensagem de sucesso do login */}
-          {state.success && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
-              <CheckCircle className="h-4 w-4 flex-shrink-0" />
-              <span>{state.message}</span>
-            </div>
-          )}
+        <form ref={formRef} onSubmit={handleSubmit}>
+          <CardContent className="space-y-4">
+            {/* Mensagem de sucesso do login */}
+            {state.success && (
+              <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
+                <CheckCircle className="h-4 w-4 flex-shrink-0" />
+                <span>{state.message}</span>
+              </div>
+            )}
 
-          {/* Mensagem de erro */}
-          {state.message && !state.success && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-              <AlertCircle className="h-4 w-4 flex-shrink-0" />
-              <span>{state.message}</span>
-            </div>
-          )}
+            {/* Mensagem de erro */}
+            {state.message && !state.success && (
+              <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+                <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                <span>{state.message}</span>
+              </div>
+            )}
 
-          {/* Email */}
+            {/* Email */}
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
@@ -171,6 +200,7 @@ function LoginForm() {
         </CardFooter>
       </form>
     </Card>
+    </div>
   );
 }
 

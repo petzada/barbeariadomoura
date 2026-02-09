@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lock, AlertCircle, CheckCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Lock, AlertCircle, CheckCircle, Loader2 } from "lucide-react";
 
 const initialState: AuthState = {
   success: false,
@@ -16,24 +17,36 @@ const initialState: AuthState = {
 
 export default function ResetarSenhaPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [state, setState] = useState<AuthState>(initialState);
   const [isPending, setIsPending] = useState(false);
 
   // Redirect quando reset for bem-sucedido
   useEffect(() => {
     if (state.success && state.redirectTo) {
+      toast({
+        title: "Senha redefinida",
+        description: state.message,
+        variant: "success",
+      });
       const timer = setTimeout(() => {
         router.push(state.redirectTo!);
         router.refresh();
       }, 1500);
       return () => clearTimeout(timer);
+    } else if (state.message && !state.success) {
+      toast({
+        title: "Erro",
+        description: state.message,
+        variant: "destructive",
+      });
     }
-  }, [state.success, state.redirectTo, router]);
+  }, [state.success, state.redirectTo, state.message, router, toast]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isPending || state.success) return;
-    
+
     setIsPending(true);
     try {
       const formData = new FormData(e.currentTarget);
@@ -58,7 +71,18 @@ export default function ResetarSenhaPage() {
   }
 
   return (
-    <Card className="border-border bg-card">
+    <div className="relative">
+      {/* Overlay de loading */}
+      {isPending && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Redefinindo senha...</p>
+          </div>
+        </div>
+      )}
+
+      <Card className="border-border bg-card">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold">Redefinir senha</CardTitle>
         <CardDescription>
@@ -129,9 +153,9 @@ export default function ResetarSenhaPage() {
         </CardContent>
 
         <CardFooter>
-          <Button 
-            type="submit" 
-            className="w-full" 
+          <Button
+            type="submit"
+            className="w-full"
             loading={isPending}
             disabled={state.success || isPending}
           >
@@ -140,5 +164,6 @@ export default function ResetarSenhaPage() {
         </CardFooter>
       </form>
     </Card>
+    </div>
   );
 }

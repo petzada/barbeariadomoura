@@ -52,6 +52,7 @@ interface Appointment {
   valor_cobrado: number;
   coberto_assinatura: boolean;
   payment_status: string;
+  profissional_nome: string | null;
   servico: {
     nome: string;
     duracao_minutos: number;
@@ -62,7 +63,7 @@ interface Appointment {
       nome: string;
       avatar_url: string | null;
     };
-  };
+  } | null;
 }
 
 const statusConfig: Record<string, { label: string; variant: "default" | "success" | "warning" | "destructive" | "secondary" }> = {
@@ -330,7 +331,7 @@ export default function MeusAgendamentosPage() {
                 </p>
                 <p>
                   <strong>Profissional:</strong>{" "}
-                  {selectedAppointment.profissional.user.nome}
+                  {selectedAppointment.profissional?.user.nome || selectedAppointment.profissional_nome || "Profissional removido"}
                 </p>
               </div>
             </div>
@@ -386,6 +387,9 @@ function AppointmentCard({
   const podeCancelar = horasAteAgendamento >= 4 && appointment.status === "agendado";
   const podeContatarWhatsApp = horasAteAgendamento > 0 && horasAteAgendamento < 4 && appointment.status === "agendado";
 
+  const profissionalNome = appointment.profissional?.user.nome || appointment.profissional_nome || "Profissional removido";
+  const profissionalFoto = appointment.profissional?.foto_url || appointment.profissional?.user.avatar_url || undefined;
+
   return (
     <Card className={cn(isPast && "opacity-70")}>
       <CardContent className="p-6">
@@ -394,15 +398,11 @@ function AppointmentCard({
           <div className="flex items-start gap-4">
             <Avatar className="h-12 w-12">
               <AvatarImage
-                src={
-                  appointment.profissional.foto_url ||
-                  appointment.profissional.user.avatar_url ||
-                  undefined
-                }
-                alt={appointment.profissional.user.nome}
+                src={profissionalFoto}
+                alt={profissionalNome}
               />
               <AvatarFallback className="bg-primary text-primary-foreground">
-                {getInitials(appointment.profissional.user.nome)}
+                {getInitials(profissionalNome)}
               </AvatarFallback>
             </Avatar>
             <div>
@@ -428,7 +428,7 @@ function AppointmentCard({
                 </span>
                 <span className="flex items-center">
                   <User className="h-4 w-4 mr-1" />
-                  {appointment.profissional.user.nome}
+                  {profissionalNome}
                 </span>
               </div>
             </div>

@@ -243,7 +243,8 @@ export type Database = {
         Row: {
           id: string;
           cliente_id: string;
-          profissional_id: string;
+          profissional_id: string | null;
+          profissional_nome: string | null;
           servico_id: string;
           data_hora_inicio: string;
           data_hora_fim: string;
@@ -262,6 +263,7 @@ export type Database = {
           id?: string;
           cliente_id: string;
           profissional_id: string;
+          profissional_nome?: string | null;
           servico_id: string;
           data_hora_inicio: string;
           data_hora_fim: string;
@@ -279,7 +281,8 @@ export type Database = {
         Update: {
           id?: string;
           cliente_id?: string;
-          profissional_id?: string;
+          profissional_id?: string | null;
+          profissional_nome?: string | null;
           servico_id?: string;
           data_hora_inicio?: string;
           data_hora_fim?: string;
@@ -373,7 +376,8 @@ export type Database = {
       commissions: {
         Row: {
           id: string;
-          profissional_id: string;
+          profissional_id: string | null;
+          profissional_nome: string | null;
           agendamento_id: string;
           valor_servico: number;
           percentual: number;
@@ -385,6 +389,7 @@ export type Database = {
         Insert: {
           id?: string;
           profissional_id: string;
+          profissional_nome?: string | null;
           agendamento_id: string;
           valor_servico: number;
           percentual: number;
@@ -395,7 +400,8 @@ export type Database = {
         };
         Update: {
           id?: string;
-          profissional_id?: string;
+          profissional_id?: string | null;
+          profissional_nome?: string | null;
           agendamento_id?: string;
           valor_servico?: number;
           percentual?: number;
@@ -547,6 +553,58 @@ export type Database = {
             foreignKeyName: "commission_rates_servico_id_fkey";
             columns: ["servico_id"];
             referencedRelation: "services";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      feedbacks: {
+        Row: {
+          id: string;
+          agendamento_id: string;
+          cliente_id: string;
+          profissional_id: string | null;
+          profissional_nome: string | null;
+          nota: number;
+          comentario: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          agendamento_id: string;
+          cliente_id: string;
+          profissional_id?: string | null;
+          profissional_nome?: string | null;
+          nota: number;
+          comentario?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          agendamento_id?: string;
+          cliente_id?: string;
+          profissional_id?: string | null;
+          profissional_nome?: string | null;
+          nota?: number;
+          comentario?: string | null;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "feedbacks_agendamento_id_fkey";
+            columns: ["agendamento_id"];
+            referencedRelation: "appointments";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "feedbacks_cliente_id_fkey";
+            columns: ["cliente_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "feedbacks_profissional_id_fkey";
+            columns: ["profissional_id"];
+            referencedRelation: "professionals";
             referencedColumns: ["id"];
           }
         ];
