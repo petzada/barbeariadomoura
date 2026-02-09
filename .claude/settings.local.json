@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm run build:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: implementa sistema de feedback e melhorias de UX\n\n- Corrige bug de exclusao de profissionais \\(altera FK para SET NULL\\)\n- Adiciona tabela de feedbacks com migracao SQL\n- Implementa toasts e loading states nas paginas de autenticacao\n- Cria pagina de feedback no painel do cliente\n- Cria pagina de feedbacks no painel admin com estatisticas\n- Atualiza navegacao do cliente e admin com novas secoes\n- Adiciona profissional_nome para historico apos exclusao\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: implementa sistema de feedback e melhorias de UX\n\n- Corrige bug de exclusao de profissionais \\(altera FK para SET NULL\\)\n- Adiciona tabela de feedbacks com migracao SQL\n- Implementa toasts e loading states nas paginas de autenticacao\n- Cria pagina de feedback no painel do cliente\n- Cria pagina de feedbacks no painel admin com estatisticas\n- Atualiza navegacao do cliente e admin com novas secoes\n- Adiciona profissional_nome para historico apos exclusao\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nrefactor: padroniza navegacao mobile-first para todos os usuarios\n\n- Remove sidebars laterais de admin e profissional\n- Todos os layouts agora usam header fixo no topo \\(top nav\\)\n- Mobile: hamburger abre sheet lateral direita \\(igual para todos\\)\n- Desktop: navegacao horizontal no topo \\(igual para todos\\)\n- Garante consistencia de UI/UX entre cliente, profissional e admin\n- Adiciona footer em todos os layouts\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }
