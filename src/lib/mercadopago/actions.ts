@@ -67,7 +67,7 @@ export async function createSubscriptionAction(planId: string) {
       auto_recurring: {
         frequency: 1,
         frequency_type: "months",
-        transaction_amount: plan.preco,
+        transaction_amount: plan.preco_mensal,
         currency_id: "BRL",
       },
       back_url: `${APP_URL}/clube?subscription=pending`,
@@ -77,12 +77,14 @@ export async function createSubscriptionAction(planId: string) {
     await supabase.from("subscriptions").insert({
       cliente_id: user.id,
       plano_id: planId,
-      status: "pendente",
-      data_inicio: new Date().toISOString(),
-      data_fim: new Date(
-        Date.now() + (plan.duracao_dias || 30) * 24 * 60 * 60 * 1000
-      ).toISOString(),
-      mercadopago_subscription_id: subscription.id,
+      status: "suspensa",
+      data_inicio: new Date().toISOString().split("T")[0],
+      proxima_cobranca: new Date(
+        Date.now() + 30 * 24 * 60 * 60 * 1000
+      )
+        .toISOString()
+        .split("T")[0],
+      mp_subscription_id: subscription.id,
     });
 
     return {
@@ -124,14 +126,17 @@ export async function cancelSubscriptionAction() {
 
   try {
     // Cancelar no Mercado Pago se tiver ID
-    if (subscription.mercadopago_subscription_id) {
-      await cancelSubscription(subscription.mercadopago_subscription_id);
+    if (subscription.mp_subscription_id) {
+      await cancelSubscription(subscription.mp_subscription_id);
     }
 
     // Atualizar status no banco
     await supabase
       .from("subscriptions")
-      .update({ status: "cancelada" })
+      .update({
+        status: "cancelada",
+        data_cancelamento: new Date().toISOString(),
+      })
       .eq("id", subscription.id);
 
     return { success: true };

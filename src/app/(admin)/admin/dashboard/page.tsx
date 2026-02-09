@@ -88,33 +88,33 @@ async function getMetrics() {
     .lte("data_hora_inicio", todayEnd)
     .not("status", "eq", "cancelado");
 
-  // Faturamento do dia
+  // Faturamento consolidado por pagamentos confirmados
+  // Inclui tanto atendimentos quanto cobranças de assinatura.
   const { data: faturamentoHojeData } = await supabase
-    .from("appointments")
-    .select("valor_cobrado")
-    .gte("data_hora_inicio", todayStart)
-    .lte("data_hora_inicio", todayEnd)
-    .eq("status", "concluido")
-    .eq("payment_status", "pago");
+    .from("payments")
+    .select("valor")
+    .gte("created_at", todayStart)
+    .lte("created_at", todayEnd)
+    .eq("status", "pago");
 
-  const faturamentoHoje = (faturamentoHojeData as { valor_cobrado: number }[] | null)?.reduce(
-    (acc, a) => acc + (a.valor_cobrado || 0),
-    0
-  ) || 0;
+  const faturamentoHoje =
+    (faturamentoHojeData as { valor: number }[] | null)?.reduce(
+      (acc, payment) => acc + (payment.valor || 0),
+      0
+    ) || 0;
 
-  // Faturamento do mês
   const { data: faturamentoMesData } = await supabase
-    .from("appointments")
-    .select("valor_cobrado")
-    .gte("data_hora_inicio", monthStart)
-    .lte("data_hora_inicio", monthEnd)
-    .eq("status", "concluido")
-    .eq("payment_status", "pago");
+    .from("payments")
+    .select("valor")
+    .gte("created_at", monthStart)
+    .lte("created_at", monthEnd)
+    .eq("status", "pago");
 
-  const faturamentoMes = (faturamentoMesData as { valor_cobrado: number }[] | null)?.reduce(
-    (acc, a) => acc + (a.valor_cobrado || 0),
-    0
-  ) || 0;
+  const faturamentoMes =
+    (faturamentoMesData as { valor: number }[] | null)?.reduce(
+      (acc, payment) => acc + (payment.valor || 0),
+      0
+    ) || 0;
 
   // Assinantes ativos
   const { count: assinantesAtivos } = await supabase

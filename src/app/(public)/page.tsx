@@ -65,6 +65,33 @@ const PLANS = [
   },
 ];
 
+const SOCIAL_PROOF = [
+  {
+    id: "1",
+    nome: "Rafael Martins",
+    bairro: "Vila Bocaina, Maua",
+    feedback:
+      "Atendimento pontual e corte sempre consistente. Depois que comecei a agendar pelo site, nunca mais perdi horario.",
+    nota: 5,
+  },
+  {
+    id: "2",
+    nome: "Diego Almeida",
+    bairro: "Jardim Zaíra, Maua",
+    feedback:
+      "Ambiente organizado, barbeiros muito tecnicos e resultado impecavel. Recomendo para quem busca padrao profissional.",
+    nota: 5,
+  },
+  {
+    id: "3",
+    nome: "Lucas Ferreira",
+    bairro: "Centro, Maua",
+    feedback:
+      "Assinei o clube e valeu cada real. Agendamento rapido, atendimento de qualidade e excelente custo-beneficio no mes.",
+    nota: 5,
+  },
+];
+
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5511960234545";
 
 // ============================================
@@ -323,6 +350,27 @@ export default function HomePage() {
                 Faça parte do nosso clube e tenha acesso a serviços ilimitados
                 com preços especiais. Escolha o plano ideal para você.
               </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-10">
+              {SOCIAL_PROOF.map((item) => (
+                <Card key={item.id} className="card-hover">
+                  <CardContent className="p-5">
+                    <div className="flex items-center gap-1 text-primary mb-3">
+                      {Array.from({ length: item.nota }).map((_, index) => (
+                        <Star key={`${item.id}-${index}`} className="h-4 w-4 fill-current" />
+                      ))}
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      &quot;{item.feedback}&quot;
+                    </p>
+                    <div>
+                      <p className="font-medium">{item.nome}</p>
+                      <p className="text-xs text-muted-foreground">{item.bairro}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">

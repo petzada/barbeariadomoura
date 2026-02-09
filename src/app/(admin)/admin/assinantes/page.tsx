@@ -37,7 +37,7 @@ import {
   CreditCard,
   History,
 } from "lucide-react";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, startOfMonth, endOfMonth } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface Subscription {
@@ -89,6 +89,7 @@ export default function AdminAssinantesPage() {
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [loadingPayments, setLoadingPayments] = useState(false);
+  const [monthlyRevenue, setMonthlyRevenue] = useState(0);
 
   // Carregar assinaturas
   useEffect(() => {
@@ -120,6 +121,21 @@ export default function AdminAssinantesPage() {
         })) as Subscription[];
         setSubscriptions(transformed);
         setFilteredSubscriptions(transformed);
+      }
+
+      const monthStart = startOfMonth(new Date()).toISOString();
+      const monthEnd = endOfMonth(new Date()).toISOString();
+      const { data: revenueData } = await supabase
+        .from("payments")
+        .select("valor")
+        .not("assinatura_id", "is", null)
+        .eq("status", "pago")
+        .gte("created_at", monthStart)
+        .lte("created_at", monthEnd);
+
+      if (revenueData) {
+        const total = revenueData.reduce((acc, item) => acc + (item.valor || 0), 0);
+        setMonthlyRevenue(total);
       }
       setLoading(false);
     }
@@ -217,9 +233,7 @@ export default function AdminAssinantesPage() {
     total: subscriptions.length,
     ativas: subscriptions.filter((s) => s.status === "ativa").length,
     canceladas: subscriptions.filter((s) => s.status === "cancelada").length,
-    receitaMensal: subscriptions
-      .filter((s) => s.status === "ativa")
-      .reduce((acc, s) => acc + s.plano.preco_mensal, 0),
+    receitaMensal: monthlyRevenue,
   };
 
   return (

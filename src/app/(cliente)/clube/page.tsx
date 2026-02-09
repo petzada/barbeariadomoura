@@ -134,6 +134,15 @@ export default function ClubePage() {
 
       if (error) throw error;
 
+      const { error: paymentError } = await supabase.from("payments").insert({
+        assinatura_id: data.id,
+        valor: selectedPlan.preco_mensal,
+        metodo: "assinatura",
+        status: "pago",
+      });
+
+      if (paymentError) throw paymentError;
+
       setCurrentSubscription(data as Subscription);
       setShowSubscribeDialog(false);
 

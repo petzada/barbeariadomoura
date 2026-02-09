@@ -24,6 +24,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/lib/supabase/client";
 import { cn, formatCurrency, getInitials } from "@/lib/utils";
+import { DateFilterCalendarButton } from "@/components/date-filter-calendar-button";
 import {
   Calendar,
   ChevronLeft,
@@ -38,7 +39,18 @@ import {
   CreditCard,
   Crown,
 } from "lucide-react";
-import { format, addDays, subDays, startOfDay, endOfDay, parseISO } from "date-fns";
+import {
+  format,
+  addDays,
+  addMonths,
+  subDays,
+  subMonths,
+  startOfDay,
+  endOfDay,
+  startOfMonth,
+  endOfMonth,
+  parseISO,
+} from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface Appointment {
@@ -85,6 +97,7 @@ export default function AdminAgendaPage() {
   const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [markedDates, setMarkedDates] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [showActionDialog, setShowActionDialog] = useState(false);
@@ -118,6 +131,26 @@ export default function AdminAgendaPage() {
 
       if (!error && data) {
         setAppointments(data as Appointment[]);
+      }
+
+      const rangeStart = startOfMonth(subMonths(selectedDate, 2)).toISOString();
+      const rangeEnd = endOfMonth(addMonths(selectedDate, 2)).toISOString();
+      const { data: markedData } = await supabase
+        .from("appointments")
+        .select("data_hora_inicio")
+        .gte("data_hora_inicio", rangeStart)
+        .lte("data_hora_inicio", rangeEnd)
+        .not("status", "eq", "cancelado");
+
+      if (markedData) {
+        const uniqueDates = Array.from(
+          new Set(
+            markedData.map((item) =>
+              format(parseISO(item.data_hora_inicio), "yyyy-MM-dd")
+            )
+          )
+        );
+        setMarkedDates(uniqueDates);
       }
       setLoading(false);
     }
@@ -189,6 +222,27 @@ export default function AdminAgendaPage() {
 
       if (error) throw error;
 
+      if (actionType === "finish" && selectedAppointment.valor_cobrado > 0) {
+        const paymentPayload = {
+          agendamento_id: selectedAppointment.id,
+          valor: selectedAppointment.valor_cobrado,
+          metodo: selectedAppointment.coberto_assinatura ? "assinatura" : paymentMethod,
+          status: "pago" as const,
+        };
+
+        const { data: existingPayment } = await supabase
+          .from("payments")
+          .select("id")
+          .eq("agendamento_id", selectedAppointment.id)
+          .maybeSingle();
+
+        if (existingPayment?.id) {
+          await supabase.from("payments").update(paymentPayload).eq("id", existingPayment.id);
+        } else {
+          await supabase.from("payments").insert(paymentPayload);
+        }
+      }
+
       toast({
         title: "Sucesso",
         description:
@@ -231,9 +285,15 @@ export default function AdminAgendaPage() {
           <Button variant="outline" onClick={goToToday}>
             Hoje
           </Button>
-          <div className="min-w-[200px] text-center font-medium">
+          <div className="min-w-0 text-center font-medium text-sm sm:text-base">
             {format(selectedDate, "EEEE, dd 'de' MMMM", { locale: ptBR })}
           </div>
+          <DateFilterCalendarButton
+            value={selectedDate}
+            onChange={setSelectedDate}
+            markedDates={markedDates}
+            title="Filtrar agenda por data"
+          />
           <Button variant="outline" size="icon" onClick={goToNextDay}>
             <ChevronRight className="h-4 w-4" />
           </Button>

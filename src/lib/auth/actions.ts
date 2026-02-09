@@ -103,31 +103,13 @@ export async function loginAction(
     .eq("email", email)
     .single();
 
-  const redirectUrl = formData.get("redirect") as string;
-  
-  // Default é o dashboard do cliente
+  // Sempre redireciona para a home inicial do perfil após login.
+  // Requisito: ignorar redirect dinâmico e manter fluxo fixo por role.
   let targetUrl = "/dashboard";
-  
-  // Se há redirect na query string, validar se é apropriado para o role
-  if (redirectUrl) {
-    // Validar redirect contra role
-    if (redirectUrl.startsWith("/admin") && user?.role !== "admin") {
-      // Redirect para admin mas não é admin - ignorar e usar default do role
-    } else if (redirectUrl.startsWith("/profissional") && user?.role !== "barbeiro" && user?.role !== "admin") {
-      // Redirect para profissional mas não é barbeiro - ignorar e usar default do role
-    } else {
-      targetUrl = redirectUrl;
-    }
-  }
-  
-  // Se não foi definido por redirect válido, usar default baseado no role
-  if (targetUrl === "/dashboard") {
-    if (user?.role === "admin") {
-      targetUrl = "/admin/dashboard";
-    } else if (user?.role === "barbeiro") {
-      targetUrl = "/profissional/dashboard";
-    }
-    // Para clientes, mantém /dashboard
+  if (user?.role === "admin") {
+    targetUrl = "/admin/dashboard";
+  } else if (user?.role === "barbeiro") {
+    targetUrl = "/profissional/dashboard";
   }
 
   return {

@@ -15,6 +15,7 @@ import {
 import { useUser } from "@/hooks/use-user";
 import { createClient } from "@/lib/supabase/client";
 import { formatCurrency } from "@/lib/utils";
+import { DateFilterCalendarButton } from "@/components/date-filter-calendar-button";
 import {
   DollarSign,
   TrendingUp,
@@ -61,6 +62,7 @@ export default function ComissoesPage() {
   const { user } = useUser();
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [commissions, setCommissions] = useState<Commission[]>([]);
+  const [markedDates, setMarkedDates] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [professionalId, setProfessionalId] = useState<string | null>(null);
   const [stats, setStats] = useState<MonthlyStats>({
@@ -144,6 +146,26 @@ export default function ComissoesPage() {
         });
       }
 
+      const markerStart = startOfMonth(subMonths(selectedMonth, 4)).toISOString();
+      const markerEnd = endOfMonth(addMonths(selectedMonth, 4)).toISOString();
+      const { data: markerData } = await supabase
+        .from("commissions")
+        .select("created_at")
+        .eq("profissional_id", professionalId)
+        .gte("created_at", markerStart)
+        .lte("created_at", markerEnd);
+
+      if (markerData) {
+        const uniqueDates = Array.from(
+          new Set(
+            markerData.map((item) =>
+              format(parseISO(item.created_at), "yyyy-MM-dd")
+            )
+          )
+        );
+        setMarkedDates(uniqueDates);
+      }
+
       setLoading(false);
     }
 
@@ -173,9 +195,15 @@ export default function ComissoesPage() {
         <Button variant="outline" onClick={goToCurrentMonth}>
           Mês Atual
         </Button>
-        <div className="min-w-[200px] text-center font-medium">
+        <div className="min-w-0 text-center font-medium text-sm sm:text-base">
           {format(selectedMonth, "MMMM 'de' yyyy", { locale: ptBR })}
         </div>
+        <DateFilterCalendarButton
+          value={selectedMonth}
+          onChange={setSelectedMonth}
+          markedDates={markedDates}
+          title="Filtrar comissoes por data"
+        />
         <Button variant="outline" size="icon" onClick={goToNextMonth}>
           <ChevronRight className="h-4 w-4" />
         </Button>

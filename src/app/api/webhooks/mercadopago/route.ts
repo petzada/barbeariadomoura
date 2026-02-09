@@ -2,6 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/server";
 import { getPayment, getSubscriptionInfo, verifyWebhookSignature } from "@/lib/mercadopago/client";
 
+const mapPaymentStatus = (status: string) => {
+  if (status === "approved") return "pago";
+  if (status === "pending" || status === "in_process") return "pendente";
+  return "cancelado";
+};
+
+const mapPaymentMethod = (methodId?: string) => {
+  if (methodId === "pix") return "pix";
+  if (methodId === "debit_card") return "cartao_debito";
+  if (methodId === "credit_card") return "cartao_credito";
+  return "dinheiro";
+};
+
 /**
  * Webhook do Mercado Pago
  * Recebe notificações de pagamentos e assinaturas
@@ -54,33 +67,65 @@ export async function POST(request: NextRequest) {
       if (externalRef?.startsWith("appointment_")) {
         // Pagamento de agendamento individual
         const appointmentId = externalRef.replace("appointment_", "");
-        
-        const paymentStatus =
-          payment.status === "approved"
-            ? "pago"
-            : payment.status === "pending"
-            ? "pendente"
-            : "cancelado";
+        const paymentStatus = mapPaymentStatus(payment.status);
+        const paymentMethod = mapPaymentMethod(payment.payment_method_id);
 
         // Atualizar status do agendamento
         await supabase
           .from("appointments")
           .update({
             payment_status: paymentStatus,
-            payment_method: "mercado_pago",
+            payment_method: paymentMethod,
           })
           .eq("id", appointmentId);
 
         // Registrar pagamento
         await supabase.from("payments").insert({
-          appointment_id: appointmentId,
+          agendamento_id: appointmentId,
           valor: payment.transaction_amount,
-          metodo: "mercado_pago",
+          metodo: paymentMethod,
           status: paymentStatus,
-          mercadopago_payment_id: payment.id.toString(),
+          mp_payment_id: payment.id.toString(),
         });
 
         console.log(`Agendamento ${appointmentId} atualizado: ${paymentStatus}`);
+      }
+
+      if (externalRef?.startsWith("subscription_")) {
+        const paymentStatus = mapPaymentStatus(payment.status);
+        const [, userId, planId] = externalRef.split("_");
+
+        const { data: subscription } = await supabase
+          .from("subscriptions")
+          .select("id")
+          .eq("cliente_id", userId)
+          .eq("plano_id", planId)
+          .neq("status", "cancelada")
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (subscription?.id) {
+          const { data: existingPayment } = await supabase
+            .from("payments")
+            .select("id")
+            .eq("mp_payment_id", payment.id.toString())
+            .maybeSingle();
+
+          const paymentPayload = {
+            assinatura_id: subscription.id,
+            valor: payment.transaction_amount,
+            metodo: "assinatura" as const,
+            status: paymentStatus,
+            mp_payment_id: payment.id.toString(),
+          };
+
+          if (existingPayment?.id) {
+            await supabase.from("payments").update(paymentPayload).eq("id", existingPayment.id);
+          } else {
+            await supabase.from("payments").insert(paymentPayload);
+          }
+        }
       }
 
       return NextResponse.json({ success: true });
@@ -112,21 +157,21 @@ export async function POST(request: NextRequest) {
         const planId = parts[1];
 
         // Mapear status do Mercado Pago para nosso sistema
-        let subscriptionStatus: "ativa" | "pausada" | "cancelada" | "pendente";
+        let subscriptionStatus: "ativa" | "cancelada" | "suspensa" | "expirada";
         switch (subscription.status) {
           case "authorized":
           case "active":
             subscriptionStatus = "ativa";
             break;
           case "paused":
-            subscriptionStatus = "pausada";
+            subscriptionStatus = "suspensa";
             break;
           case "cancelled":
           case "canceled":
             subscriptionStatus = "cancelada";
             break;
           default:
-            subscriptionStatus = "pendente";
+            subscriptionStatus = "suspensa";
         }
 
         // Buscar assinatura existente
@@ -135,7 +180,9 @@ export async function POST(request: NextRequest) {
           .select("id")
           .eq("cliente_id", userId)
           .eq("plano_id", planId)
-          .single();
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
 
         if (existingSubscription) {
           // Atualizar assinatura existente
@@ -143,30 +190,26 @@ export async function POST(request: NextRequest) {
             .from("subscriptions")
             .update({
               status: subscriptionStatus,
-              mercadopago_subscription_id: subscription.id,
+              mp_subscription_id: subscription.id,
+              data_cancelamento:
+                subscriptionStatus === "cancelada" ? new Date().toISOString() : null,
             })
             .eq("id", existingSubscription.id);
 
           console.log(`Assinatura ${existingSubscription.id} atualizada: ${subscriptionStatus}`);
         } else if (subscriptionStatus === "ativa") {
           // Criar nova assinatura
-          const { data: plan } = await supabase
-            .from("subscription_plans")
-            .select("duracao_dias")
-            .eq("id", planId)
-            .single();
-
           const dataInicio = new Date();
-          const dataFim = new Date();
-          dataFim.setDate(dataFim.getDate() + (plan?.duracao_dias || 30));
+          const proximaCobranca = new Date();
+          proximaCobranca.setDate(proximaCobranca.getDate() + 30);
 
           await supabase.from("subscriptions").insert({
             cliente_id: userId,
             plano_id: planId,
             status: "ativa",
-            data_inicio: dataInicio.toISOString(),
-            data_fim: dataFim.toISOString(),
-            mercadopago_subscription_id: subscription.id,
+            data_inicio: dataInicio.toISOString().split("T")[0],
+            proxima_cobranca: proximaCobranca.toISOString().split("T")[0],
+            mp_subscription_id: subscription.id,
           });
 
           console.log(`Nova assinatura criada para usuário ${userId}`);

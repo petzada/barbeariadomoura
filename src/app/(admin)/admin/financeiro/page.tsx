@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
@@ -13,9 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/lib/supabase/client";
 import { formatCurrency } from "@/lib/utils";
+import { DateFilterCalendarButton } from "@/components/date-filter-calendar-button";
 import {
   DollarSign,
   TrendingUp,
@@ -27,9 +26,19 @@ import {
   ChevronRight,
   Crown,
   ArrowUpRight,
-  ArrowDownRight,
 } from "lucide-react";
-import { format, startOfDay, endOfDay, startOfMonth, endOfMonth, addDays, subDays, parseISO } from "date-fns";
+import {
+  format,
+  startOfDay,
+  endOfDay,
+  startOfMonth,
+  endOfMonth,
+  addDays,
+  addMonths,
+  subDays,
+  subMonths,
+  parseISO,
+} from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface Payment {
@@ -65,9 +74,9 @@ const metodoConfig: Record<string, { label: string; icon: React.ElementType; col
 };
 
 export default function AdminFinanceiroPage() {
-  const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [payments, setPayments] = useState<Payment[]>([]);
+  const [markedDates, setMarkedDates] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [dayStats, setDayStats] = useState<DayStats>({
     total: 0, pix: 0, credito: 0, debito: 0, dinheiro: 0, assinatura: 0, count: 0
@@ -160,6 +169,26 @@ export default function AdminFinanceiroPage() {
         });
       }
 
+      const rangeStart = startOfMonth(subMonths(selectedDate, 2)).toISOString();
+      const rangeEnd = endOfMonth(addMonths(selectedDate, 2)).toISOString();
+      const { data: markedData } = await supabase
+        .from("payments")
+        .select("created_at")
+        .eq("status", "pago")
+        .gte("created_at", rangeStart)
+        .lte("created_at", rangeEnd);
+
+      if (markedData) {
+        const uniqueDates = Array.from(
+          new Set(
+            markedData.map((item) =>
+              format(parseISO(item.created_at), "yyyy-MM-dd")
+            )
+          )
+        );
+        setMarkedDates(uniqueDates);
+      }
+
       setLoading(false);
     }
 
@@ -246,9 +275,15 @@ export default function AdminFinanceiroPage() {
         <Button variant="outline" onClick={goToToday}>
           Hoje
         </Button>
-        <div className="min-w-[200px] text-center font-medium">
+        <div className="min-w-0 text-center font-medium text-sm sm:text-base">
           {format(selectedDate, "EEEE, dd 'de' MMMM", { locale: ptBR })}
         </div>
+        <DateFilterCalendarButton
+          value={selectedDate}
+          onChange={setSelectedDate}
+          markedDates={markedDates}
+          title="Filtrar financeiro por data"
+        />
         <Button variant="outline" size="icon" onClick={goToNextDay}>
           <ChevronRight className="h-4 w-4" />
         </Button>
