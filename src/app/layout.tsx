@@ -1,12 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Berkshire_Swash } from "next/font/google";
+import { Roboto, Ms_Madi } from "next/font/google";
 
-const berkshire = Berkshire_Swash({
+const roboto = Roboto({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  display: "swap",
+});
+
+const msMadi = Ms_Madi({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-vintage",
+  variable: "--font-ms-madi",
   display: "swap",
 });
 import { Toaster } from "@/components/ui/toaster";
@@ -80,7 +85,6 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -119,7 +123,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`min-h-screen bg-background font-sans antialiased ${berkshire.variable}`}>
+      <body className={`min-h-screen bg-background font-sans antialiased ${roboto.variable} ${msMadi.variable}`}>
         {children}
         <Toaster />
         <WhatsAppFloatingButton />

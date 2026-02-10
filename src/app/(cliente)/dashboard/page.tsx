@@ -197,7 +197,7 @@ export default function DashboardPage() {
         {/* Header com Saudação */}
         <div className="mb-6">
           <p className="text-muted-foreground">{getSaudacao()},</p>
-          <h1 className="text-3xl font-bold font-vintage text-gradient-gold tracking-wide">{user.nome.split(" ")[0]}</h1>
+          <h1 className="text-3xl font-bold font-display text-gradient-gold tracking-wide">{user.nome.split(" ")[0]}</h1>
         </div>
 
         {/* Ações Rápidas */}

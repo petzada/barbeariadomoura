@@ -71,9 +71,10 @@ const config: Config = {
         ring: "#ECD8A8",
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        sans: ["var(--font-roboto)", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "monospace"],
-        vintage: ["var(--font-vintage)", "cursive"],
+        display: ["var(--font-ms-madi)", "cursive"],
+        vintage: ["var(--font-ms-madi)", "cursive"], // Maintaining backward compatibility if needed temporarily
       },
       borderRadius: {
         lg: "0.75rem",

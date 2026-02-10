@@ -34,20 +34,26 @@ export function Header({ showNav = true }: HeaderProps) {
       <div className="container-app flex h-16 items-center justify-between">
         {/* Logo */}
         {/* Logo - Vintage Style */}
-        <Link href="/" className="flex items-center gap-2 group">
-          {/* Option A: Text based logo mimicking the design */}
-          <div className="flex flex-col items-center leading-none select-none">
-            <span className="font-vintage text-2xl text-primary tracking-wide drop-shadow-sm group-hover:brightness-110 transition-all">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-primary/20 group-hover:border-primary/50 transition-colors">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.png"
+              alt="Barbearia do Moura"
+              className="h-full w-full object-cover"
+            />
+          </div>
+
+          <div className="flex flex-col select-none">
+            <span className="font-display text-2xl text-primary tracking-wide drop-shadow-sm group-hover:brightness-110 transition-all leading-none">
               Barbearia
             </span>
-            <div className="flex items-center gap-2 w-full justify-center">
-              <span className="h-[1px] w-3 bg-primary/50 rounded-full"></span>
-              <span className="font-vintage text-base text-primary/90 italic -my-1">do</span>
-              <span className="h-[1px] w-3 bg-primary/50 rounded-full"></span>
+            <div className="flex items-center gap-2">
+              <span className="font-display text-lg text-primary/90 -my-1">do</span>
+              <span className="font-display text-2xl text-primary tracking-wider drop-shadow-md group-hover:scale-105 transition-transform duration-300 leading-none">
+                Moura
+              </span>
             </div>
-            <span className="font-vintage text-3xl text-primary tracking-wider -mt-1 drop-shadow-md group-hover:scale-105 transition-transform duration-300">
-              Moura
-            </span>
           </div>
         </Link>
 
@@ -81,7 +87,7 @@ export function Header({ showNav = true }: HeaderProps) {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[350px]">
                 <SheetHeader>
-                  <SheetTitle className="text-gradient-gold text-left">
+                  <SheetTitle className="font-display text-3xl text-gradient-gold text-left">
                     Barbearia do Moura
                   </SheetTitle>
                 </SheetHeader>
