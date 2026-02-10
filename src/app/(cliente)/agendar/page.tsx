@@ -407,7 +407,7 @@ export default function AgendarPage() {
                         <CardContent className="p-6">
                           <Avatar className="h-16 w-16 mx-auto mb-3">
                             <AvatarImage
-                              src={prof.foto_url || prof.user.avatar_url || undefined}
+                              src={prof?.foto_url || prof.user.avatar_url || undefined}
                               alt={prof.user.nome}
                             />
                             <AvatarFallback className="bg-primary text-primary-foreground text-lg">

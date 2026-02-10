@@ -240,7 +240,7 @@ export default function DashboardPage() {
                     <Avatar>
                       <AvatarImage
                         src={
-                          nextAppointment.profissional.foto_url ||
+                          nextAppointment.profissional?.foto_url ||
                           nextAppointment.profissional.user.avatar_url ||
                           undefined
                         }

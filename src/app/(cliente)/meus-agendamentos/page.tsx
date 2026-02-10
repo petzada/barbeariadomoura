@@ -290,14 +290,13 @@ export default function MeusAgendamentosPage() {
                       <a
                         href={getWhatsAppLink(
                           WHATSAPP_NUMBER,
-                          `Olá! Preciso de ajuda para cancelar meu agendamento do dia ${
-                            selectedAppointment
-                              ? format(
-                                  parseISO(selectedAppointment.data_hora_inicio),
-                                  "dd/MM/yyyy 'às' HH:mm",
-                                  { locale: ptBR }
-                                )
-                              : ""
+                          `Olá! Preciso de ajuda para cancelar meu agendamento do dia ${selectedAppointment
+                            ? format(
+                              parseISO(selectedAppointment.data_hora_inicio),
+                              "dd/MM/yyyy 'às' HH:mm",
+                              { locale: ptBR }
+                            )
+                            : ""
                           }.`
                         )}
                         target="_blank"
@@ -381,7 +380,7 @@ function AppointmentCard({
 }) {
   const status = statusConfig[appointment.status] || statusConfig.agendado;
   const dataHora = parseISO(appointment.data_hora_inicio);
-  
+
   // Calcular horas até o agendamento para determinar ações disponíveis
   const horasAteAgendamento = (dataHora.getTime() - Date.now()) / (1000 * 60 * 60);
   const podeCancelar = horasAteAgendamento >= 4 && appointment.status === "agendado";

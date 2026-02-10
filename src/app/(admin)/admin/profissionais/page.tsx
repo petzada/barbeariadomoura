@@ -500,7 +500,7 @@ export default function AdminProfissionaisPage() {
                   <div className="flex items-start gap-4 mb-4 sm:mb-0">
                     <Avatar className="h-12 w-12">
                       <AvatarImage
-                        src={professional.foto_url || professional.user.avatar_url || undefined}
+                        src={professional?.foto_url || professional.user.avatar_url || undefined}
                         alt={professional.user.nome}
                       />
                       <AvatarFallback className="bg-primary text-primary-foreground">

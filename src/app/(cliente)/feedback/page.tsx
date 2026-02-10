@@ -344,11 +344,10 @@ export default function FeedbackPage() {
                               {[1, 2, 3, 4, 5].map((star) => (
                                 <Star
                                   key={star}
-                                  className={`h-4 w-4 ${
-                                    star <= feedback.nota
+                                  className={`h-4 w-4 ${star <= feedback.nota
                                       ? "fill-primary text-primary"
                                       : "text-muted-foreground"
-                                  }`}
+                                    }`}
                                 />
                               ))}
                             </div>
@@ -425,11 +424,10 @@ export default function FeedbackPage() {
                       className="p-1 transition-transform hover:scale-110"
                     >
                       <Star
-                        className={`h-8 w-8 ${
-                          star <= nota
+                        className={`h-8 w-8 ${star <= nota
                             ? "fill-primary text-primary"
                             : "text-muted-foreground hover:text-primary/50"
-                        }`}
+                          }`}
                       />
                     </button>
                   ))}
