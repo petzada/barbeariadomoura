@@ -197,7 +197,7 @@ export default function DashboardPage() {
         {/* Header com Saudação */}
         <div className="mb-6">
           <p className="text-muted-foreground">{getSaudacao()},</p>
-          <h1 className="text-3xl font-bold font-display text-gradient-gold tracking-wide">{user.nome.split(" ")[0]}</h1>
+          <h1 className="text-3xl font-bold text-gradient-gold tracking-wide">{user.nome.split(" ")[0]}</h1>
         </div>
 
         {/* Ações Rápidas */}
@@ -367,25 +367,6 @@ export default function DashboardPage() {
               </div>
             </CardContent>
           </Card>
-        </section>
-
-        {/* Link para Configurações */}
-        <section className="mt-8">
-          <Link
-            href="/perfil/configuracoes"
-            className="flex items-center justify-between p-4 rounded-lg border border-border hover:bg-secondary transition-colors"
-          >
-            <div className="flex items-center gap-3">
-              <Settings className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <p className="font-medium">Configurações</p>
-                <p className="text-sm text-muted-foreground">
-                  Alterar senha e preferências
-                </p>
-              </div>
-            </div>
-            <ArrowRight className="h-5 w-5 text-muted-foreground" />
-          </Link>
         </section>
       </div>
     </div>

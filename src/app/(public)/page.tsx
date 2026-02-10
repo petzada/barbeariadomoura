@@ -235,7 +235,7 @@ export default function HomePage() {
               A melhor barbearia de Mauá-SP
             </Badge>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-display mb-6 tracking-wide">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 tracking-wide">
               Estilo e tradição na
               <br />
               <span className="text-gradient-gold block mt-2 text-5xl sm:text-7xl lg:text-8xl">Barbearia do Moura</span>
@@ -289,7 +289,7 @@ export default function HomePage() {
                 <Scissors className="h-3 w-3 mr-1" />
                 Nossos Serviços
               </Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-display text-[#F5F5F0]">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-[#F5F5F0]">
                 Serviços de <span className="text-primary">Qualidade</span>
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -320,7 +320,7 @@ export default function HomePage() {
               <Badge variant="secondary" className="mb-4">
                 Nossa Equipe
               </Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-display text-[#F5F5F0]">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-[#F5F5F0]">
                 Profissionais <span className="text-primary">Experientes</span>
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">

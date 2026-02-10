@@ -106,8 +106,6 @@ export default function ProfissionalDashboardPage() {
   // Métricas
   const [metricas, setMetricas] = useState({
     atendimentosHoje: 0,
-    ganhosMes: 0,
-    atendimentosMes: 0,
   });
 
   // Próximo atendimento
@@ -193,30 +191,8 @@ export default function ProfissionalDashboardPage() {
         .lte("data_hora_inicio", dayEnd)
         .eq("status", "concluido");
 
-      const { count: atendimentosMes } = await supabase
-        .from("appointments")
-        .select("*", { count: "exact", head: true })
-        .eq("profissional_id", professionalId)
-        .gte("data_hora_inicio", monthStart)
-        .lte("data_hora_inicio", monthEnd)
-        .eq("status", "concluido");
-
-      const { data: comissoesData } = await supabase
-        .from("commissions")
-        .select("valor_comissao")
-        .eq("profissional_id", professionalId)
-        .gte("created_at", monthStart)
-        .lte("created_at", monthEnd);
-
-      const ganhosMes = comissoesData?.reduce(
-        (acc, c) => acc + (c.valor_comissao || 0),
-        0
-      ) || 0;
-
       setMetricas({
         atendimentosHoje: atendimentosHoje || 0,
-        ganhosMes,
-        atendimentosMes: atendimentosMes || 0,
       });
 
       // Buscar próximo atendimento
@@ -328,8 +304,8 @@ export default function ProfissionalDashboardPage() {
           actionType === "start"
             ? "Atendimento iniciado"
             : actionType === "finish"
-            ? "Atendimento finalizado"
-            : "Marcado como não compareceu",
+              ? "Atendimento finalizado"
+              : "Marcado como não compareceu",
         variant: "success",
       });
 
@@ -439,7 +415,7 @@ export default function ProfissionalDashboardPage() {
       )}
 
       {/* Métricas */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -451,44 +427,7 @@ export default function ProfissionalDashboardPage() {
             <p className="text-xs text-muted-foreground">Concluídos</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Atendimentos no Mês
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{metricas.atendimentosMes}</div>
-            <p className="text-xs text-muted-foreground">Concluídos</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Ganhos do Mês
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-success">
-              {formatCurrency(metricas.ganhosMes)}
-            </div>
-            <p className="text-xs text-muted-foreground">Em comissões</p>
-          </CardContent>
-        </Card>
       </div>
-
-      {/* Link para Configurações */}
-      <Card className="hover:border-primary/30 transition-colors">
-        <Link href="/profissional/perfil/configuracoes">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Settings className="h-5 w-5 text-muted-foreground" />
-              <span className="font-medium">Configurações</span>
-            </div>
-            <ArrowRight className="h-5 w-5 text-muted-foreground" />
-          </CardContent>
-        </Link>
-      </Card>
 
       {/* Título da Agenda */}
       <div id="agenda">

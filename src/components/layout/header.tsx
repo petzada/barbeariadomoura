@@ -25,7 +25,7 @@ export function Header({ showNav = true }: HeaderProps) {
   const navLinks = [
     { href: "/#servicos", label: "Serviços", icon: Scissors },
     { href: "/#profissionais", label: "Profissionais", icon: Users },
-    { href: "/clube", label: "Clube", icon: Crown },
+    { href: "/#clube", label: "Clube", icon: Crown },
     { href: "/#contato", label: "Contato", icon: Phone },
   ];
 
@@ -45,12 +45,12 @@ export function Header({ showNav = true }: HeaderProps) {
           </div>
 
           <div className="flex flex-col select-none">
-            <span className="font-display text-2xl text-primary tracking-wide drop-shadow-sm group-hover:brightness-110 transition-all leading-none">
+            <span className="text-2xl font-bold text-primary tracking-wide drop-shadow-sm group-hover:brightness-110 transition-all leading-none">
               Barbearia
             </span>
             <div className="flex items-center gap-2">
-              <span className="font-display text-lg text-primary/90 -my-1">do</span>
-              <span className="font-display text-2xl text-primary tracking-wider drop-shadow-md group-hover:scale-105 transition-transform duration-300 leading-none">
+              <span className="text-lg text-primary/90 -my-1">do</span>
+              <span className="text-2xl font-bold text-primary tracking-wider drop-shadow-md group-hover:scale-105 transition-transform duration-300 leading-none">
                 Moura
               </span>
             </div>
@@ -87,7 +87,7 @@ export function Header({ showNav = true }: HeaderProps) {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[350px]">
                 <SheetHeader>
-                  <SheetTitle className="font-display text-3xl text-gradient-gold text-left">
+                  <SheetTitle className="font-bold text-3xl text-gradient-gold text-left">
                     Barbearia do Moura
                   </SheetTitle>
                 </SheetHeader>

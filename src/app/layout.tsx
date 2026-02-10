@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Roboto, Ms_Madi } from "next/font/google";
+import { Roboto } from "next/font/google";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
@@ -8,12 +8,7 @@ const roboto = Roboto({
   display: "swap",
 });
 
-const msMadi = Ms_Madi({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-ms-madi",
-  display: "swap",
-});
+
 import { Toaster } from "@/components/ui/toaster";
 import { WhatsAppFloatingButton } from "@/components/whatsapp-button";
 import "./globals.css";
@@ -123,7 +118,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`min-h-screen bg-background font-sans antialiased ${roboto.variable} ${msMadi.variable}`}>
+      <body className={`min-h-screen bg-background font-sans antialiased ${roboto.variable}`}>
         {children}
         <Toaster />
         <WhatsAppFloatingButton />

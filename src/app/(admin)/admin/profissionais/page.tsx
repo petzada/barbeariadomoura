@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/lib/supabase/client";
-import { getInitials } from "@/lib/utils";
+import { getInitials, cn } from "@/lib/utils";
 import {
   Users,
   Plus,
@@ -38,6 +38,7 @@ import {
   Clock,
   Mail,
   Phone,
+  CheckCircle,
 } from "lucide-react";
 
 interface Professional {
@@ -95,9 +96,9 @@ export default function AdminProfissionaisPage() {
   const [processing, setProcessing] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  // Form state
   const [selectedUserId, setSelectedUserId] = useState("");
   const [bio, setBio] = useState("");
+  const [userSearch, setUserSearch] = useState("");
 
   // Hours form state
   const [selectedDia, setSelectedDia] = useState<number>(1);
@@ -108,7 +109,7 @@ export default function AdminProfissionaisPage() {
   useEffect(() => {
     async function loadData() {
       const supabase = createClient();
-      
+
       // Carregar profissionais com dados do usuário
       const { data: profsData, error: profsError } = await supabase
         .from("professionals")
@@ -130,12 +131,10 @@ export default function AdminProfissionaisPage() {
         setProfessionals(transformed);
       }
 
-      // Carregar usuários que podem ser vinculados como profissionais
-      // (usuários que ainda não são profissionais e não são clientes comuns)
+      // Carregar todos os usuários para busca
       const { data: usersData } = await supabase
         .from("users")
         .select("id, nome, email, telefone, avatar_url, role")
-        .in("role", ["barbeiro", "admin"])
         .order("nome");
 
       if (usersData) {
@@ -235,13 +234,19 @@ export default function AdminProfissionaisPage() {
 
         if (error) throw error;
 
+        // Atualizar role do usuário para barbeiro
+        await supabase
+          .from("users")
+          .update({ role: "barbeiro" })
+          .eq("id", selectedUserId);
+
         // Transformar dados para formato correto
         const transformedData = {
           ...data,
           user: Array.isArray(data.user) ? data.user[0] : data.user,
         } as Professional;
         setProfessionals((prev) => [transformedData, ...prev]);
-        
+
         // Remover usuário da lista de disponíveis
         setAvailableUsers((prev) => prev.filter(u => u.id !== selectedUserId));
 
@@ -305,7 +310,7 @@ export default function AdminProfissionaisPage() {
     try {
       // Verificar se já existe horário para este dia
       const existingHour = professionalHours.find(h => h.dia_semana === selectedDia);
-      
+
       if (existingHour) {
         // Atualizar horário existente
         const { error } = await supabase
@@ -399,13 +404,21 @@ export default function AdminProfissionaisPage() {
     try {
       // Buscar o profissional para obter o user_id antes de deletar
       const profToDelete = professionals.find(p => p.id === deleteId);
-      
+
       const { error } = await supabase.from("professionals").delete().eq("id", deleteId);
 
       if (error) throw error;
 
+      // Reverter role do usuário para cliente
+      if (profToDelete) {
+        await supabase
+          .from("users")
+          .update({ role: "cliente" })
+          .eq("id", profToDelete.user_id);
+      }
+
       setProfessionals((prev) => prev.filter((p) => p.id !== deleteId));
-      
+
       // Adicionar usuário de volta à lista de disponíveis
       if (profToDelete) {
         setAvailableUsers((prev) => [...prev, {
@@ -414,10 +427,10 @@ export default function AdminProfissionaisPage() {
           email: profToDelete.user.email,
           telefone: profToDelete.user.telefone,
           avatar_url: profToDelete.user.avatar_url,
-          role: "barbeiro",
+          role: "cliente",
         }]);
       }
-      
+
       setDeleteId(null);
 
       toast({
@@ -481,9 +494,8 @@ export default function AdminProfissionaisPage() {
               {professionals.map((professional) => (
                 <div
                   key={professional.id}
-                  className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg border ${
-                    !professional.ativo && "opacity-50"
-                  }`}
+                  className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg border ${!professional.ativo && "opacity-50"
+                    }`}
                 >
                   <div className="flex items-start gap-4 mb-4 sm:mb-0">
                     <Avatar className="h-12 w-12">
@@ -583,21 +595,61 @@ export default function AdminProfissionaisPage() {
             {!editing && (
               <div className="space-y-2">
                 <Label htmlFor="user">Usuário *</Label>
-                <Select value={selectedUserId} onValueChange={setSelectedUserId}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione um usuário" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableUsers.map((user) => (
-                      <SelectItem key={user.id} value={user.id}>
-                        {user.nome} ({user.email})
-                      </SelectItem>
+                <Input
+                  placeholder="Buscar por nome ou email..."
+                  value={userSearch}
+                  onChange={(e) => setUserSearch(e.target.value)}
+                  className="mb-2"
+                />
+                <div className="max-h-48 overflow-y-auto border rounded-lg">
+                  {availableUsers
+                    .filter((u) => {
+                      const search = userSearch.toLowerCase();
+                      return (
+                        u.nome.toLowerCase().includes(search) ||
+                        u.email.toLowerCase().includes(search)
+                      );
+                    })
+                    .map((u) => (
+                      <button
+                        key={u.id}
+                        type="button"
+                        onClick={() => setSelectedUserId(u.id)}
+                        className={cn(
+                          "w-full flex items-center gap-3 px-3 py-2 text-left text-sm transition-colors hover:bg-secondary",
+                          selectedUserId === u.id && "bg-primary/10 border-l-2 border-primary"
+                        )}
+                      >
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={u.avatar_url || undefined} alt={u.nome} />
+                          <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                            {getInitials(u.nome)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium truncate">{u.nome}</p>
+                          <p className="text-xs text-muted-foreground truncate">{u.email}</p>
+                        </div>
+                        {selectedUserId === u.id && (
+                          <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                        )}
+                      </button>
                     ))}
-                  </SelectContent>
-                </Select>
+                  {availableUsers.filter((u) => {
+                    const search = userSearch.toLowerCase();
+                    return (
+                      u.nome.toLowerCase().includes(search) ||
+                      u.email.toLowerCase().includes(search)
+                    );
+                  }).length === 0 && (
+                      <p className="p-3 text-sm text-muted-foreground text-center">
+                        Nenhum usuário encontrado
+                      </p>
+                    )}
+                </div>
                 {availableUsers.length === 0 && (
                   <p className="text-xs text-muted-foreground">
-                    Não há usuários disponíveis. Crie um usuário com role &quot;barbeiro&quot; primeiro.
+                    Não há usuários disponíveis para vincular.
                   </p>
                 )}
               </div>

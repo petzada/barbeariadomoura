@@ -68,7 +68,14 @@ export function ClientNav() {
       <div className="container-app flex h-14 items-center justify-between">
         {/* Logo */}
         <Link href="/dashboard" className="flex items-center gap-2">
-          <Scissors className="h-5 w-5 text-primary" />
+          <div className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-primary/20">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.png"
+              alt="Barbearia do Moura"
+              className="h-full w-full object-cover"
+            />
+          </div>
           <span className="font-bold text-gradient-gold hidden sm:inline">
             Barbearia do Moura
           </span>
@@ -80,9 +87,9 @@ export function ClientNav() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => {
-            const isActive = pathname === item.href || 
+            const isActive = pathname === item.href ||
               (item.href !== "/dashboard" && pathname.startsWith(item.href));
-            
+
             return (
               <Link
                 key={item.href}
@@ -185,9 +192,9 @@ export function ClientNav() {
                 {/* Mobile Nav Links */}
                 <nav className="flex flex-col gap-1 mt-6">
                   {navItems.map((item) => {
-                    const isActive = pathname === item.href || 
+                    const isActive = pathname === item.href ||
                       (item.href !== "/dashboard" && pathname.startsWith(item.href));
-                    
+
                     return (
                       <Link
                         key={item.href}

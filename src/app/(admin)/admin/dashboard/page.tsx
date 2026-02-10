@@ -55,9 +55,8 @@ function MetricCard({
         )}
         {trend && (
           <div
-            className={`flex items-center text-xs mt-2 ${
-              trend.positive ? "text-success" : "text-destructive"
-            }`}
+            className={`flex items-center text-xs mt-2 ${trend.positive ? "text-success" : "text-destructive"
+              }`}
           >
             <TrendingUp
               className={`h-3 w-3 mr-1 ${!trend.positive && "rotate-180"}`}
@@ -103,38 +102,9 @@ async function getMetrics() {
       0
     ) || 0;
 
-  const { data: faturamentoMesData } = await supabase
-    .from("payments")
-    .select("valor")
-    .gte("created_at", monthStart)
-    .lte("created_at", monthEnd)
-    .eq("status", "pago");
-
-  const faturamentoMes =
-    (faturamentoMesData as { valor: number }[] | null)?.reduce(
-      (acc, payment) => acc + (payment.valor || 0),
-      0
-    ) || 0;
-
-  // Assinantes ativos
-  const { count: assinantesAtivos } = await supabase
-    .from("subscriptions")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "ativa");
-
-  // Novos clientes do mês
-  const { count: novosClientes } = await supabase
-    .from("users")
-    .select("*", { count: "exact", head: true })
-    .eq("role", "cliente")
-    .gte("created_at", monthStart);
-
   return {
     agendamentosHoje: agendamentosHoje || 0,
     faturamentoHoje,
-    faturamentoMes,
-    assinantesAtivos: assinantesAtivos || 0,
-    novosClientes: novosClientes || 0,
   };
 }
 
@@ -168,7 +138,7 @@ async function DashboardMetrics() {
   const metrics = await getMetrics();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <MetricCard
         title="Agendamentos Hoje"
         value={metrics.agendamentosHoje}
@@ -179,17 +149,6 @@ async function DashboardMetrics() {
         title="Faturamento Hoje"
         value={formatCurrency(metrics.faturamentoHoje)}
         icon={DollarSign}
-      />
-      <MetricCard
-        title="Faturamento do Mês"
-        value={formatCurrency(metrics.faturamentoMes)}
-        icon={TrendingUp}
-      />
-      <MetricCard
-        title="Assinantes Ativos"
-        value={metrics.assinantesAtivos}
-        icon={Crown}
-        description={`${metrics.novosClientes} novos este mês`}
       />
     </div>
   );

@@ -73,10 +73,6 @@
     font-family: var(--font-roboto), system-ui, sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-ms-madi), cursive;
-  }
-
   /* Scrollbar personalizada para tema dark */
   ::-webkit-scrollbar {
     width: 8px;

@@ -73,8 +73,6 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-roboto)", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "monospace"],
-        display: ["var(--font-ms-madi)", "cursive"],
-        vintage: ["var(--font-ms-madi)", "cursive"], // Maintaining backward compatibility if needed temporarily
       },
       borderRadius: {
         lg: "0.75rem",

@@ -38,7 +38,6 @@ import {
   User,
   Settings,
   LogOut,
-  Home,
   Star,
 } from "lucide-react";
 
@@ -75,7 +74,14 @@ export function AdminNav() {
       <div className="container-app flex h-14 items-center justify-between">
         {/* Logo */}
         <Link href="/admin/dashboard" className="flex items-center gap-2">
-          <Scissors className="h-5 w-5 text-primary" />
+          <div className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-primary/20">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.png"
+              alt="Barbearia do Moura"
+              className="h-full w-full object-cover"
+            />
+          </div>
           <span className="font-bold text-gradient-gold hidden sm:inline">
             Admin
           </span>
@@ -145,12 +151,7 @@ export function AdminNav() {
                       Configurações
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/">
-                      <Home className="mr-2 h-4 w-4" />
-                      Ver Site
-                    </Link>
-                  </DropdownMenuItem>
+
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
@@ -231,14 +232,7 @@ export function AdminNav() {
                       <Settings className="h-5 w-5" />
                       Configurações
                     </Link>
-                    <Link
-                      href="/"
-                      onClick={closeMenu}
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-                    >
-                      <Home className="h-5 w-5" />
-                      Ver Site
-                    </Link>
+
                     <button
                       onClick={() => {
                         closeMenu();

@@ -10,8 +10,18 @@ export default function AuthLayout({
       {/* Header simples */}
       <header className="p-4 border-b border-border">
         <div className="container-app">
-          <Link href="/" className="text-xl font-bold text-gradient-gold">
-            Barbearia do Moura
+          <Link href="/" className="flex items-center gap-2">
+            <div className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-primary/20">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo.png"
+                alt="Barbearia do Moura"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <span className="text-xl font-bold text-gradient-gold">
+              Barbearia do Moura
+            </span>
           </Link>
         </div>
       </header>
