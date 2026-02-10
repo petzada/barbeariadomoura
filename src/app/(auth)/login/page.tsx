@@ -114,22 +114,6 @@ function LoginForm() {
 
         <form ref={formRef} onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
-            {/* Mensagem de sucesso do login */}
-            {state.success && (
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
-                <CheckCircle className="h-4 w-4 flex-shrink-0" />
-                <span>{state.message}</span>
-              </div>
-            )}
-
-            {/* Mensagem de erro */}
-            {state.message && !state.success && (
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-                <AlertCircle className="h-4 w-4 flex-shrink-0" />
-                <span>{state.message}</span>
-              </div>
-            )}
-
             {/* Email */}
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>

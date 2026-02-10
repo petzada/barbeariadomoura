@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/hooks/use-user";
 import { createClient } from "@/lib/supabase/client";
 import { formatCurrency, getInitials } from "@/lib/utils";
@@ -195,21 +195,9 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-background">
       <div className="container-app py-8">
         {/* Header com Saudação */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4">
-            <Avatar className="h-14 w-14">
-              <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
-              <AvatarFallback className="bg-primary text-primary-foreground text-lg">
-                {getInitials(user.nome)}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-muted-foreground">{getSaudacao()},</p>
-              <h1 className="text-2xl sm:text-3xl font-bold">
-                {user.nome.split(" ")[0]}
-              </h1>
-            </div>
-          </div>
+        <div className="mb-6">
+          <p className="text-muted-foreground">{getSaudacao()},</p>
+          <h1 className="text-3xl font-bold font-vintage text-gradient-gold tracking-wide">{user.nome.split(" ")[0]}</h1>
         </div>
 
         {/* Ações Rápidas */}
@@ -220,12 +208,10 @@ export default function DashboardPage() {
               <Link key={action.href} href={action.href}>
                 <Card className="h-full hover:border-primary/50 transition-colors cursor-pointer">
                   <CardContent className="pt-6 text-center">
-                    <div className={`inline-flex p-3 rounded-lg mb-3 ${
-                      action.variant === "default" ? "bg-primary/10" : "bg-secondary"
-                    }`}>
-                      <action.icon className={`h-6 w-6 ${
-                        action.variant === "default" ? "text-primary" : "text-muted-foreground"
-                      }`} />
+                    <div className={`inline-flex p-3 rounded-lg mb-3 ${action.variant === "default" ? "bg-primary/10" : "bg-secondary"
+                      }`}>
+                      <action.icon className={`h-6 w-6 ${action.variant === "default" ? "text-primary" : "text-muted-foreground"
+                        }`} />
                     </div>
                     <h3 className="font-medium">{action.title}</h3>
                     <p className="text-xs text-muted-foreground mt-1">
@@ -272,7 +258,7 @@ export default function DashboardPage() {
                     </div>
                     <Badge>Agendado</Badge>
                   </div>
-                  
+
                   <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1 text-muted-foreground">
                       <Calendar className="h-4 w-4" />
@@ -328,7 +314,7 @@ export default function DashboardPage() {
                     </div>
                     <Badge variant="success">Ativa</Badge>
                   </div>
-                  
+
                   <div className="p-3 rounded-lg bg-success/10 text-success text-sm">
                     Você tem benefícios ativos! Seus serviços inclusos são gratuitos.
                   </div>

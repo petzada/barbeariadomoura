@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ProfessionalNav } from "@/components/layout/professional-nav";
-import { Footer } from "@/components/layout/footer";
 
 export default async function ProfissionalLayout({
   children,
@@ -33,7 +32,6 @@ export default async function ProfissionalLayout({
     <div className="min-h-screen flex flex-col">
       <ProfessionalNav />
       <main className="flex-1 p-4 sm:p-6">{children}</main>
-      <Footer />
     </div>
   );
 }

@@ -22,7 +22,7 @@ const config: Config = {
         background: "#121212",
         "background-card": "#1A1A1A",
         "background-elevated": "#242424",
-        
+
         // Cores semânticas
         success: {
           DEFAULT: "#22C55E",
@@ -40,16 +40,16 @@ const config: Config = {
           DEFAULT: "#3B82F6",
           foreground: "#FFFFFF",
         },
-        
+
         // Textos
         foreground: "#FFFFFF",
         "muted-foreground": "#A1A1AA",
         "disabled-foreground": "#71717A",
-        
+
         // Bordas
         border: "#2A2A2A",
         "border-hover": "#3A3A3A",
-        
+
         // shadcn/ui compatibility
         card: {
           DEFAULT: "#1A1A1A",
@@ -73,6 +73,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "monospace"],
+        vintage: ["var(--font-vintage)", "cursive"],
       },
       borderRadius: {
         lg: "0.75rem",

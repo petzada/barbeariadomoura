@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { User, Mail, Phone, Lock, AlertCircle, CheckCircle, Loader2 } from "lucide-react";
+import { User, Mail, Phone, Lock, Loader2 } from "lucide-react";
 
 const initialState: AuthState = {
   success: false,
@@ -93,22 +93,6 @@ export default function CadastroPage() {
 
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
-          {/* Mensagem de sucesso */}
-          {state.success && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
-              <CheckCircle className="h-4 w-4 flex-shrink-0" />
-              <span>{state.message}</span>
-            </div>
-          )}
-
-          {/* Mensagem de erro */}
-          {state.message && !state.success && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-              <AlertCircle className="h-4 w-4 flex-shrink-0" />
-              <span>{state.message}</span>
-            </div>
-          )}
-
           {/* Nome */}
           <div className="space-y-2">
             <Label htmlFor="nome">Nome completo</Label>

@@ -4,47 +4,62 @@
 
 @layer base {
   :root {
-    /* Cores principais - Barbearia do Moura */
-    --primary: 45 56% 79%; /* #ECD8A8 - Bege dourado */
-    --primary-foreground: 0 0% 7%; /* #121212 */
+    /* Cores principais - Barbearia do Moura (Vintage Redesign) */
+    --primary: 45 56% 79%;
+    /* #ECD8A8 - Bege dourado (Mantido) */
+    --primary-foreground: 195 98% 10%;
+    /* Azul muito escuro para contraste no dourado */
 
-    --accent: 195 98% 14%; /* #013648 - Azul escuro */
-    --accent-foreground: 0 0% 100%;
+    --accent: 195 98% 14%;
+    /* #013648 - Azul petróleo */
+    --accent-foreground: 45 56% 79%;
+    /* Dourado */
 
-    --background: 0 0% 7%; /* #121212 - Preto */
-    --foreground: 0 0% 100%; /* #FFFFFF */
+    --background: 196 100% 9%;
+    /* #00222E - Azul Petróleo Profundo (Novo Background) */
+    --foreground: 60 10% 95%;
+    /* #F5F5F0 - Creme Off-white (Suavizado) */
 
     /* Cards e containers */
-    --card: 0 0% 10%; /* #1A1A1A */
-    --card-foreground: 0 0% 100%;
+    --card: 195 50% 12%;
+    /* #0F2D35 - Azul Petróleo levemente mais claro */
+    --card-foreground: 60 10% 95%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 195 50% 12%;
+    --popover-foreground: 60 10% 95%;
 
     /* Secundário e muted */
-    --secondary: 0 0% 14%; /* #242424 */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 195 40% 16%;
+    /* #18343C */
+    --secondary-foreground: 45 56% 79%;
 
     --muted: 0 0% 14%;
-    --muted-foreground: 240 4% 65%; /* #A1A1AA */
+    --muted-foreground: 240 4% 65%;
+    /* #A1A1AA */
 
     /* Cores semânticas */
-    --success: 142 71% 45%; /* #22C55E */
+    --success: 142 71% 45%;
+    /* #22C55E */
     --success-foreground: 0 0% 100%;
 
-    --warning: 27 100% 45%; /* #E67300 */
+    --warning: 27 100% 45%;
+    /* #E67300 */
     --warning-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%; /* #EF4444 */
+    --destructive: 0 84% 60%;
+    /* #EF4444 */
     --destructive-foreground: 0 0% 100%;
 
-    --info: 217 91% 60%; /* #3B82F6 */
+    --info: 217 91% 60%;
+    /* #3B82F6 */
     --info-foreground: 0 0% 100%;
 
     /* Inputs e bordas */
-    --input: 0 0% 16%; /* #2A2A2A */
-    --border: 0 0% 16%;
-    --ring: 45 56% 79%; /* #ECD8A8 */
+    --input: 195 40% 16%;
+    --border: 195 40% 20%;
+    /* Border slightly lighter than secondary */
+    --ring: 45 56% 79%;
+    /* #ECD8A8 */
 
     --radius: 0.75rem;
   }
@@ -84,16 +99,15 @@
 }
 
 @layer components {
-  /* Card com hover effect */
+
+  /* Card com hover effect - Gold border on hover */
   .card-hover {
-    @apply transition-all duration-200 hover:bg-secondary/50 hover:border-border/60;
+    @apply transition-all duration-300 hover:bg-secondary/80 hover:border-primary/40 hover:shadow-[0_0_15px_-5px_hsl(var(--primary)/0.3)];
   }
 
   /* Botão primário estilizado */
   .btn-primary {
-    @apply bg-primary text-primary-foreground font-medium px-6 py-3 rounded-lg 
-           transition-all duration-200 hover:brightness-110 active:scale-[0.98]
-           disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-primary text-primary-foreground font-medium px-6 py-3 rounded-lg transition-all duration-200 hover:brightness-110 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   /* Badge de status */
@@ -139,6 +153,7 @@
 }
 
 @layer utilities {
+
   /* Hide scrollbar mas permite scroll */
   .hide-scrollbar {
     -ms-overflow-style: none;
@@ -159,6 +174,7 @@
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);

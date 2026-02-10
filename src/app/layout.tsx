@@ -1,6 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Berkshire_Swash } from "next/font/google";
+
+const berkshire = Berkshire_Swash({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-vintage",
+  display: "swap",
+});
 import { Toaster } from "@/components/ui/toaster";
 import { WhatsAppFloatingButton } from "@/components/whatsapp-button";
 import "./globals.css";
@@ -111,7 +119,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body className={`min-h-screen bg-background font-sans antialiased ${berkshire.variable}`}>
         {children}
         <Toaster />
         <WhatsAppFloatingButton />

@@ -33,10 +33,22 @@ export function Header({ showNav = true }: HeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container-app flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold text-gradient-gold">
-            Barbearia do Moura
-          </span>
+        {/* Logo - Vintage Style */}
+        <Link href="/" className="flex items-center gap-2 group">
+          {/* Option A: Text based logo mimicking the design */}
+          <div className="flex flex-col items-center leading-none select-none">
+            <span className="font-vintage text-2xl text-primary tracking-wide drop-shadow-sm group-hover:brightness-110 transition-all">
+              Barbearia
+            </span>
+            <div className="flex items-center gap-2 w-full justify-center">
+              <span className="h-[1px] w-3 bg-primary/50 rounded-full"></span>
+              <span className="font-vintage text-base text-primary/90 italic -my-1">do</span>
+              <span className="h-[1px] w-3 bg-primary/50 rounded-full"></span>
+            </div>
+            <span className="font-vintage text-3xl text-primary tracking-wider -mt-1 drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+              Moura
+            </span>
+          </div>
         </Link>
 
         {/* Navegação Desktop */}
@@ -73,7 +85,7 @@ export function Header({ showNav = true }: HeaderProps) {
                     Barbearia do Moura
                   </SheetTitle>
                 </SheetHeader>
-                
+
                 {/* Links de Navegação Mobile */}
                 <nav className="flex flex-col gap-2 mt-8">
                   {navLinks.map((link) => (

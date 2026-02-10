@@ -356,17 +356,9 @@ export default function ProfissionalDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header com Saudação */}
-      <div className="flex items-center gap-4">
-        <Avatar className="h-16 w-16">
-          <AvatarImage src={user?.avatar_url || undefined} alt={user?.nome || ""} />
-          <AvatarFallback className="bg-primary text-primary-foreground text-xl">
-            {getInitials(user?.nome || "")}
-          </AvatarFallback>
-        </Avatar>
-        <div>
-          <p className="text-muted-foreground">{getSaudacao()},</p>
-          <h1 className="text-2xl sm:text-3xl font-bold">{user?.nome?.split(" ")[0]}</h1>
-        </div>
+      <div>
+        <p className="text-muted-foreground">{getSaudacao()},</p>
+        <h1 className="text-2xl font-bold">{user?.nome?.split(" ")[0]}</h1>
       </div>
 
       {/* Ações Rápidas */}

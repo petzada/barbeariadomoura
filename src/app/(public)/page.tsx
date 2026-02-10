@@ -235,10 +235,10 @@ export default function HomePage() {
               A melhor barbearia de Mauá-SP
             </Badge>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-6 font-vintage tracking-wide">
               Estilo e tradição na
               <br />
-              <span className="text-gradient-gold">Barbearia do Moura</span>
+              <span className="text-gradient-gold block mt-2 text-5xl sm:text-7xl lg:text-8xl">Barbearia do Moura</span>
             </h1>
 
             <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
@@ -254,10 +254,10 @@ export default function HomePage() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/clube">
+                <a href="#clube">
                   <Crown className="mr-2 h-5 w-5" />
                   Conhecer o Clube
-                </Link>
+                </a>
               </Button>
             </div>
 
@@ -289,8 +289,8 @@ export default function HomePage() {
                 <Scissors className="h-3 w-3 mr-1" />
                 Nossos Serviços
               </Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Serviços de <span className="text-gradient-gold">Qualidade</span>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-vintage text-[#F5F5F0]">
+                Serviços de <span className="text-primary">Qualidade</span>
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 Oferecemos uma variedade de serviços para você ficar no estilo.
@@ -320,8 +320,8 @@ export default function HomePage() {
               <Badge variant="secondary" className="mb-4">
                 Nossa Equipe
               </Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Profissionais <span className="text-gradient-gold">Experientes</span>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-vintage text-[#F5F5F0]">
+                Profissionais <span className="text-primary">Experientes</span>
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 Conheça os barbeiros que vão cuidar do seu visual com
@@ -335,24 +335,24 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Clube Section */}
-        <section id="clube" className="section-padding bg-card/50">
+        {/* Depoimentos Section */}
+        <section id="depoimentos" className="section-padding bg-card/50">
           <div className="container-app">
             <div className="text-center mb-12">
-              <Badge variant="default" className="mb-4">
-                <Crown className="h-3 w-3 mr-1" />
-                Clube do Moura
+              <Badge variant="secondary" className="mb-4">
+                <Star className="h-3 w-3 mr-1" />
+                Depoimentos
               </Badge>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Assine e <span className="text-gradient-gold">Economize</span>
+                O que nossos <span className="text-gradient-gold">Clientes</span> dizem
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Faça parte do nosso clube e tenha acesso a serviços ilimitados
-                com preços especiais. Escolha o plano ideal para você.
+                A satisfação dos nossos clientes é nossa maior recompensa.
+                Confira alguns depoimentos de quem já passou por aqui.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
               {SOCIAL_PROOF.map((item) => (
                 <Card key={item.id} className="card-hover">
                   <CardContent className="p-5">
@@ -372,16 +372,34 @@ export default function HomePage() {
                 </Card>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Clube Section */}
+        <section id="clube" className="section-padding">
+          <div className="container-app">
+            <div className="text-center mb-12">
+              <Badge variant="default" className="mb-4">
+                <Crown className="h-3 w-3 mr-1" />
+                Clube do Moura
+              </Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                Assine e <span className="text-gradient-gold">Economize</span>
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Faça parte do nosso clube e tenha acesso a serviços ilimitados
+                com preços especiais. Escolha o plano ideal para você.
+              </p>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {PLANS.map((plan) => (
                 <Card
                   key={plan.id}
-                  className={`relative ${
-                    plan.popular
-                      ? "border-primary shadow-lg scale-105"
-                      : "card-hover"
-                  }`}
+                  className={`relative ${plan.popular
+                    ? "border-primary shadow-lg scale-105"
+                    : "card-hover"
+                    }`}
                 >
                   {plan.popular && (
                     <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
