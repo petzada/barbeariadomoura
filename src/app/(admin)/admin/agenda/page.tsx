@@ -342,7 +342,7 @@ export default function AdminAgendaPage() {
                           {format(dataHora, "HH:mm")}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          {appointment.servico.duracao_minutos} min
+                          {appointment.servico?.duracao_minutos ?? 0} min
                         </p>
                       </div>
                       <div className="flex-1">
@@ -358,18 +358,18 @@ export default function AdminAgendaPage() {
                         <div className="flex items-center gap-2">
                           <Avatar className="h-8 w-8">
                             <AvatarImage
-                              src={appointment.cliente.avatar_url || undefined}
-                              alt={appointment.cliente.nome}
+                              src={appointment.cliente?.avatar_url || undefined}
+                              alt={appointment.cliente?.nome ?? "Cliente"}
                             />
                             <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                              {getInitials(appointment.cliente.nome)}
+                              {getInitials(appointment.cliente?.nome ?? "C")}
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <p className="font-medium">{appointment.cliente.nome}</p>
+                            <p className="font-medium">{appointment.cliente?.nome ?? "Cliente"}</p>
                             <p className="text-sm text-muted-foreground">
-                              {appointment.servico.nome} •{" "}
-                              {appointment.profissional?.user.nome || appointment.profissional_nome || "Profissional removido"}
+                              {appointment.servico?.nome ?? "Serviço"} •{" "}
+                              {appointment.profissional?.user?.nome || appointment.profissional_nome || "Profissional removido"}
                             </p>
                           </div>
                         </div>
@@ -451,10 +451,10 @@ export default function AdminAgendaPage() {
             <div className="py-4">
               <div className="bg-secondary rounded-lg p-4 space-y-2">
                 <p>
-                  <strong>Cliente:</strong> {selectedAppointment.cliente.nome}
+                  <strong>Cliente:</strong> {selectedAppointment.cliente?.nome ?? "Cliente"}
                 </p>
                 <p>
-                  <strong>Serviço:</strong> {selectedAppointment.servico.nome}
+                  <strong>Serviço:</strong> {selectedAppointment.servico?.nome ?? "Serviço"}
                 </p>
                 <p>
                   <strong>Horário:</strong>{" "}

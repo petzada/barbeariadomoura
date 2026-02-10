@@ -151,8 +151,8 @@ export default function AdminAssinantesPage() {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(
         (sub) =>
-          sub.cliente.nome.toLowerCase().includes(term) ||
-          sub.cliente.email.toLowerCase().includes(term)
+          (sub.cliente?.nome ?? "").toLowerCase().includes(term) ||
+          (sub.cliente?.email ?? "").toLowerCase().includes(term)
       );
     }
 
@@ -334,16 +334,16 @@ export default function AdminAssinantesPage() {
                     <div className="flex items-start gap-4 mb-4 sm:mb-0">
                       <Avatar className="h-12 w-12">
                         <AvatarImage
-                          src={subscription.cliente.avatar_url || undefined}
-                          alt={subscription.cliente.nome}
+                          src={subscription.cliente?.avatar_url || undefined}
+                          alt={subscription.cliente?.nome ?? "Cliente"}
                         />
                         <AvatarFallback className="bg-primary text-primary-foreground">
-                          {getInitials(subscription.cliente.nome)}
+                          {getInitials(subscription.cliente?.nome ?? "C")}
                         </AvatarFallback>
                       </Avatar>
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-medium">{subscription.cliente.nome}</h3>
+                          <h3 className="font-medium">{subscription.cliente?.nome ?? "Cliente"}</h3>
                           <Badge variant={status.variant}>{status.label}</Badge>
                         </div>
                         <p className="text-sm text-muted-foreground mb-1">
@@ -395,15 +395,15 @@ export default function AdminAssinantesPage() {
               <div className="flex items-center gap-4 p-4 bg-secondary rounded-lg">
                 <Avatar className="h-16 w-16">
                   <AvatarImage
-                    src={selectedSubscription.cliente.avatar_url || undefined}
-                    alt={selectedSubscription.cliente.nome}
+                    src={selectedSubscription.cliente?.avatar_url || undefined}
+                    alt={selectedSubscription.cliente?.nome ?? "Cliente"}
                   />
                   <AvatarFallback className="bg-primary text-primary-foreground text-lg">
-                    {getInitials(selectedSubscription.cliente.nome)}
+                    {getInitials(selectedSubscription.cliente?.nome ?? "C")}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="font-medium text-lg">{selectedSubscription.cliente.nome}</h3>
+                  <h3 className="font-medium text-lg">{selectedSubscription.cliente?.nome ?? "Cliente"}</h3>
                   <p className="text-sm text-muted-foreground flex items-center gap-1">
                     <Mail className="h-3 w-3" />
                     {selectedSubscription.cliente.email}

@@ -175,7 +175,7 @@ export default function FeedbackPage() {
           nota,
           comentario: comentario || null,
           profissional_nome:
-            selectedAgendamento.profissional?.user.nome ||
+            selectedAgendamento.profissional?.user?.nome ||
             selectedAgendamento.profissional_nome,
           created_at: new Date().toISOString(),
           agendamento: {
@@ -263,12 +263,12 @@ export default function FeedbackPage() {
                 ) : (
                   pendentes.map((agendamento) => {
                     const profNome =
-                      agendamento.profissional?.user.nome ||
+                      agendamento.profissional?.user?.nome ||
                       agendamento.profissional_nome ||
                       "Profissional";
                     const profFoto =
                       agendamento.profissional?.foto_url ||
-                      agendamento.profissional?.user.avatar_url ||
+                      agendamento.profissional?.user?.avatar_url ||
                       undefined;
 
                     return (
@@ -284,7 +284,7 @@ export default function FeedbackPage() {
                               </Avatar>
                               <div>
                                 <h3 className="font-semibold">
-                                  {agendamento.servico.nome}
+                                  {agendamento.servico?.nome ?? "Serviço"}
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
                                   com {profNome}
@@ -334,7 +334,7 @@ export default function FeedbackPage() {
                             <div className="flex items-center gap-2">
                               <Scissors className="h-4 w-4 text-muted-foreground" />
                               <span className="font-medium">
-                                {feedback.agendamento.servico.nome}
+                                {feedback.agendamento?.servico?.nome ?? "Serviço"}
                               </span>
                               <span className="text-muted-foreground">
                                 • {feedback.profissional_nome || "Profissional"}
@@ -396,10 +396,10 @@ export default function FeedbackPage() {
             <div className="py-4 space-y-6">
               {/* Info do agendamento */}
               <div className="bg-secondary rounded-lg p-4">
-                <p className="font-medium">{selectedAgendamento.servico.nome}</p>
+                <p className="font-medium">{selectedAgendamento.servico?.nome ?? "Serviço"}</p>
                 <p className="text-sm text-muted-foreground">
                   com{" "}
-                  {selectedAgendamento.profissional?.user.nome ||
+                  {selectedAgendamento.profissional?.user?.nome ||
                     selectedAgendamento.profissional_nome ||
                     "Profissional"}
                 </p>

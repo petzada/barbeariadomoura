@@ -52,7 +52,7 @@ interface Professional {
     email: string;
     telefone: string | null;
     avatar_url: string | null;
-  };
+  } | null;
 }
 
 interface User {
@@ -126,7 +126,7 @@ export default function AdminProfissionaisPage() {
       if (!profsError && profsData) {
         const transformed = profsData.map((item: any) => ({
           ...item,
-          user: Array.isArray(item.user) ? item.user[0] : item.user,
+          user: Array.isArray(item.user) ? item.user[0] ?? null : item.user,
         })) as Professional[];
         setProfessionals(transformed);
       }
@@ -243,7 +243,7 @@ export default function AdminProfissionaisPage() {
         // Transformar dados para formato correto
         const transformedData = {
           ...data,
-          user: Array.isArray(data.user) ? data.user[0] : data.user,
+          user: Array.isArray(data.user) ? data.user[0] ?? null : data.user,
         } as Professional;
         setProfessionals((prev) => [transformedData, ...prev]);
 
@@ -423,10 +423,10 @@ export default function AdminProfissionaisPage() {
       if (profToDelete) {
         setAvailableUsers((prev) => [...prev, {
           id: profToDelete.user_id,
-          nome: profToDelete.user.nome,
-          email: profToDelete.user.email,
-          telefone: profToDelete.user.telefone,
-          avatar_url: profToDelete.user.avatar_url,
+          nome: profToDelete.user?.nome ?? "Profissional",
+          email: profToDelete.user?.email ?? "",
+          telefone: profToDelete.user?.telefone ?? null,
+          avatar_url: profToDelete.user?.avatar_url ?? null,
           role: "cliente",
         }]);
       }
@@ -500,16 +500,16 @@ export default function AdminProfissionaisPage() {
                   <div className="flex items-start gap-4 mb-4 sm:mb-0">
                     <Avatar className="h-12 w-12">
                       <AvatarImage
-                        src={professional?.foto_url || professional.user.avatar_url || undefined}
-                        alt={professional.user.nome}
+                        src={professional?.foto_url || professional?.user?.avatar_url || undefined}
+                        alt={professional?.user?.nome ?? "Profissional"}
                       />
                       <AvatarFallback className="bg-primary text-primary-foreground">
-                        {getInitials(professional.user.nome)}
+                        {getInitials(professional?.user?.nome ?? "P")}
                       </AvatarFallback>
                     </Avatar>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-medium">{professional.user.nome}</h3>
+                        <h3 className="font-medium">{professional?.user?.nome ?? "Profissional"}</h3>
                         <Badge variant={professional.ativo ? "success" : "secondary"}>
                           {professional.ativo ? "Ativo" : "Inativo"}
                         </Badge>
@@ -522,12 +522,12 @@ export default function AdminProfissionaisPage() {
                       <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                         <span className="flex items-center">
                           <Mail className="h-4 w-4 mr-1" />
-                          {professional.user.email}
+                          {professional?.user?.email}
                         </span>
-                        {professional.user.telefone && (
+                        {professional?.user?.telefone && (
                           <span className="flex items-center">
                             <Phone className="h-4 w-4 mr-1" />
-                            {professional.user.telefone}
+                            {professional?.user?.telefone}
                           </span>
                         )}
                       </div>
@@ -690,7 +690,7 @@ export default function AdminProfissionaisPage() {
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>
-              Horários de {selectedProfessional?.user.nome}
+              Horários de {selectedProfessional?.user?.nome}
             </DialogTitle>
             <DialogDescription>
               Configure os horários de trabalho deste profissional

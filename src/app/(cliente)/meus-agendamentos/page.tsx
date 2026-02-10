@@ -318,7 +318,7 @@ export default function MeusAgendamentosPage() {
             <div className="py-4">
               <div className="space-y-2 text-sm">
                 <p>
-                  <strong>Serviço:</strong> {selectedAppointment.servico.nome}
+                  <strong>Serviço:</strong> {selectedAppointment.servico?.nome ?? "Serviço"}
                 </p>
                 <p>
                   <strong>Data:</strong>{" "}
@@ -330,7 +330,7 @@ export default function MeusAgendamentosPage() {
                 </p>
                 <p>
                   <strong>Profissional:</strong>{" "}
-                  {selectedAppointment.profissional?.user.nome || selectedAppointment.profissional_nome || "Profissional removido"}
+                  {selectedAppointment.profissional?.user?.nome || selectedAppointment.profissional_nome || "Profissional removido"}
                 </p>
               </div>
             </div>
@@ -386,8 +386,8 @@ function AppointmentCard({
   const podeCancelar = horasAteAgendamento >= 4 && appointment.status === "agendado";
   const podeContatarWhatsApp = horasAteAgendamento > 0 && horasAteAgendamento < 4 && appointment.status === "agendado";
 
-  const profissionalNome = appointment.profissional?.user.nome || appointment.profissional_nome || "Profissional removido";
-  const profissionalFoto = appointment.profissional?.foto_url || appointment.profissional?.user.avatar_url || undefined;
+  const profissionalNome = appointment.profissional?.user?.nome || appointment.profissional_nome || "Profissional removido";
+  const profissionalFoto = appointment.profissional?.foto_url || appointment.profissional?.user?.avatar_url || undefined;
 
   return (
     <Card className={cn(isPast && "opacity-70")}>
@@ -406,7 +406,7 @@ function AppointmentCard({
             </Avatar>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-semibold">{appointment.servico.nome}</h3>
+                <h3 className="font-semibold">{appointment.servico?.nome ?? "Serviço"}</h3>
                 <Badge variant={status.variant}>{status.label}</Badge>
                 {appointment.coberto_assinatura && (
                   <Badge variant="success">

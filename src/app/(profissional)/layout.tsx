@@ -22,9 +22,9 @@ export default async function ProfissionalLayout({
     .from("users")
     .select("role")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (profile?.role !== "barbeiro" && profile?.role !== "admin") {
+  if (!profile || (profile.role !== "barbeiro" && profile.role !== "admin")) {
     redirect("/");
   }
 

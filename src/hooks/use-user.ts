@@ -12,26 +12,31 @@ export function useUser() {
   const [loading, setLoading] = useState(true);
 
   const fetchUser = useCallback(async () => {
-    const supabase = createClient();
+    try {
+      const supabase = createClient();
 
-    const {
-      data: { user: authUser },
-    } = await supabase.auth.getUser();
+      const {
+        data: { user: authUser },
+      } = await supabase.auth.getUser();
 
-    if (!authUser) {
+      if (!authUser) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      const { data: profile } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", authUser.id)
+        .maybeSingle();
+
+      setUser(profile as User | null);
+    } catch {
       setUser(null);
+    } finally {
       setLoading(false);
-      return;
     }
-
-    const { data: profile } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", authUser.id)
-      .single();
-
-    setUser(profile as User | null);
-    setLoading(false);
   }, []);
 
   useEffect(() => {

@@ -480,11 +480,11 @@ export default function AdminBloqueiosPage() {
                       {block.profissional_id ? (
                         <Avatar className="h-10 w-10">
                           <AvatarImage
-                            src={block.profissional?.user.avatar_url || undefined}
-                            alt={block.profissional?.user.nome}
+                            src={block.profissional?.user?.avatar_url || undefined}
+                            alt={block.profissional?.user?.nome}
                           />
                           <AvatarFallback className="bg-secondary">
-                            {getInitials(block.profissional?.user.nome || "")}
+                            {getInitials(block.profissional?.user?.nome || "")}
                           </AvatarFallback>
                         </Avatar>
                       ) : (
@@ -496,7 +496,7 @@ export default function AdminBloqueiosPage() {
                         <div className="flex items-center gap-2 mb-1">
                           <h3 className="font-medium">
                             {block.profissional_id
-                              ? block.profissional?.user.nome
+                              ? block.profissional?.user?.nome
                               : "Bloqueio Geral da Barbearia"}
                           </h3>
                           {isActive && <Badge variant="warning">Ativo</Badge>}
@@ -596,7 +596,7 @@ export default function AdminBloqueiosPage() {
                   <SelectContent>
                     {professionals.map((prof) => (
                       <SelectItem key={prof.id} value={prof.id}>
-                        {prof.user.nome}
+                        {prof.user?.nome ?? "Profissional"}
                       </SelectItem>
                     ))}
                   </SelectContent>

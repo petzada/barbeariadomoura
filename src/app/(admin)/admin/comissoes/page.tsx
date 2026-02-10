@@ -409,7 +409,7 @@ export default function AdminComissoesPage() {
                 <SelectItem value="all">Todos os Profissionais</SelectItem>
                 {professionals.map((prof) => (
                   <SelectItem key={prof.id} value={prof.id}>
-                    {prof.user.nome}
+                    {prof.user?.nome ?? "Profissional"}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -456,20 +456,20 @@ export default function AdminComissoesPage() {
                       <div className="flex items-start gap-4 mb-4 sm:mb-0">
                         <Avatar className="h-10 w-10">
                           <AvatarImage
-                            src={commission.profissional.user.avatar_url || undefined}
-                            alt={commission.profissional.user.nome}
+                            src={commission.profissional?.user?.avatar_url || undefined}
+                            alt={commission.profissional?.user?.nome ?? "Profissional"}
                           />
                           <AvatarFallback className="bg-primary text-primary-foreground">
-                            {getInitials(commission.profissional.user.nome)}
+                            {getInitials(commission.profissional?.user?.nome ?? "P")}
                           </AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-medium">{commission.profissional.user.nome}</p>
+                          <p className="font-medium">{commission.profissional?.user?.nome ?? "Profissional"}</p>
                           <p className="text-sm text-muted-foreground">
-                            {commission.agendamento.servico.nome} • {commission.agendamento.cliente.nome}
+                            {commission.agendamento?.servico?.nome ?? "Serviço"} • {commission.agendamento?.cliente?.nome ?? "Cliente"}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {format(parseISO(commission.agendamento.data_hora_inicio), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                            {commission.agendamento?.data_hora_inicio ? format(parseISO(commission.agendamento.data_hora_inicio), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR }) : "-"}
                           </p>
                         </div>
                       </div>
@@ -535,14 +535,14 @@ export default function AdminComissoesPage() {
                       <div className="flex items-center gap-3">
                         <Avatar className="h-8 w-8">
                           <AvatarImage
-                            src={prof.user.avatar_url || undefined}
-                            alt={prof.user.nome}
+                            src={prof.user?.avatar_url || undefined}
+                            alt={prof.user?.nome ?? "Profissional"}
                           />
                           <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                            {getInitials(prof.user.nome)}
+                            {getInitials(prof.user?.nome ?? "P")}
                           </AvatarFallback>
                         </Avatar>
-                        <h4 className="font-medium">{prof.user.nome}</h4>
+                        <h4 className="font-medium">{prof.user?.nome ?? "Profissional"}</h4>
                       </div>
 
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pl-11">
@@ -589,7 +589,7 @@ export default function AdminComissoesPage() {
                 <SelectContent>
                   {professionals.map((prof) => (
                     <SelectItem key={prof.id} value={prof.id}>
-                      {prof.user.nome}
+                      {prof.user?.nome ?? "Profissional"}
                     </SelectItem>
                   ))}
                 </SelectContent>

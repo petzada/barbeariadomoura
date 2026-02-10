@@ -197,7 +197,7 @@ export default function DashboardPage() {
         {/* Header com Saudação */}
         <div className="mb-6">
           <p className="text-muted-foreground">{getSaudacao()},</p>
-          <h1 className="text-3xl font-bold text-gradient-gold tracking-wide">{user.nome.split(" ")[0]}</h1>
+          <h1 className="text-3xl font-bold text-gradient-gold tracking-wide">{user?.nome?.split(" ")[0] ?? "Cliente"}</h1>
         </div>
 
         {/* Ações Rápidas */}
@@ -241,19 +241,19 @@ export default function DashboardPage() {
                       <AvatarImage
                         src={
                           nextAppointment.profissional?.foto_url ||
-                          nextAppointment.profissional.user.avatar_url ||
+                          nextAppointment.profissional?.user?.avatar_url ||
                           undefined
                         }
-                        alt={nextAppointment.profissional.user.nome}
+                        alt={nextAppointment.profissional?.user?.nome ?? "Profissional"}
                       />
                       <AvatarFallback className="bg-primary/10">
-                        {getInitials(nextAppointment.profissional.user.nome)}
+                        {getInitials(nextAppointment.profissional?.user?.nome ?? "P")}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
-                      <p className="font-medium">{nextAppointment.servico.nome}</p>
+                      <p className="font-medium">{nextAppointment.servico?.nome ?? "Serviço"}</p>
                       <p className="text-sm text-muted-foreground">
-                        com {nextAppointment.profissional.user.nome}
+                        com {nextAppointment.profissional?.user?.nome ?? "Profissional"}
                       </p>
                     </div>
                     <Badge>Agendado</Badge>

@@ -70,28 +70,33 @@ export default function PerfilPage() {
     async function loadAdditionalData() {
       if (!user) return;
 
-      const supabase = createClient();
+      try {
+        const supabase = createClient();
 
-      // Carregar assinatura ativa
-      const { data: subData } = await supabase
-        .from("subscriptions")
-        .select(`*, plano:subscription_plans(nome, preco_mensal)`)
-        .eq("cliente_id", user.id)
-        .eq("status", "ativa")
-        .single();
+        // Carregar assinatura ativa
+        const { data: subData } = await supabase
+          .from("subscriptions")
+          .select(`*, plano:subscription_plans(nome, preco_mensal)`)
+          .eq("cliente_id", user.id)
+          .eq("status", "ativa")
+          .maybeSingle();
 
-      if (subData) {
-        setSubscription(subData as Subscription);
+        if (subData) {
+          setSubscription(subData as Subscription);
+        }
+
+        // Contar agendamentos
+        const { count } = await supabase
+          .from("appointments")
+          .select("*", { count: "exact", head: true })
+          .eq("cliente_id", user.id);
+
+        setAppointmentsCount(count || 0);
+      } catch {
+        // Silently handle - data will show defaults
+      } finally {
+        setLoadingSubscription(false);
       }
-      setLoadingSubscription(false);
-
-      // Contar agendamentos
-      const { count } = await supabase
-        .from("appointments")
-        .select("*", { count: "exact", head: true })
-        .eq("cliente_id", user.id);
-
-      setAppointmentsCount(count || 0);
     }
 
     if (user) {

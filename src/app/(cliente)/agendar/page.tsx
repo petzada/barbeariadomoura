@@ -407,14 +407,14 @@ export default function AgendarPage() {
                         <CardContent className="p-6">
                           <Avatar className="h-16 w-16 mx-auto mb-3">
                             <AvatarImage
-                              src={prof?.foto_url || prof.user.avatar_url || undefined}
-                              alt={prof.user.nome}
+                              src={prof?.foto_url || prof?.user?.avatar_url || undefined}
+                              alt={prof?.user?.nome ?? "Profissional"}
                             />
                             <AvatarFallback className="bg-primary text-primary-foreground text-lg">
-                              {getInitials(prof.user.nome)}
+                              {getInitials(prof?.user?.nome ?? "P")}
                             </AvatarFallback>
                           </Avatar>
-                          <h3 className="font-medium">{prof.user.nome}</h3>
+                          <h3 className="font-medium">{prof?.user?.nome ?? "Profissional"}</h3>
                           <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
                             {prof.bio}
                           </p>
@@ -547,7 +547,7 @@ export default function AgendarPage() {
                       </div>
                       <div>
                         <h4 className="text-sm text-muted-foreground mb-1">Profissional</h4>
-                        <p className="font-medium">{selectedProfessional?.user.nome}</p>
+                        <p className="font-medium">{selectedProfessional?.user?.nome ?? "Profissional"}</p>
                       </div>
                       <div>
                         <h4 className="text-sm text-muted-foreground mb-1">Data</h4>

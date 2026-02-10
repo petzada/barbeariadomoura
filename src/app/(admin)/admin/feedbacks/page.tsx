@@ -301,7 +301,7 @@ export default function AdminFeedbacksPage() {
                     <SelectItem value="todos">Todos os profissionais</SelectItem>
                     {professionals.map((prof) => (
                       <SelectItem key={prof.id} value={prof.id}>
-                        {prof.user.nome}
+                        {prof.user?.nome ?? "Profissional"}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -323,17 +323,17 @@ export default function AdminFeedbacksPage() {
                     >
                       <Avatar className="h-10 w-10">
                         <AvatarImage
-                          src={feedback.cliente.avatar_url || undefined}
-                          alt={feedback.cliente.nome}
+                          src={feedback.cliente?.avatar_url || undefined}
+                          alt={feedback.cliente?.nome ?? "Cliente"}
                         />
                         <AvatarFallback className="bg-primary text-primary-foreground">
-                          {getInitials(feedback.cliente.nome)}
+                          {getInitials(feedback.cliente?.nome ?? "C")}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 space-y-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="font-medium">
-                            {feedback.cliente.nome}
+                            {feedback.cliente?.nome ?? "Cliente"}
                           </span>
                           {renderStars(feedback.nota)}
                           <Badge variant="secondary">
@@ -341,7 +341,7 @@ export default function AdminFeedbacksPage() {
                           </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          {feedback.agendamento.servico.nome} •{" "}
+                          {feedback.agendamento?.servico?.nome ?? "Serviço"} •{" "}
                           {format(
                             parseISO(feedback.agendamento.data_hora_inicio),
                             "dd/MM/yyyy",

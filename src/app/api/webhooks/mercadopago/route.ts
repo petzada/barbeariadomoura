@@ -18,7 +18,7 @@ const mapPaymentMethod = (methodId?: string) => {
 /**
  * Webhook do Mercado Pago
  * Recebe notificações de pagamentos e assinaturas
- * 
+ *
  * Tipos de notificação:
  * - payment: Atualização de status de pagamento
  * - preapproval: Atualização de assinatura recorrente
@@ -29,15 +29,8 @@ export async function POST(request: NextRequest) {
     const xSignature = request.headers.get("x-signature") || "";
     const xRequestId = request.headers.get("x-request-id") || "";
 
-    console.log("Webhook Mercado Pago recebido:", {
-      type: body.type,
-      action: body.action,
-      data: body.data,
-    });
-
     // Verificar assinatura (em produção)
     if (!verifyWebhookSignature(xSignature, xRequestId, body.data?.id)) {
-      console.error("Assinatura de webhook inválida");
       return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
 
@@ -46,27 +39,24 @@ export async function POST(request: NextRequest) {
     // Processar notificação de pagamento
     if (body.type === "payment") {
       const paymentId = body.data?.id;
-      
+
       if (!paymentId) {
         return NextResponse.json({ error: "Payment ID missing" }, { status: 400 });
       }
 
       // Buscar detalhes do pagamento
       const payment = await getPayment(paymentId);
-      
-      console.log("Detalhes do pagamento:", {
-        id: payment.id,
-        status: payment.status,
-        external_reference: payment.external_reference,
-        transaction_amount: payment.transaction_amount,
-      });
 
       // external_reference deve ser o ID do agendamento ou assinatura
       const externalRef = payment.external_reference;
-      
+
       if (externalRef?.startsWith("appointment_")) {
         // Pagamento de agendamento individual
         const appointmentId = externalRef.replace("appointment_", "");
+        if (!appointmentId) {
+          return NextResponse.json({ error: "Invalid appointment reference" }, { status: 400 });
+        }
+
         const paymentStatus = mapPaymentStatus(payment.status);
         const paymentMethod = mapPaymentMethod(payment.payment_method_id);
 
@@ -85,15 +75,23 @@ export async function POST(request: NextRequest) {
           valor: payment.transaction_amount,
           metodo: paymentMethod,
           status: paymentStatus,
-          mp_payment_id: payment.id.toString(),
+          mp_payment_id: String(payment.id ?? ""),
         });
-
-        console.log(`Agendamento ${appointmentId} atualizado: ${paymentStatus}`);
       }
 
       if (externalRef?.startsWith("subscription_")) {
+        const parts = externalRef.split("_");
+        if (parts.length < 3) {
+          return NextResponse.json({ error: "Invalid subscription reference" }, { status: 400 });
+        }
+
         const paymentStatus = mapPaymentStatus(payment.status);
-        const [, userId, planId] = externalRef.split("_");
+        const userId = parts[1];
+        const planId = parts[2];
+
+        if (!userId || !planId) {
+          return NextResponse.json({ error: "Invalid subscription reference" }, { status: 400 });
+        }
 
         const { data: subscription } = await supabase
           .from("subscriptions")
@@ -109,7 +107,7 @@ export async function POST(request: NextRequest) {
           const { data: existingPayment } = await supabase
             .from("payments")
             .select("id")
-            .eq("mp_payment_id", payment.id.toString())
+            .eq("mp_payment_id", String(payment.id ?? ""))
             .maybeSingle();
 
           const paymentPayload = {
@@ -117,7 +115,7 @@ export async function POST(request: NextRequest) {
             valor: payment.transaction_amount,
             metodo: "assinatura" as const,
             status: paymentStatus,
-            mp_payment_id: payment.id.toString(),
+            mp_payment_id: String(payment.id ?? ""),
           };
 
           if (existingPayment?.id) {
@@ -142,12 +140,6 @@ export async function POST(request: NextRequest) {
       // Buscar detalhes da assinatura
       const subscription = await getSubscriptionInfo(preapprovalId);
 
-      console.log("Detalhes da assinatura:", {
-        id: subscription.id,
-        status: subscription.status,
-        external_reference: subscription.external_reference,
-      });
-
       const externalRef = subscription.external_reference;
 
       // external_reference deve ser subscription_{user_id}_{plan_id}
@@ -155,6 +147,10 @@ export async function POST(request: NextRequest) {
         const parts = externalRef.replace("subscription_", "").split("_");
         const userId = parts[0];
         const planId = parts[1];
+
+        if (!userId || !planId) {
+          return NextResponse.json({ error: "Invalid subscription reference" }, { status: 400 });
+        }
 
         // Mapear status do Mercado Pago para nosso sistema
         let subscriptionStatus: "ativa" | "cancelada" | "suspensa" | "expirada";
@@ -195,8 +191,6 @@ export async function POST(request: NextRequest) {
                 subscriptionStatus === "cancelada" ? new Date().toISOString() : null,
             })
             .eq("id", existingSubscription.id);
-
-          console.log(`Assinatura ${existingSubscription.id} atualizada: ${subscriptionStatus}`);
         } else if (subscriptionStatus === "ativa") {
           // Criar nova assinatura
           const dataInicio = new Date();
@@ -211,8 +205,6 @@ export async function POST(request: NextRequest) {
             proxima_cobranca: proximaCobranca.toISOString().split("T")[0],
             mp_subscription_id: subscription.id,
           });
-
-          console.log(`Nova assinatura criada para usuário ${userId}`);
         }
       }
 
@@ -220,10 +212,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Tipo de notificação não reconhecido
-    console.log("Tipo de notificação não processado:", body.type);
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Erro no webhook Mercado Pago:", error);
+  } catch {
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
