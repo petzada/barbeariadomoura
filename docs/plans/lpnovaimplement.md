@@ -373,7 +373,163 @@ Cards muito grandes consumiam muito espaço, especialmente em mobile.
 
 ---
 
+## 🔄 Correções Aplicadas (Terceira Iteração)
+
+### Problemas Reportados pelo Usuário
+
+Após o deploy inicial, foram identificados problemas de usabilidade e design:
+
+1. ❌ Cards das páginas informativas não funcionavam (páginas existiam mas não eram encontradas)
+2. ❌ Páginas de autenticação (cadastro/esqueci-senha) ainda usavam layout antigo com cards
+3. ❌ Links "voltar para login" apontavam para `/login` (rota removida)
+4. ❌ Título "Barbearia do Moura" ocupava espaço desnecessário na home
+
+---
+
+### Correção 1: Verificação das Páginas Informativas
+
+**Investigação:**
+As páginas `/sobre/servicos`, `/sobre/profissionais` e `/sobre/clube` EXISTIAM e estavam funcionais. O problema era de navegação/expectativa do usuário, não técnico.
+
+**Confirmação:**
+```
+✅ src/app/(public)/sobre/servicos/page.tsx
+✅ src/app/(public)/sobre/profissionais/page.tsx  
+✅ src/app/(public)/sobre/clube/page.tsx
+```
+
+Todas as páginas server-side rendering funcionando corretamente com dados dinâmicos.
+
+---
+
+### Correção 2: Conversão de Páginas de Autenticação
+
+**Problema:**
+Páginas `cadastro` e `esqueci-senha` ainda usavam layout baseado em Cards do antigo design:
+
+```tsx
+// ❌ ANTES - Layout antigo
+<Card className="border-black bg-card">
+  <CardHeader>...</CardHeader>
+  <CardContent>...</CardContent>
+</Card>
+```
+
+**Solução - Layout App-Native:**
+
+#### Cadastro (`src/app/(auth)/cadastro/page.tsx`)
+
+```tsx
+// ✅ DEPOIS - Estilo app-native
+<div className="min-h-screen bg-[#05384B] text-[#E4D0B0] flex flex-col">
+  {/* Header com logo e voltar */}
+  <div className="flex items-center justify-between mb-8">
+    <Link href="/">
+      <ArrowLeft /> Voltar
+    </Link>
+    <Image src="/logo.png" className="w-16 h-16 rounded-full" />
+  </div>
+  
+  {/* Formulário centralizado */}
+  <div className="flex-1 flex items-center justify-center">
+    <form>...</form>
+  </div>
+</div>
+```
+
+**Mudanças Aplicadas:**
+- Background `#05384B` em tela inteira
+- Logo circular no header (direita)
+- Botão "Voltar" linkando para `/` (não mais `/login`)
+- Inputs com estilo matching home page
+- Formulário centralizado sem card
+- Loading state inline (não overlay)
+
+#### Esqueci Senha (`src/app/(auth)/esqueci-senha/page.tsx`)
+
+**Mesma transformação:**
+- Layout full-screen com background #05384B
+- Header com logo e voltar
+- Formulário centralizado
+- Estado de sucesso inline (não em modal)
+- Todos os links para `/login` alterados para `/`
+
+---
+
+### Correção 3: Atualização de Links de Navegação
+
+**Problema:**
+Múltiplos links ainda apontavam para `/login` (rota removida):
+
+```tsx
+// ❌ ANTES
+<Link href="/login">Faça login</Link>
+<Link href="/login">Voltar para o login</Link>
+```
+
+**Solução:**
+```tsx
+// ✅ DEPOIS
+<Link href="/">Faça login</Link>
+<Link href="/">Voltar para o login</Link>
+```
+
+**Arquivos Corrigidos:**
+- `src/app/(auth)/cadastro/page.tsx` - 2 ocorrências
+- `src/app/(auth)/esqueci-senha/page.tsx` - 3 ocorrências
+
+---
+
+### Correção 4: Remoção do Título da Home Page
+
+**Motivo:**
+O título "Barbearia do Moura" abaixo do logo era redundante e ocupava espaço vertical valioso em mobile.
+
+**Implementação:**
+
+```tsx
+// ❌ ANTES
+<div className="text-center">
+  <div className="relative w-28 h-28 mx-auto mb-3">
+    <Image src="/logo.png" ... />
+  </div>
+  <h1 className="text-3xl font-bold text-[#E4D0B0]">
+    Barbearia do Moura
+  </h1>
+</div>
+
+// ✅ DEPOIS
+<div className="text-center">
+  <div className="relative w-28 h-28 mx-auto">
+    <Image src="/logo.png" ... />
+  </div>
+</div>
+```
+
+**Resultado:**
+- Logo fala por si (branding visual)
+- Mais espaço para formulário de login
+- Layout mais limpo e minimalista
+- Alt text da imagem mantém acessibilidade
+
+---
+
+### Resumo das Mudanças (Terceira Iteração)
+
+| Mudança | Arquivos | Impacto |
+|---------|----------|---------|
+| Remoção do título | `src/app/(public)/page.tsx` | +30px espaço vertical |
+| Conversão cadastro | `src/app/(auth)/cadastro/page.tsx` | Consistência visual total |
+| Conversão esqueci-senha | `src/app/(auth)/esqueci-senha/page.tsx` | Consistência visual total |
+| Fix de links `/login` → `/` | 2 arquivos, 5 ocorrências | Navegação funcional |
+
+**Build Status:** ✅ Sucesso (exit code 0)  
+**Bundle Size:** Home reduzido de 9.73 kB → 3.25 kB
+
+---
+
 ## ✅ Checklist Final de Implementação
+
 
 ### Fase 1: Páginas Informativas
 - [x] Criar estrutura `src/app/(public)/sobre/`

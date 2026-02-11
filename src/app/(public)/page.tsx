@@ -35,7 +35,7 @@ export default function HomePage() {
                 {/* PRIMEIRO TERÇO - Logo */}
                 <div className="flex-[0.8] flex items-center justify-center pt-8">
                     <div className="text-center">
-                        <div className="relative w-28 h-28 mx-auto mb-3">
+                        <div className="relative w-28 h-28 mx-auto">
                             <Image
                                 src="/logo.png"
                                 alt="Barbearia do Moura"
@@ -44,9 +44,6 @@ export default function HomePage() {
                                 priority
                             />
                         </div>
-                        <h1 className="text-3xl font-bold text-[#E4D0B0]">
-                            Barbearia do Moura
-                        </h1>
                     </div>
                 </div>
 
@@ -84,8 +81,8 @@ export default function HomePage() {
                             {state.message && (
                                 <div
                                     className={`text-sm text-center p-3 rounded ${state.success
-                                            ? "bg-green-500/20 text-green-300"
-                                            : "bg-red-500/20 text-red-300"
+                                        ? "bg-green-500/20 text-green-300"
+                                        : "bg-red-500/20 text-red-300"
                                         }`}
                                 >
                                     {state.message}
