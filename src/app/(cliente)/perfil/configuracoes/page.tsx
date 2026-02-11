@@ -48,7 +48,7 @@ export default function ConfiguracoesPage() {
   // Redirecionar se não autenticado
   useEffect(() => {
     if (!loadingUser && !isAuthenticated) {
-      router.push("/login?redirect=/perfil/configuracoes");
+      router.push("/?redirect=/perfil/configuracoes");
     }
   }, [loadingUser, isAuthenticated, router]);
 
@@ -372,5 +372,6 @@ export default function ConfiguracoesPage() {
     </div>
   );
 }
+
 
 

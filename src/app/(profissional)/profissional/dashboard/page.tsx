@@ -425,7 +425,7 @@ export default function ProfissionalDashboardPage() {
       )}
 
       {/* Métricas */}
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-3">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-[#EAD8AC]">

@@ -263,15 +263,15 @@ export default function AdminServicosPage() {
               </Button>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {services.map((service) => (
                 <div
                   key={service.id}
-                  className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg border ${
-                    !service.ativo && "opacity-50"
+                  className={`flex flex-col justify-between p-3 rounded-lg border ${
+                    !service.ativo ? "opacity-50" : ""
                   }`}
                 >
-                  <div className="mb-4 sm:mb-0">
+                  <div className="mb-3">
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-medium">{service.nome}</h3>
                       <Badge variant={service.ativo ? "success" : "secondary"}>
@@ -295,7 +295,7 @@ export default function AdminServicosPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 justify-end">
                     <Button
                       variant="ghost"
                       size="icon"

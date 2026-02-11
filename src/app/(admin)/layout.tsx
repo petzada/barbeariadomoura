@@ -14,7 +14,7 @@ export default async function AdminLayout({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login?redirect=/admin/dashboard");
+    redirect("/?redirect=/admin/dashboard");
   }
 
   // Verificar se é admin
@@ -35,3 +35,4 @@ export default async function AdminLayout({
     </div>
   );
 }
+

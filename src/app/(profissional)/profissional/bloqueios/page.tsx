@@ -86,7 +86,7 @@ export default function BloqueiosPage() {
   useEffect(() => {
     if (!loadingUser) {
       if (!isAuthenticated) {
-        router.push("/login?redirect=/profissional/bloqueios");
+        router.push("/?redirect=/profissional/bloqueios");
       } else if (!isBarbeiro) {
         router.push("/");
       }
@@ -758,6 +758,7 @@ export default function BloqueiosPage() {
     </div>
   );
 }
+
 
 
 

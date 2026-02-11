@@ -52,7 +52,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   // Rotas públicas que não requerem autenticação
-  const publicPaths = ["/", "/login", "/cadastro", "/esqueci-senha", "/resetar-senha"];
+  const publicPaths = ["/", "/cadastro", "/esqueci-senha", "/resetar-senha"];
   const publicPrefixes = ["/api/webhooks", "/pagamento"];
   const isPublicPath = publicPaths.some(
     (path) => request.nextUrl.pathname === path
@@ -63,13 +63,13 @@ export async function updateSession(request: NextRequest) {
   // Se não está autenticado e tenta acessar rota protegida
   if (!user && !isPublicPath) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = "/";
     url.searchParams.set("redirect", request.nextUrl.pathname);
     return NextResponse.redirect(url);
   }
 
   // Se está autenticado e tenta acessar login/cadastro, redireciona para dashboard do role
-  if (user && ["/login", "/cadastro"].includes(request.nextUrl.pathname)) {
+  if (user && ["/", "/cadastro"].includes(request.nextUrl.pathname)) {
     // Buscar role do usuário para redirecionar para o dashboard correto
     const { data: profile } = await supabase
       .from("users")

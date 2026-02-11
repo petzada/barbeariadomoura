@@ -61,7 +61,7 @@ export default function PerfilPage() {
   // Redirecionar se não autenticado
   useEffect(() => {
     if (!loadingUser && !isAuthenticated) {
-      router.push("/login?redirect=/perfil");
+      router.push("/?redirect=/perfil");
     }
   }, [loadingUser, isAuthenticated, router]);
 
@@ -378,5 +378,6 @@ export default function PerfilPage() {
     </div>
   );
 }
+
 
 

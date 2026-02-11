@@ -49,7 +49,7 @@ export default function ConfiguracoesProfissionalPage() {
   useEffect(() => {
     if (!loadingUser) {
       if (!isAuthenticated) {
-        router.push("/login?redirect=/profissional/perfil/configuracoes");
+        router.push("/?redirect=/profissional/perfil/configuracoes");
       } else if (!isBarbeiro) {
         router.push("/perfil/configuracoes");
       }
@@ -369,5 +369,6 @@ export default function ConfiguracoesProfissionalPage() {
     </div>
   );
 }
+
 
 

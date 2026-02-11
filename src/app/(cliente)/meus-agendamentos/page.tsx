@@ -89,7 +89,7 @@ export default function MeusAgendamentosPage() {
   // Redirecionar se não autenticado
   useEffect(() => {
     if (!loadingUser && !isAuthenticated) {
-      router.push("/login?redirect=/meus-agendamentos");
+      router.push("/?redirect=/meus-agendamentos");
     }
   }, [loadingUser, isAuthenticated, router]);
 
@@ -494,5 +494,6 @@ function AppointmentCard({
     </Card >
   );
 }
+
 
 

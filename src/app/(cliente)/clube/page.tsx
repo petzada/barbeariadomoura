@@ -383,7 +383,7 @@ export default function ClubePage() {
                           disabled={isCurrentPlan || !isAuthenticated}
                           onClick={() => {
                             if (!isAuthenticated) {
-                              router.push("/login?redirect=/clube");
+                              router.push("/?redirect=/clube");
                               return;
                             }
                             setSelectedPlan(plan);
@@ -551,5 +551,6 @@ export default function ClubePage() {
     </>
   );
 }
+
 
 

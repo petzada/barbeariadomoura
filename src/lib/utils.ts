@@ -38,7 +38,8 @@ export function formatPhone(phone: string): string {
  */
 export function getWhatsAppLink(phone: string, message?: string): string {
   const cleanPhone = phone.replace(/\D/g, "");
-  const baseUrl = `https://wa.me/55${cleanPhone}`;
+  const normalizedPhone = cleanPhone.startsWith("55") ? cleanPhone : `55${cleanPhone}`;
+  const baseUrl = `https://wa.me/${normalizedPhone}`;
   if (message) {
     return `${baseUrl}?text=${encodeURIComponent(message)}`;
   }

@@ -14,7 +14,7 @@ export default async function ProfissionalLayout({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login?redirect=/profissional/dashboard");
+    redirect("/?redirect=/profissional/dashboard");
   }
 
   // Verificar se é barbeiro
@@ -35,3 +35,4 @@ export default async function ProfissionalLayout({
     </div>
   );
 }
+

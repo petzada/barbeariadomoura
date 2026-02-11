@@ -87,7 +87,7 @@ export default function AgendarPage() {
   // Redirecionar se não autenticado
   useEffect(() => {
     if (!loadingUser && !isAuthenticated) {
-      router.push("/login?redirect=/agendar");
+      router.push("/?redirect=/agendar");
     }
   }, [loadingUser, isAuthenticated, router]);
 
@@ -658,5 +658,6 @@ export default function AgendarPage() {
     </>
   );
 }
+
 
 

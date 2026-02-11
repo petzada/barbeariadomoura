@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { getWhatsAppLink } from "@/lib/utils";
 import { UserNav } from "./user-nav";
 import { Scissors, Users, Crown, Phone } from "lucide-react";
 
@@ -9,11 +10,12 @@ interface HeaderProps {
 }
 
 export function Header({ showNav = true }: HeaderProps) {
+  const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5511960234545";
   const navLinks = [
-    { href: "/#servicos", label: "Servicos", icon: Scissors },
-    { href: "/#profissionais", label: "Profissionais", icon: Users },
-    { href: "/#clube", label: "Clube", icon: Crown },
-    { href: "/#contato", label: "Contato", icon: Phone },
+    { href: "/sobre/servicos", label: "Servicos", icon: Scissors },
+    { href: "/sobre/profissionais", label: "Profissionais", icon: Users },
+    { href: "/sobre/clube", label: "Clube", icon: Crown },
+    { href: getWhatsAppLink(WHATSAPP_NUMBER), label: "Contato", icon: Phone, external: true },
   ];
 
   return (
@@ -37,13 +39,25 @@ export function Header({ showNav = true }: HeaderProps) {
             {showNav && (
               <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
                 {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-sm font-medium text-[#EAD8AC] hover:text-[#EAD8AC] transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+                  link.external ? (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-[#EAD8AC] hover:text-[#EAD8AC] transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="text-sm font-medium text-[#EAD8AC] hover:text-[#EAD8AC] transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )
                 ))}
               </nav>
             )}

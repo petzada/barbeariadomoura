@@ -67,7 +67,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!loadingUser) {
       if (!isAuthenticated) {
-        router.push("/login?redirect=/dashboard");
+        router.push("/?redirect=/dashboard");
       } else if (isAdmin) {
         router.push("/admin/dashboard");
       } else if (isBarbeiro) {
@@ -372,5 +372,6 @@ export default function DashboardPage() {
     </div>
   );
 }
+
 
 

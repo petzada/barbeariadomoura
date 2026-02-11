@@ -63,7 +63,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#servicos"
+                  href="/sobre/servicos"
                   className="text-[#EAD8AC] hover:text-[#EAD8AC] transition-colors"
                 >
                   Nossos Serviços
@@ -71,7 +71,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#profissionais"
+                  href="/sobre/profissionais"
                   className="text-[#EAD8AC] hover:text-[#EAD8AC] transition-colors"
                 >
                   Profissionais

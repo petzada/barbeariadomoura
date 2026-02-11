@@ -45,7 +45,7 @@ export function UserNav() {
     return (
       <div className="flex items-center gap-2">
         <Button variant="ghost" asChild>
-          <Link href="/login">Entrar</Link>
+          <Link href="/">Entrar</Link>
         </Button>
         <Button asChild>
           <Link href="/cadastro">Cadastrar</Link>

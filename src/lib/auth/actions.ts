@@ -284,7 +284,7 @@ export async function resetPasswordAction(
   return {
     success: true,
     message: "Senha alterada com sucesso! Redirecionando...",
-    redirectTo: "/login?message=Senha alterada com sucesso",
+    redirectTo: "/?message=Senha alterada com sucesso",
   };
 }
 

@@ -87,7 +87,7 @@ export default function FeedbackPage() {
   // Redirecionar se não autenticado
   useEffect(() => {
     if (!loadingUser && !isAuthenticated) {
-      router.push("/login?redirect=/feedback");
+      router.push("/?redirect=/feedback");
     }
   }, [loadingUser, isAuthenticated, router]);
 
@@ -482,5 +482,6 @@ export default function FeedbackPage() {
     </>
   );
 }
+
 
 
