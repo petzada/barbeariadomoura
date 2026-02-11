@@ -365,7 +365,7 @@ export default function AdminServicosPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="preco">Preço (R$) *</Label>
                 <Input
@@ -447,4 +447,5 @@ export default function AdminServicosPage() {
     </div>
   );
 }
+
 

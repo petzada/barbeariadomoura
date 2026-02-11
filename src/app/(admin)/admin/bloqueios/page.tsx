@@ -398,7 +398,7 @@ export default function AdminBloqueiosPage() {
       </div>
 
       {/* Estatísticas */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="text-2xl font-bold">{stats.total}</div>
@@ -428,7 +428,7 @@ export default function AdminBloqueiosPage() {
       {/* Filtro */}
       <div className="flex gap-4">
         <Select value={filterType} onValueChange={setFilterType}>
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-full sm:w-[200px]">
             <SelectValue placeholder="Filtrar por tipo" />
           </SelectTrigger>
           <SelectContent>
@@ -604,7 +604,7 @@ export default function AdminBloqueiosPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Data Início</Label>
                 <Input
@@ -623,7 +623,7 @@ export default function AdminBloqueiosPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Data Fim</Label>
                 <Input
@@ -706,5 +706,6 @@ export default function AdminBloqueiosPage() {
     </div>
   );
 }
+
 
 

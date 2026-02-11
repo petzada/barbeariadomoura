@@ -294,7 +294,7 @@ export default function AdminFeedbacksPage() {
                   Avaliações Recentes
                 </CardTitle>
                 <Select value={filtro} onValueChange={setFiltro}>
-                  <SelectTrigger className="w-[200px]">
+                  <SelectTrigger className="w-full sm:w-[200px]">
                     <SelectValue placeholder="Filtrar por profissional" />
                   </SelectTrigger>
                   <SelectContent>
@@ -373,5 +373,6 @@ export default function AdminFeedbacksPage() {
     </div>
   );
 }
+
 
 

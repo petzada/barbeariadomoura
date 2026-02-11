@@ -388,7 +388,7 @@ export default function BloqueiosPage() {
               </DialogHeader>
 
               <div className="space-y-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="dataInicio">Data Início</Label>
                     <Input
@@ -415,7 +415,7 @@ export default function BloqueiosPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="dataFim">Data Fim</Label>
                     <Input
@@ -625,7 +625,7 @@ export default function BloqueiosPage() {
             </DialogHeader>
 
             <div className="space-y-4 py-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="editDataInicio">Data Início</Label>
                   <Input
@@ -652,7 +652,7 @@ export default function BloqueiosPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="editDataFim">Data Fim</Label>
                   <Input
@@ -758,5 +758,6 @@ export default function BloqueiosPage() {
     </div>
   );
 }
+
 
 

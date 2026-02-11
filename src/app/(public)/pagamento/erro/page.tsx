@@ -27,7 +27,7 @@ export default function PagamentoErroPage() {
             diversos motivos, como saldo insuficiente ou dados incorretos.
           </p>
 
-          <div className="bg-[#013648] border border-black rounded-lg p-4 text-sm text-left space-y-2">
+          <div className="bg-card border border-black rounded-lg p-4 text-sm text-left space-y-2">
             <p className="font-medium mb-2">Possíveis causas:</p>
             <p className="text-[#EAD8AC]">• Saldo ou limite insuficiente</p>
             <p className="text-[#EAD8AC]">• Dados do cartão incorretos</p>
@@ -63,4 +63,5 @@ export default function PagamentoErroPage() {
     </div>
   );
 }
+
 

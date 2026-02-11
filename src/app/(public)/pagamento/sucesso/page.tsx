@@ -26,7 +26,7 @@ export default function PagamentoSucessoPage() {
             confirmação por e-mail em instantes.
           </p>
 
-          <div className="bg-[#013648] border border-black rounded-lg p-4 text-sm text-left space-y-2">
+          <div className="bg-card border border-black rounded-lg p-4 text-sm text-left space-y-2">
             <p className="text-[#EAD8AC]">
               ✓ Pagamento confirmado pelo Mercado Pago
             </p>
@@ -57,4 +57,5 @@ export default function PagamentoSucessoPage() {
     </div>
   );
 }
+
 

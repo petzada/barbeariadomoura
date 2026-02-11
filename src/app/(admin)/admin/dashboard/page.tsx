@@ -302,7 +302,7 @@ export default function AdminDashboardPage() {
           <CardHeader>
             <CardTitle>Ações Rápidas</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4">
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Button asChild variant="outline" className="h-auto py-4 flex-col">
               <Link href="/admin/agenda">
                 <Calendar className="h-6 w-6 mb-2" />
@@ -333,5 +333,6 @@ export default function AdminDashboardPage() {
     </div>
   );
 }
+
 
 

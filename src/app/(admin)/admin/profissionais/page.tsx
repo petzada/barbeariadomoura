@@ -700,7 +700,7 @@ export default function AdminProfissionaisPage() {
           <div className="space-y-4 py-4">
             {/* Formulário de adicionar horário */}
             <div className="p-4 border rounded-lg space-y-4">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div className="space-y-2">
                   <Label>Dia</Label>
                   <Select
@@ -828,5 +828,6 @@ export default function AdminProfissionaisPage() {
     </div>
   );
 }
+
 
 

@@ -457,7 +457,7 @@ export default function ClubePage() {
 
           {selectedPlan && (
             <div className="py-4">
-              <div className="bg-[#013648] border border-black rounded-lg p-4 space-y-3">
+              <div className="bg-card border border-black rounded-lg p-4 space-y-3">
                 <div className="flex justify-between">
                   <span className="text-[#EAD8AC]">Plano</span>
                   <span className="font-medium">{selectedPlan.nome}</span>
@@ -551,4 +551,5 @@ export default function ClubePage() {
     </>
   );
 }
+
 

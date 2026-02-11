@@ -295,7 +295,7 @@ export default function AdminFinanceiroPage() {
           <CardTitle className="text-base">Resumo por Forma de Pagamento</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {Object.entries(metodoConfig).map(([key, config]) => {
               const value = key === "pix" ? dayStats.pix
                 : key === "cartao_credito" ? dayStats.credito
@@ -326,7 +326,7 @@ export default function AdminFinanceiroPage() {
             Movimentações do Dia
           </CardTitle>
           <Select value={filterMethod} onValueChange={setFilterMethod}>
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger className="w-full sm:w-[150px]">
               <SelectValue placeholder="Filtrar" />
             </SelectTrigger>
             <SelectContent>
@@ -393,4 +393,5 @@ export default function AdminFinanceiroPage() {
     </div>
   );
 }
+
 

@@ -104,7 +104,7 @@ function LoginForm() {
         </div>
       )}
 
-      <Card className="border-black bg-[#013648]">
+      <Card className="border-black bg-card">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Bem-vindo de volta</CardTitle>
           <CardDescription>
@@ -190,7 +190,7 @@ function LoginForm() {
 
 function LoginSkeleton() {
   return (
-    <Card className="border-black bg-[#013648]">
+    <Card className="border-black bg-card">
       <CardHeader className="space-y-1 text-center">
         <Skeleton className="h-8 w-48 mx-auto" />
         <Skeleton className="h-4 w-64 mx-auto" />
@@ -213,4 +213,5 @@ export default function LoginPage() {
     </Suspense>
   );
 }
+
 

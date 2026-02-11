@@ -348,7 +348,7 @@ export default function ProfissionalDashboardPage() {
       </div>
 
       {/* Ações Rápidas */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <Link href="/profissional/dashboard#agenda" className="block">
           <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
             <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
@@ -663,5 +663,6 @@ export default function ProfissionalDashboardPage() {
     </div>
   );
 }
+
 
 

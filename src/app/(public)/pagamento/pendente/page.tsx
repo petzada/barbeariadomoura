@@ -27,7 +27,7 @@ export default function PagamentoPendentePage() {
             receberá uma notificação por e-mail.
           </p>
 
-          <div className="bg-[#013648] border border-black rounded-lg p-4 text-sm text-left space-y-3">
+          <div className="bg-card border border-black rounded-lg p-4 text-sm text-left space-y-3">
             <p className="font-medium">Se você pagou com boleto:</p>
             <p className="text-[#EAD8AC]">
               • O prazo de compensação é de até 3 dias úteis
@@ -73,4 +73,5 @@ export default function PagamentoPendentePage() {
     </div>
   );
 }
+
 

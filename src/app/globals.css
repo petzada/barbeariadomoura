@@ -6,9 +6,9 @@
   :root {
     --background: 197 100% 14%;
     --foreground: 43 56% 80%;
-    --card: 197 100% 14%;
+    --card: 0 0% 4%;
     --card-foreground: 43 56% 80%;
-    --popover: 197 100% 14%;
+    --popover: 0 0% 4%;
     --popover-foreground: 43 56% 80%;
     --primary: 197 100% 14%;
     --primary-foreground: 43 56% 80%;
@@ -60,9 +60,63 @@
 }
 
 @layer components {
+  .hero-atmosphere {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(234, 216, 172, 0.12), transparent 45%),
+      radial-gradient(circle at 80% 10%, rgba(234, 216, 172, 0.08), transparent 40%),
+      radial-gradient(circle at 50% 85%, rgba(0, 0, 0, 0.2), transparent 55%);
+    background-size: 120% 120%;
+    animation: hero-drift 18s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  .section-divider {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(234, 216, 172, 0.18) 20%,
+      rgba(234, 216, 172, 0.18) 80%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .section-divider::before {
+    top: 0;
+  }
+
+  .section-divider::after {
+    bottom: 0;
+  }
+
+  .scissor-accent {
+    animation: scissor-float 7s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .scissor-accent-delayed {
+    animation: scissor-float 9s ease-in-out infinite;
+    animation-delay: 1.4s;
+    will-change: transform;
+  }
+
   .card-hover {
     border: 1px solid #000000;
-    background-color: #013648;
+    background-color: #0B0B0B;
     transition: all 0.3s ease;
   }
 
@@ -109,6 +163,34 @@
     animation: animate-in 0.3s ease-out;
   }
 
+  @keyframes hero-drift {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.7;
+    }
+
+    50% {
+      transform: translate3d(0, -1.5%, 0) scale(1.03);
+      opacity: 0.9;
+    }
+
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes scissor-float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(-4px) rotate(-3deg);
+    }
+  }
+
   @keyframes animate-in {
     from {
       opacity: 0;
@@ -123,5 +205,13 @@
 
   .glass {
     @apply bg-[#013648]/80 backdrop-blur-sm;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-atmosphere,
+    .scissor-accent,
+    .scissor-accent-delayed {
+      animation: none;
+    }
   }
 }

@@ -75,7 +75,7 @@ export default function EsqueciSenhaPage() {
         </div>
       )}
 
-      <Card className="border-black bg-[#013648]">
+      <Card className="border-black bg-card">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold">Esqueceu a senha?</CardTitle>
         <CardDescription>
@@ -131,4 +131,5 @@ export default function EsqueciSenhaPage() {
     </div>
   );
 }
+
 

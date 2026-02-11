@@ -247,7 +247,7 @@ export default function AdminAssinantesPage() {
       </div>
 
       {/* Estatísticas */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="text-2xl font-bold">{stats.total}</div>
@@ -420,7 +420,7 @@ export default function AdminAssinantesPage() {
               {/* Info do Plano */}
               <div className="space-y-3">
                 <h4 className="font-medium">Informações do Plano</h4>
-                <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-[#EAD8AC]">Plano</p>
                     <p className="font-medium">{selectedSubscription.plano.nome}</p>
@@ -549,5 +549,6 @@ export default function AdminAssinantesPage() {
     </div>
   );
 }
+
 
 
