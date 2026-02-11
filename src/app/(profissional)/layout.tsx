@@ -22,14 +22,14 @@ export default async function ProfissionalLayout({
     .from("users")
     .select("role")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (profile?.role !== "barbeiro" && profile?.role !== "admin") {
+  if (!profile || (profile.role !== "barbeiro" && profile.role !== "admin")) {
     redirect("/");
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#013648] text-[#EAD8AC]">
       <ProfessionalNav />
       <main className="flex-1 p-4 sm:p-6">{children}</main>
     </div>

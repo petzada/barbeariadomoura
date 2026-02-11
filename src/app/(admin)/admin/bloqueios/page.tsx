@@ -387,7 +387,7 @@ export default function AdminBloqueiosPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Bloqueios de Horários</h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Gerencie bloqueios gerais e visualize os bloqueios dos profissionais
           </p>
         </div>
@@ -398,29 +398,29 @@ export default function AdminBloqueiosPage() {
       </div>
 
       {/* Estatísticas */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="text-2xl font-bold">{stats.total}</div>
-            <p className="text-sm text-muted-foreground">Total de Bloqueios</p>
+            <p className="text-sm text-[#EAD8AC]">Total de Bloqueios</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-2xl font-bold text-primary">{stats.geral}</div>
-            <p className="text-sm text-muted-foreground">Bloqueios Gerais</p>
+            <div className="text-2xl font-bold text-[#EAD8AC]">{stats.geral}</div>
+            <p className="text-sm text-[#EAD8AC]">Bloqueios Gerais</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-2xl font-bold text-muted-foreground">{stats.profissional}</div>
-            <p className="text-sm text-muted-foreground">Bloqueios Individuais</p>
+            <div className="text-2xl font-bold text-[#EAD8AC]">{stats.profissional}</div>
+            <p className="text-sm text-[#EAD8AC]">Bloqueios Individuais</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-2xl font-bold text-warning">{stats.ativos}</div>
-            <p className="text-sm text-muted-foreground">Ativos Agora</p>
+            <div className="text-2xl font-bold text-[#EAD8AC]">{stats.ativos}</div>
+            <p className="text-sm text-[#EAD8AC]">Ativos Agora</p>
           </CardContent>
         </Card>
       </div>
@@ -428,7 +428,7 @@ export default function AdminBloqueiosPage() {
       {/* Filtro */}
       <div className="flex gap-4">
         <Select value={filterType} onValueChange={setFilterType}>
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-full sm:w-[200px]">
             <SelectValue placeholder="Filtrar por tipo" />
           </SelectTrigger>
           <SelectContent>
@@ -455,7 +455,7 @@ export default function AdminBloqueiosPage() {
               ))}
             </div>
           ) : filteredBlocks.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <CalendarOff className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhum bloqueio encontrado</p>
               <Button className="mt-4" onClick={openCreateDialog}>
@@ -473,30 +473,30 @@ export default function AdminBloqueiosPage() {
                   <div
                     key={block.id}
                     className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg border ${
-                      isActive ? "border-warning bg-warning/5" : ""
+                      isActive ? "border-[#EAD8AC] bg-[#EAD8AC]/10" : ""
                     }`}
                   >
                     <div className="flex items-start gap-4 mb-4 sm:mb-0">
                       {block.profissional_id ? (
                         <Avatar className="h-10 w-10">
                           <AvatarImage
-                            src={block.profissional?.user.avatar_url || undefined}
-                            alt={block.profissional?.user.nome}
+                            src={block.profissional?.user?.avatar_url || undefined}
+                            alt={block.profissional?.user?.nome}
                           />
                           <AvatarFallback className="bg-secondary">
-                            {getInitials(block.profissional?.user.nome || "")}
+                            {getInitials(block.profissional?.user?.nome || "")}
                           </AvatarFallback>
                         </Avatar>
                       ) : (
-                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                          <Building className="h-5 w-5 text-primary" />
+                        <div className="h-10 w-10 rounded-full bg-[#013648]/70 flex items-center justify-center">
+                          <Building className="h-5 w-5 text-[#EAD8AC]" />
                         </div>
                       )}
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <h3 className="font-medium">
                             {block.profissional_id
-                              ? block.profissional?.user.nome
+                              ? block.profissional?.user?.nome
                               : "Bloqueio Geral da Barbearia"}
                           </h3>
                           {isActive && <Badge variant="warning">Ativo</Badge>}
@@ -504,11 +504,11 @@ export default function AdminBloqueiosPage() {
                           {!isActive && !isFuture && <Badge variant="outline">Passado</Badge>}
                         </div>
                         {block.motivo && (
-                          <p className="text-sm text-muted-foreground mb-2">
+                          <p className="text-sm text-[#EAD8AC] mb-2">
                             {block.motivo}
                           </p>
                         )}
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-4 text-sm text-[#EAD8AC]">
                           <span className="flex items-center">
                             <Clock className="h-4 w-4 mr-1" />
                             {formatDateBR(block.data_inicio, "dd/MM/yyyy 'às' HH:mm")}
@@ -534,7 +534,7 @@ export default function AdminBloqueiosPage() {
                         size="icon"
                         onClick={() => setDeleteId(block.id)}
                       >
-                        <Trash2 className="h-4 w-4 text-destructive" />
+                        <Trash2 className="h-4 w-4 text-[#EAD8AC]" />
                       </Button>
                     </div>
                   </div>
@@ -596,7 +596,7 @@ export default function AdminBloqueiosPage() {
                   <SelectContent>
                     {professionals.map((prof) => (
                       <SelectItem key={prof.id} value={prof.id}>
-                        {prof.user.nome}
+                        {prof.user?.nome ?? "Profissional"}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -604,7 +604,7 @@ export default function AdminBloqueiosPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Data Início</Label>
                 <Input
@@ -623,7 +623,7 @@ export default function AdminBloqueiosPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Data Fim</Label>
                 <Input
@@ -706,3 +706,6 @@ export default function AdminBloqueiosPage() {
     </div>
   );
 }
+
+
+

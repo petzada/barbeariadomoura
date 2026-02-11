@@ -58,10 +58,9 @@ export async function getActiveSubscription(clienteId: string) {
     `)
     .eq("cliente_id", clienteId)
     .eq("status", "ativa")
-    .single();
+    .maybeSingle();
 
-  if (error && error.code !== "PGRST116") {
-    // PGRST116 = no rows returned
+  if (error) {
     throw error;
   }
 
@@ -105,7 +104,16 @@ export async function calcularValorAgendamento(
 
   // 4. Verificar se serviço está incluso no plano
   const plano = assinatura.plano;
-  const servicoIncluso = plano.servicos_inclusos.includes(servicoId);
+  if (!plano) {
+    return {
+      valorServico: servico.preco,
+      valorCobrado: servico.preco,
+      cobertoAssinatura: false,
+      assinaturaId: assinatura.id,
+      avisoPlanoLimitado: null,
+    };
+  }
+  const servicoIncluso = plano.servicos_inclusos?.includes(servicoId) ?? false;
 
   if (!servicoIncluso) {
     return {
@@ -179,7 +187,7 @@ export async function buscarHorariosDisponiveis(
     .select("*")
     .eq("dia_semana", diaSemana)
     .eq("ativo", true)
-    .single();
+    .maybeSingle();
 
   if (!businessHour) {
     return []; // Barbearia fechada neste dia
@@ -192,7 +200,7 @@ export async function buscarHorariosDisponiveis(
     .eq("profissional_id", profissionalId)
     .eq("dia_semana", diaSemana)
     .eq("ativo", true)
-    .single();
+    .maybeSingle();
 
   // Usar horário do profissional ou da barbearia
   const abertura = profHour?.abertura || businessHour.abertura;
@@ -309,78 +317,81 @@ export async function criarAgendamento(formData: {
 
   const { servicoId, profissionalId, data, horario } = formData;
 
-  // Buscar duração do serviço
-  const { data: servico } = await supabase
-    .from("services")
-    .select("duracao_minutos, preco")
-    .eq("id", servicoId)
-    .single();
+  try {
+    // Buscar duração do serviço
+    const { data: servico } = await supabase
+      .from("services")
+      .select("duracao_minutos, preco")
+      .eq("id", servicoId)
+      .maybeSingle();
 
-  if (!servico) {
-    return { success: false, message: "Serviço não encontrado" };
-  }
+    if (!servico) {
+      return { success: false, message: "Serviço não encontrado" };
+    }
 
-  // Montar data/hora com timezone do Brasil (GMT-3)
-  // Converte o horário local do Brasil para UTC para salvar no banco
-  const inicioLocal = fromZonedTime(
-    new Date(`${data}T${horario}:00`),
-    TIMEZONE
-  );
-  const fimLocal = addMinutes(inicioLocal, servico.duracao_minutos);
-  
-  const dataHoraInicio = inicioLocal.toISOString();
-  const dataHoraFim = fimLocal.toISOString();
+    // Montar data/hora com timezone do Brasil (GMT-3)
+    // Converte o horário local do Brasil para UTC para salvar no banco
+    const inicioLocal = fromZonedTime(
+      new Date(`${data}T${horario}:00`),
+      TIMEZONE
+    );
+    const fimLocal = addMinutes(inicioLocal, servico.duracao_minutos);
 
-  // Verificar se horário ainda está disponível
-  const horariosDisponiveis = await buscarHorariosDisponiveis(
-    profissionalId,
-    data,
-    servico.duracao_minutos
-  );
+    const dataHoraInicio = inicioLocal.toISOString();
+    const dataHoraFim = fimLocal.toISOString();
 
-  if (!horariosDisponiveis.includes(horario)) {
+    // Verificar se horário ainda está disponível
+    const horariosDisponiveis = await buscarHorariosDisponiveis(
+      profissionalId,
+      data,
+      servico.duracao_minutos
+    );
+
+    if (!horariosDisponiveis.includes(horario)) {
+      return {
+        success: false,
+        message: "Este horário não está mais disponível. Por favor, selecione outro.",
+      };
+    }
+
+    // Calcular valor
+    const calculo = await calcularValorAgendamento(user.id, servicoId, dataHoraInicio);
+
+    // Criar agendamento
+    const { data: agendamento, error } = await supabase
+      .from("appointments")
+      .insert({
+        cliente_id: user.id,
+        profissional_id: profissionalId,
+        servico_id: servicoId,
+        data_hora_inicio: dataHoraInicio,
+        data_hora_fim: dataHoraFim,
+        valor_servico: calculo.valorServico,
+        valor_cobrado: calculo.valorCobrado,
+        coberto_assinatura: calculo.cobertoAssinatura,
+        assinatura_id: calculo.assinaturaId,
+        status: "agendado",
+        payment_status: calculo.valorCobrado === 0 ? "pago" : "pendente",
+        payment_method: calculo.cobertoAssinatura ? "assinatura" : null,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      return { success: false, message: "Erro ao criar agendamento. Tente novamente." };
+    }
+
+    revalidatePath("/meus-agendamentos");
+    revalidatePath("/admin/agenda");
+
     return {
-      success: false,
-      message: "Este horário não está mais disponível. Por favor, selecione outro.",
+      success: true,
+      message: "Agendamento realizado com sucesso!",
+      agendamentoId: agendamento.id,
     };
-  }
-
-  // Calcular valor
-  const calculo = await calcularValorAgendamento(user.id, servicoId, dataHoraInicio);
-
-  // Criar agendamento
-  const { data: agendamento, error } = await supabase
-    .from("appointments")
-    .insert({
-      cliente_id: user.id,
-      profissional_id: profissionalId,
-      servico_id: servicoId,
-      data_hora_inicio: dataHoraInicio,
-      data_hora_fim: dataHoraFim,
-      valor_servico: calculo.valorServico,
-      valor_cobrado: calculo.valorCobrado,
-      coberto_assinatura: calculo.cobertoAssinatura,
-      assinatura_id: calculo.assinaturaId,
-      status: "agendado",
-      payment_status: calculo.valorCobrado === 0 ? "pago" : "pendente",
-      payment_method: calculo.cobertoAssinatura ? "assinatura" : null,
-    })
-    .select()
-    .single();
-
-  if (error) {
-    console.error("Erro ao criar agendamento:", error);
+  } catch {
     return { success: false, message: "Erro ao criar agendamento. Tente novamente." };
   }
-
-  revalidatePath("/meus-agendamentos");
-  revalidatePath("/admin/agenda");
-
-  return {
-    success: true,
-    message: "Agendamento realizado com sucesso!",
-    agendamentoId: agendamento.id,
-  };
 }
 
 // ============================================

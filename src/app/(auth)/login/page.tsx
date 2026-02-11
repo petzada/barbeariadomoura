@@ -96,15 +96,15 @@ function LoginForm() {
     <div className="relative">
       {/* Overlay de loading */}
       {isPending && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#013648]/80 backdrop-blur-sm rounded-lg">
           <div className="flex flex-col items-center gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">Entrando...</p>
+            <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
+            <p className="text-sm text-[#EAD8AC]">Entrando...</p>
           </div>
         </div>
       )}
 
-      <Card className="border-border bg-card">
+      <Card className="border-black bg-card">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Bem-vindo de volta</CardTitle>
           <CardDescription>
@@ -118,7 +118,7 @@ function LoginForm() {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
               <Input
                 id="email"
                 name="email"
@@ -131,7 +131,7 @@ function LoginForm() {
               />
             </div>
             {state.errors?.email && (
-              <p className="text-sm text-destructive">{state.errors.email[0]}</p>
+              <p className="text-sm text-[#EAD8AC]">{state.errors.email[0]}</p>
             )}
           </div>
 
@@ -139,7 +139,7 @@ function LoginForm() {
           <div className="space-y-2">
             <Label htmlFor="password">Senha</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
               <Input
                 id="password"
                 name="password"
@@ -152,12 +152,12 @@ function LoginForm() {
               />
             </div>
             {state.errors?.password && (
-              <p className="text-sm text-destructive">{state.errors.password[0]}</p>
+              <p className="text-sm text-[#EAD8AC]">{state.errors.password[0]}</p>
             )}
             <div className="text-right">
               <Link
                 href="/esqueci-senha"
-                className="text-sm text-primary hover:underline"
+                className="text-sm text-[#EAD8AC] hover:underline"
               >
                 Esqueceu a senha?
               </Link>
@@ -175,9 +175,9 @@ function LoginForm() {
             {state.success ? "Redirecionando..." : isPending ? "Entrando..." : "Entrar"}
           </Button>
 
-          <p className="text-sm text-center text-muted-foreground">
+          <p className="text-sm text-center text-[#EAD8AC]">
             Não tem uma conta?{" "}
-            <Link href="/cadastro" className="text-primary hover:underline">
+            <Link href="/cadastro" className="text-[#EAD8AC] hover:underline">
               Cadastre-se
             </Link>
           </p>
@@ -190,7 +190,7 @@ function LoginForm() {
 
 function LoginSkeleton() {
   return (
-    <Card className="border-border bg-card">
+    <Card className="border-black bg-card">
       <CardHeader className="space-y-1 text-center">
         <Skeleton className="h-8 w-48 mx-auto" />
         <Skeleton className="h-4 w-64 mx-auto" />
@@ -213,3 +213,5 @@ export default function LoginPage() {
     </Suspense>
   );
 }
+
+

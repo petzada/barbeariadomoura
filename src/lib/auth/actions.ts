@@ -101,7 +101,7 @@ export async function loginAction(
     .from("users")
     .select("role")
     .eq("email", email)
-    .single();
+    .maybeSingle();
 
   // Sempre redireciona para a home inicial do perfil após login.
   // Requisito: ignorar redirect dinâmico e manter fluxo fixo por role.
@@ -302,7 +302,7 @@ export async function getCurrentUser() {
     .from("users")
     .select("*")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
   return profile;
 }

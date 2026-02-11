@@ -175,7 +175,7 @@ export default function FeedbackPage() {
           nota,
           comentario: comentario || null,
           profissional_nome:
-            selectedAgendamento.profissional?.user.nome ||
+            selectedAgendamento.profissional?.user?.nome ||
             selectedAgendamento.profissional_nome,
           created_at: new Date().toISOString(),
           agendamento: {
@@ -207,7 +207,7 @@ export default function FeedbackPage() {
   if (loadingUser) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
       </div>
     );
   }
@@ -219,7 +219,7 @@ export default function FeedbackPage() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold">Avaliações</h1>
-            <p className="text-muted-foreground mt-1">
+            <p className="text-[#EAD8AC] mt-1">
               Avalie seus atendimentos e ajude-nos a melhorar
             </p>
           </div>
@@ -251,11 +251,11 @@ export default function FeedbackPage() {
                 {pendentes.length === 0 ? (
                   <Card>
                     <CardContent className="flex flex-col items-center justify-center py-12">
-                      <CheckCircle className="h-16 w-16 text-success mb-4" />
+                      <CheckCircle className="h-16 w-16 text-[#EAD8AC] mb-4" />
                       <h3 className="text-xl font-semibold mb-2">
                         Tudo em dia!
                       </h3>
-                      <p className="text-muted-foreground text-center">
+                      <p className="text-[#EAD8AC] text-center">
                         Você não tem avaliações pendentes.
                       </p>
                     </CardContent>
@@ -263,12 +263,12 @@ export default function FeedbackPage() {
                 ) : (
                   pendentes.map((agendamento) => {
                     const profNome =
-                      agendamento.profissional?.user.nome ||
+                      agendamento.profissional?.user?.nome ||
                       agendamento.profissional_nome ||
                       "Profissional";
                     const profFoto =
                       agendamento.profissional?.foto_url ||
-                      agendamento.profissional?.user.avatar_url ||
+                      agendamento.profissional?.user?.avatar_url ||
                       undefined;
 
                     return (
@@ -278,18 +278,18 @@ export default function FeedbackPage() {
                             <div className="flex items-start gap-4">
                               <Avatar className="h-12 w-12">
                                 <AvatarImage src={profFoto} alt={profNome} />
-                                <AvatarFallback className="bg-primary text-primary-foreground">
+                                <AvatarFallback className="bg-primary text-[#EAD8AC]">
                                   {getInitials(profNome)}
                                 </AvatarFallback>
                               </Avatar>
                               <div>
                                 <h3 className="font-semibold">
-                                  {agendamento.servico.nome}
+                                  {agendamento.servico?.nome ?? "Serviço"}
                                 </h3>
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-sm text-[#EAD8AC]">
                                   com {profNome}
                                 </p>
-                                <p className="text-sm text-muted-foreground flex items-center mt-1">
+                                <p className="text-sm text-[#EAD8AC] flex items-center mt-1">
                                   <Clock className="h-4 w-4 mr-1" />
                                   {format(
                                     parseISO(agendamento.data_hora_inicio),
@@ -316,11 +316,11 @@ export default function FeedbackPage() {
                 {meusFeedbacks.length === 0 ? (
                   <Card>
                     <CardContent className="flex flex-col items-center justify-center py-12">
-                      <MessageSquare className="h-16 w-16 text-muted-foreground mb-4" />
+                      <MessageSquare className="h-16 w-16 text-[#EAD8AC] mb-4" />
                       <h3 className="text-xl font-semibold mb-2">
                         Nenhuma avaliação enviada
                       </h3>
-                      <p className="text-muted-foreground text-center">
+                      <p className="text-[#EAD8AC] text-center">
                         Suas avaliações aparecerão aqui.
                       </p>
                     </CardContent>
@@ -332,11 +332,11 @@ export default function FeedbackPage() {
                         <div className="flex flex-col gap-3">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <Scissors className="h-4 w-4 text-muted-foreground" />
+                              <Scissors className="h-4 w-4 text-[#EAD8AC]" />
                               <span className="font-medium">
-                                {feedback.agendamento.servico.nome}
+                                {feedback.agendamento?.servico?.nome ?? "Serviço"}
                               </span>
-                              <span className="text-muted-foreground">
+                              <span className="text-[#EAD8AC]">
                                 • {feedback.profissional_nome || "Profissional"}
                               </span>
                             </div>
@@ -345,19 +345,19 @@ export default function FeedbackPage() {
                                 <Star
                                   key={star}
                                   className={`h-4 w-4 ${star <= feedback.nota
-                                      ? "fill-primary text-primary"
-                                      : "text-muted-foreground"
+                                      ? "fill-primary text-[#EAD8AC]"
+                                      : "text-[#EAD8AC]"
                                     }`}
                                 />
                               ))}
                             </div>
                           </div>
                           {feedback.comentario && (
-                            <p className="text-sm text-muted-foreground italic">
+                            <p className="text-sm text-[#EAD8AC] italic">
                               &ldquo;{feedback.comentario}&rdquo;
                             </p>
                           )}
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-[#EAD8AC]">
                             Atendimento em{" "}
                             {format(
                               parseISO(feedback.agendamento.data_hora_inicio),
@@ -396,14 +396,14 @@ export default function FeedbackPage() {
             <div className="py-4 space-y-6">
               {/* Info do agendamento */}
               <div className="bg-secondary rounded-lg p-4">
-                <p className="font-medium">{selectedAgendamento.servico.nome}</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="font-medium">{selectedAgendamento.servico?.nome ?? "Serviço"}</p>
+                <p className="text-sm text-[#EAD8AC]">
                   com{" "}
-                  {selectedAgendamento.profissional?.user.nome ||
+                  {selectedAgendamento.profissional?.user?.nome ||
                     selectedAgendamento.profissional_nome ||
                     "Profissional"}
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-[#EAD8AC]">
                   {format(
                     parseISO(selectedAgendamento.data_hora_inicio),
                     "dd/MM/yyyy 'às' HH:mm",
@@ -425,14 +425,14 @@ export default function FeedbackPage() {
                     >
                       <Star
                         className={`h-8 w-8 ${star <= nota
-                            ? "fill-primary text-primary"
-                            : "text-muted-foreground hover:text-primary/50"
+                            ? "fill-primary text-[#EAD8AC]"
+                            : "text-[#EAD8AC] hover:text-[#EAD8AC]/50"
                           }`}
                       />
                     </button>
                   ))}
                 </div>
-                <p className="text-center text-sm text-muted-foreground">
+                <p className="text-center text-sm text-[#EAD8AC]">
                   {nota === 1 && "Muito ruim"}
                   {nota === 2 && "Ruim"}
                   {nota === 3 && "Regular"}
@@ -445,7 +445,7 @@ export default function FeedbackPage() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">
                   Comentário{" "}
-                  <span className="text-muted-foreground font-normal">
+                  <span className="text-[#EAD8AC] font-normal">
                     (opcional)
                   </span>
                 </label>
@@ -482,3 +482,5 @@ export default function FeedbackPage() {
     </>
   );
 }
+
+

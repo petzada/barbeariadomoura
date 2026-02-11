@@ -42,9 +42,14 @@ export async function updateSession(request: NextRequest) {
   // IMPORTANTE: Não execute código entre createServerClient e supabase.auth.getUser()
   // Um simples erro pode fazer com que usuários sejam deslogados aleatoriamente.
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch {
+    // Se falhar ao obter usuário, continua como não autenticado
+    return supabaseResponse;
+  }
 
   // Rotas públicas que não requerem autenticação
   const publicPaths = ["/", "/login", "/cadastro", "/esqueci-senha", "/resetar-senha"];
@@ -70,10 +75,10 @@ export async function updateSession(request: NextRequest) {
       .from("users")
       .select("role")
       .eq("id", user.id)
-      .single();
+      .maybeSingle();
 
     const url = request.nextUrl.clone();
-    
+
     // Redirecionar baseado no role
     if (profile?.role === "admin") {
       url.pathname = "/admin/dashboard";
@@ -82,7 +87,7 @@ export async function updateSession(request: NextRequest) {
     } else {
       url.pathname = "/dashboard";
     }
-    
+
     return NextResponse.redirect(url);
   }
 

@@ -61,11 +61,11 @@ export function ProfessionalNav() {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-black bg-[#013648] backdrop-blur ">
       <div className="container-app flex h-14 items-center justify-between">
         {/* Logo */}
         <Link href="/profissional/dashboard" className="flex items-center gap-2">
-          <div className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-primary/20">
+          <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-black">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo.png"
@@ -73,12 +73,6 @@ export function ProfessionalNav() {
               className="h-full w-full object-cover"
             />
           </div>
-          <span className="font-bold text-gradient-gold hidden sm:inline">
-            Profissional
-          </span>
-          <span className="font-bold text-gradient-gold sm:hidden">
-            Prof
-          </span>
         </Link>
 
         {/* Desktop Nav */}
@@ -94,8 +88,8 @@ export function ProfessionalNav() {
                 className={cn(
                   "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                   isActive
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                    ? "bg-[#013648]/70 text-[#EAD8AC]"
+                    : "text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC]"
                 )}
               >
                 <item.icon className="h-4 w-4" />
@@ -115,7 +109,7 @@ export function ProfessionalNav() {
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
-                    <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                    <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                       {getInitials(user.nome)}
                     </AvatarFallback>
                   </Avatar>
@@ -125,7 +119,7 @@ export function ProfessionalNav() {
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium">{user.nome}</p>
-                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                    <p className="text-xs text-[#EAD8AC]">{user.email}</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -154,7 +148,7 @@ export function ProfessionalNav() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  className="text-destructive focus:text-destructive cursor-pointer"
+                  className="text-[#EAD8AC] focus:text-[#EAD8AC] cursor-pointer"
                   onClick={handleLogout}
                 >
                   <LogOut className="mr-2 h-4 w-4" />
@@ -183,13 +177,13 @@ export function ProfessionalNav() {
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10">
                         <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
-                        <AvatarFallback className="bg-primary text-primary-foreground">
+                        <AvatarFallback className="bg-primary text-[#EAD8AC]">
                           {getInitials(user.nome)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
                         <p className="font-medium">{user.nome}</p>
-                        <p className="text-xs text-muted-foreground">{user.email}</p>
+                        <p className="text-xs text-[#EAD8AC]">{user.email}</p>
                       </div>
                     </div>
                   </SheetTitle>
@@ -209,8 +203,8 @@ export function ProfessionalNav() {
                         className={cn(
                           "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors",
                           isActive
-                            ? "bg-primary/10 text-primary"
-                            : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                            ? "bg-[#013648]/70 text-[#EAD8AC]"
+                            : "text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC]"
                         )}
                       >
                         <item.icon className="h-5 w-5" />
@@ -222,12 +216,12 @@ export function ProfessionalNav() {
 
                 {/* Mobile Footer */}
                 <div className="absolute bottom-6 left-6 right-6">
-                  <div className="border-t border-border pt-4 space-y-2">
+                  <div className="border-t border-black pt-4 space-y-2">
                     {isAdmin && (
                       <Link
                         href="/admin/dashboard"
                         onClick={closeMenu}
-                        className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                        className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC] transition-colors"
                       >
                         <LayoutDashboard className="h-5 w-5" />
                         Dashboard Admin
@@ -236,7 +230,7 @@ export function ProfessionalNav() {
                     <Link
                       href="/profissional/perfil/configuracoes"
                       onClick={closeMenu}
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC] transition-colors"
                     >
                       <Settings className="h-5 w-5" />
                       Configurações
@@ -247,7 +241,7 @@ export function ProfessionalNav() {
                         closeMenu();
                         handleLogout();
                       }}
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-destructive hover:bg-destructive/10 transition-colors w-full"
+                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#EAD8AC] hover:bg-[#EAD8AC]/10 transition-colors w-full"
                     >
                       <LogOut className="h-5 w-5" />
                       Sair
@@ -262,3 +256,6 @@ export function ProfessionalNav() {
     </header>
   );
 }
+
+
+

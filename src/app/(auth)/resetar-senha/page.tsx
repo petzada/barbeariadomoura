@@ -74,15 +74,15 @@ export default function ResetarSenhaPage() {
     <div className="relative">
       {/* Overlay de loading */}
       {isPending && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#013648]/80 backdrop-blur-sm rounded-lg">
           <div className="flex flex-col items-center gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">Redefinindo senha...</p>
+            <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
+            <p className="text-sm text-[#EAD8AC]">Redefinindo senha...</p>
           </div>
         </div>
       )}
 
-      <Card className="border-border bg-card">
+      <Card className="border-black bg-card">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold">Redefinir senha</CardTitle>
         <CardDescription>
@@ -96,7 +96,7 @@ export default function ResetarSenhaPage() {
           <div className="space-y-2">
             <Label htmlFor="password">Nova senha</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
               <Input
                 id="password"
                 name="password"
@@ -110,7 +110,7 @@ export default function ResetarSenhaPage() {
               />
             </div>
             {state.errors?.password && (
-              <p className="text-sm text-destructive">{state.errors.password[0]}</p>
+              <p className="text-sm text-[#EAD8AC]">{state.errors.password[0]}</p>
             )}
           </div>
 
@@ -118,7 +118,7 @@ export default function ResetarSenhaPage() {
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirmar nova senha</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -131,7 +131,7 @@ export default function ResetarSenhaPage() {
               />
             </div>
             {state.errors?.confirmPassword && (
-              <p className="text-sm text-destructive">{state.errors.confirmPassword[0]}</p>
+              <p className="text-sm text-[#EAD8AC]">{state.errors.confirmPassword[0]}</p>
             )}
           </div>
         </CardContent>
@@ -151,3 +151,5 @@ export default function ResetarSenhaPage() {
     </div>
   );
 }
+
+

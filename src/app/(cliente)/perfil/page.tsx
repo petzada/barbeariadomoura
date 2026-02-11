@@ -70,28 +70,33 @@ export default function PerfilPage() {
     async function loadAdditionalData() {
       if (!user) return;
 
-      const supabase = createClient();
+      try {
+        const supabase = createClient();
 
-      // Carregar assinatura ativa
-      const { data: subData } = await supabase
-        .from("subscriptions")
-        .select(`*, plano:subscription_plans(nome, preco_mensal)`)
-        .eq("cliente_id", user.id)
-        .eq("status", "ativa")
-        .single();
+        // Carregar assinatura ativa
+        const { data: subData } = await supabase
+          .from("subscriptions")
+          .select(`*, plano:subscription_plans(nome, preco_mensal)`)
+          .eq("cliente_id", user.id)
+          .eq("status", "ativa")
+          .maybeSingle();
 
-      if (subData) {
-        setSubscription(subData as Subscription);
+        if (subData) {
+          setSubscription(subData as Subscription);
+        }
+
+        // Contar agendamentos
+        const { count } = await supabase
+          .from("appointments")
+          .select("*", { count: "exact", head: true })
+          .eq("cliente_id", user.id);
+
+        setAppointmentsCount(count || 0);
+      } catch {
+        // Silently handle - data will show defaults
+      } finally {
+        setLoadingSubscription(false);
       }
-      setLoadingSubscription(false);
-
-      // Contar agendamentos
-      const { count } = await supabase
-        .from("appointments")
-        .select("*", { count: "exact", head: true })
-        .eq("cliente_id", user.id);
-
-      setAppointmentsCount(count || 0);
     }
 
     if (user) {
@@ -135,7 +140,7 @@ export default function PerfilPage() {
   if (loadingUser) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
       </div>
     );
   }
@@ -145,7 +150,7 @@ export default function PerfilPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#013648]">
       <div className="container-app max-w-4xl py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
@@ -156,7 +161,7 @@ export default function PerfilPage() {
           </Button>
           <div>
             <h1 className="text-3xl font-bold">Meu Perfil</h1>
-            <p className="text-muted-foreground">
+            <p className="text-[#EAD8AC]">
               Gerencie suas informações pessoais
             </p>
           </div>
@@ -170,12 +175,12 @@ export default function PerfilPage() {
               <CardContent className="pt-6 text-center">
                 <Avatar className="h-24 w-24 mx-auto mb-4">
                   <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
-                  <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
+                  <AvatarFallback className="bg-primary text-[#EAD8AC] text-2xl">
                     {getInitials(user.nome)}
                   </AvatarFallback>
                 </Avatar>
                 <h2 className="font-semibold text-lg">{user.nome}</h2>
-                <p className="text-sm text-muted-foreground">{user.email}</p>
+                <p className="text-sm text-[#EAD8AC]">{user.email}</p>
                 <Badge variant="secondary" className="mt-2">
                   {user.role === "admin" ? "Administrador" : user.role === "barbeiro" ? "Profissional" : "Cliente"}
                 </Badge>
@@ -186,7 +191,7 @@ export default function PerfilPage() {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center gap-2">
-                  <Crown className="h-4 w-4 text-primary" />
+                  <Crown className="h-4 w-4 text-[#EAD8AC]" />
                   Clube do Moura
                 </CardTitle>
               </CardHeader>
@@ -196,18 +201,18 @@ export default function PerfilPage() {
                 ) : subscription ? (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Plano</span>
+                      <span className="text-sm text-[#EAD8AC]">Plano</span>
                       <Badge variant="success">{subscription.plano.nome}</Badge>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Valor</span>
+                      <span className="text-sm text-[#EAD8AC]">Valor</span>
                       <span className="font-medium">
                         {formatCurrency(subscription.plano.preco_mensal)}/mês
                       </span>
                     </div>
                     {subscription.proxima_cobranca && (
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Próxima cobrança</span>
+                        <span className="text-sm text-[#EAD8AC]">Próxima cobrança</span>
                         <span className="text-sm">
                           {format(parseISO(subscription.proxima_cobranca), "dd/MM/yyyy", { locale: ptBR })}
                         </span>
@@ -216,7 +221,7 @@ export default function PerfilPage() {
                   </div>
                 ) : (
                   <div className="text-center py-2">
-                    <p className="text-sm text-muted-foreground mb-3">
+                    <p className="text-sm text-[#EAD8AC] mb-3">
                       Você não possui assinatura ativa
                     </p>
                     <Button size="sm" asChild>
@@ -237,12 +242,12 @@ export default function PerfilPage() {
               </CardHeader>
               <CardContent>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Total de agendamentos</span>
+                  <span className="text-sm text-[#EAD8AC]">Total de agendamentos</span>
                   <span className="font-semibold">{appointmentsCount}</span>
                 </div>
                 <Separator className="my-3" />
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Membro desde</span>
+                  <span className="text-sm text-[#EAD8AC]">Membro desde</span>
                   <span className="text-sm">
                     {user.created_at
                       ? format(parseISO(user.created_at), "MMM/yyyy", { locale: ptBR })
@@ -267,7 +272,7 @@ export default function PerfilPage() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Mensagem de sucesso */}
                   {state.success && (
-                    <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
+                    <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                       <CheckCircle className="h-4 w-4 flex-shrink-0" />
                       <span>{state.message}</span>
                     </div>
@@ -275,7 +280,7 @@ export default function PerfilPage() {
 
                   {/* Mensagem de erro */}
                   {state.message && !state.success && (
-                    <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+                    <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                       <AlertCircle className="h-4 w-4 flex-shrink-0" />
                       <span>{state.message}</span>
                     </div>
@@ -285,7 +290,7 @@ export default function PerfilPage() {
                   <div className="space-y-2">
                     <Label htmlFor="nome">Nome completo</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
                       <Input
                         id="nome"
                         name="nome"
@@ -301,7 +306,7 @@ export default function PerfilPage() {
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
                       <Input
                         id="email"
                         type="email"
@@ -310,7 +315,7 @@ export default function PerfilPage() {
                         disabled
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-[#EAD8AC]">
                       O email não pode ser alterado
                     </p>
                   </div>
@@ -319,7 +324,7 @@ export default function PerfilPage() {
                   <div className="space-y-2">
                     <Label htmlFor="telefone">Telefone</Label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
                       <Input
                         id="telefone"
                         name="telefone"
@@ -352,18 +357,18 @@ export default function PerfilPage() {
               <CardContent className="pt-6">
                 <Link
                   href="/perfil/configuracoes"
-                  className="flex items-center justify-between p-4 rounded-lg border border-border hover:bg-secondary transition-colors"
+                  className="flex items-center justify-between p-4 rounded-lg border border-black hover:bg-[#013648] hover:border-[#EAD8AC] transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <Settings className="h-5 w-5 text-muted-foreground" />
+                    <Settings className="h-5 w-5 text-[#EAD8AC]" />
                     <div>
                       <p className="font-medium">Configurações</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-[#EAD8AC]">
                         Alterar senha, preferências e mais
                       </p>
                     </div>
                   </div>
-                  <ArrowLeft className="h-5 w-5 rotate-180 text-muted-foreground" />
+                  <ArrowLeft className="h-5 w-5 rotate-180 text-[#EAD8AC]" />
                 </Link>
               </CardContent>
             </Card>
@@ -373,3 +378,5 @@ export default function PerfilPage() {
     </div>
   );
 }
+
+

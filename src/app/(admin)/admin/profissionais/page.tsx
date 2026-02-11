@@ -52,7 +52,7 @@ interface Professional {
     email: string;
     telefone: string | null;
     avatar_url: string | null;
-  };
+  } | null;
 }
 
 interface User {
@@ -126,7 +126,7 @@ export default function AdminProfissionaisPage() {
       if (!profsError && profsData) {
         const transformed = profsData.map((item: any) => ({
           ...item,
-          user: Array.isArray(item.user) ? item.user[0] : item.user,
+          user: Array.isArray(item.user) ? item.user[0] ?? null : item.user,
         })) as Professional[];
         setProfessionals(transformed);
       }
@@ -243,7 +243,7 @@ export default function AdminProfissionaisPage() {
         // Transformar dados para formato correto
         const transformedData = {
           ...data,
-          user: Array.isArray(data.user) ? data.user[0] : data.user,
+          user: Array.isArray(data.user) ? data.user[0] ?? null : data.user,
         } as Professional;
         setProfessionals((prev) => [transformedData, ...prev]);
 
@@ -423,10 +423,10 @@ export default function AdminProfissionaisPage() {
       if (profToDelete) {
         setAvailableUsers((prev) => [...prev, {
           id: profToDelete.user_id,
-          nome: profToDelete.user.nome,
-          email: profToDelete.user.email,
-          telefone: profToDelete.user.telefone,
-          avatar_url: profToDelete.user.avatar_url,
+          nome: profToDelete.user?.nome ?? "Profissional",
+          email: profToDelete.user?.email ?? "",
+          telefone: profToDelete.user?.telefone ?? null,
+          avatar_url: profToDelete.user?.avatar_url ?? null,
           role: "cliente",
         }]);
       }
@@ -455,7 +455,7 @@ export default function AdminProfissionaisPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Profissionais</h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Gerencie os barbeiros e seus horários de trabalho
           </p>
         </div>
@@ -481,7 +481,7 @@ export default function AdminProfissionaisPage() {
               ))}
             </div>
           ) : professionals.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhum profissional cadastrado</p>
               <Button className="mt-4" onClick={openCreateDialog} disabled={availableUsers.length === 0}>
@@ -500,34 +500,34 @@ export default function AdminProfissionaisPage() {
                   <div className="flex items-start gap-4 mb-4 sm:mb-0">
                     <Avatar className="h-12 w-12">
                       <AvatarImage
-                        src={professional?.foto_url || professional.user.avatar_url || undefined}
-                        alt={professional.user.nome}
+                        src={professional?.foto_url || professional?.user?.avatar_url || undefined}
+                        alt={professional?.user?.nome ?? "Profissional"}
                       />
-                      <AvatarFallback className="bg-primary text-primary-foreground">
-                        {getInitials(professional.user.nome)}
+                      <AvatarFallback className="bg-primary text-[#EAD8AC]">
+                        {getInitials(professional?.user?.nome ?? "P")}
                       </AvatarFallback>
                     </Avatar>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-medium">{professional.user.nome}</h3>
+                        <h3 className="font-medium">{professional?.user?.nome ?? "Profissional"}</h3>
                         <Badge variant={professional.ativo ? "success" : "secondary"}>
                           {professional.ativo ? "Ativo" : "Inativo"}
                         </Badge>
                       </div>
                       {professional.bio && (
-                        <p className="text-sm text-muted-foreground mb-2 max-w-md">
+                        <p className="text-sm text-[#EAD8AC] mb-2 max-w-md">
                           {professional.bio}
                         </p>
                       )}
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-[#EAD8AC]">
                         <span className="flex items-center">
                           <Mail className="h-4 w-4 mr-1" />
-                          {professional.user.email}
+                          {professional?.user?.email}
                         </span>
-                        {professional.user.telefone && (
+                        {professional?.user?.telefone && (
                           <span className="flex items-center">
                             <Phone className="h-4 w-4 mr-1" />
-                            {professional.user.telefone}
+                            {professional?.user?.telefone}
                           </span>
                         )}
                       </div>
@@ -550,7 +550,7 @@ export default function AdminProfissionaisPage() {
                       title={professional.ativo ? "Desativar" : "Ativar"}
                     >
                       {professional.ativo ? (
-                        <ToggleRight className="h-5 w-5 text-success" />
+                        <ToggleRight className="h-5 w-5 text-[#EAD8AC]" />
                       ) : (
                         <ToggleLeft className="h-5 w-5" />
                       )}
@@ -567,7 +567,7 @@ export default function AdminProfissionaisPage() {
                       size="icon"
                       onClick={() => setDeleteId(professional.id)}
                     >
-                      <Trash2 className="h-4 w-4 text-destructive" />
+                      <Trash2 className="h-4 w-4 text-[#EAD8AC]" />
                     </Button>
                   </div>
                 </div>
@@ -616,22 +616,22 @@ export default function AdminProfissionaisPage() {
                         type="button"
                         onClick={() => setSelectedUserId(u.id)}
                         className={cn(
-                          "w-full flex items-center gap-3 px-3 py-2 text-left text-sm transition-colors hover:bg-secondary",
-                          selectedUserId === u.id && "bg-primary/10 border-l-2 border-primary"
+                          "w-full flex items-center gap-3 px-3 py-2 text-left text-sm transition-colors hover:bg-[#013648] hover:border-[#EAD8AC]",
+                          selectedUserId === u.id && "bg-[#013648]/70 border-l-2 border-primary"
                         )}
                       >
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={u.avatar_url || undefined} alt={u.nome} />
-                          <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                          <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                             {getInitials(u.nome)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium truncate">{u.nome}</p>
-                          <p className="text-xs text-muted-foreground truncate">{u.email}</p>
+                          <p className="text-xs text-[#EAD8AC] truncate">{u.email}</p>
                         </div>
                         {selectedUserId === u.id && (
-                          <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                          <CheckCircle className="h-4 w-4 text-[#EAD8AC] flex-shrink-0" />
                         )}
                       </button>
                     ))}
@@ -642,13 +642,13 @@ export default function AdminProfissionaisPage() {
                       u.email.toLowerCase().includes(search)
                     );
                   }).length === 0 && (
-                      <p className="p-3 text-sm text-muted-foreground text-center">
+                      <p className="p-3 text-sm text-[#EAD8AC] text-center">
                         Nenhum usuário encontrado
                       </p>
                     )}
                 </div>
                 {availableUsers.length === 0 && (
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-[#EAD8AC]">
                     Não há usuários disponíveis para vincular.
                   </p>
                 )}
@@ -690,7 +690,7 @@ export default function AdminProfissionaisPage() {
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>
-              Horários de {selectedProfessional?.user.nome}
+              Horários de {selectedProfessional?.user?.nome}
             </DialogTitle>
             <DialogDescription>
               Configure os horários de trabalho deste profissional
@@ -700,7 +700,7 @@ export default function AdminProfissionaisPage() {
           <div className="space-y-4 py-4">
             {/* Formulário de adicionar horário */}
             <div className="p-4 border rounded-lg space-y-4">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div className="space-y-2">
                   <Label>Dia</Label>
                   <Select
@@ -752,7 +752,7 @@ export default function AdminProfissionaisPage() {
             <div className="space-y-2">
               <Label>Horários Configurados</Label>
               {professionalHours.length === 0 ? (
-                <p className="text-sm text-muted-foreground py-4 text-center">
+                <p className="text-sm text-[#EAD8AC] py-4 text-center">
                   Nenhum horário configurado
                 </p>
               ) : (
@@ -766,7 +766,7 @@ export default function AdminProfissionaisPage() {
                         <span className="font-medium">
                           {diasSemana.find(d => d.value === hour.dia_semana)?.label}
                         </span>
-                        <span className="text-muted-foreground ml-2">
+                        <span className="text-[#EAD8AC] ml-2">
                           {hour.abertura.slice(0, 5)} - {hour.fechamento.slice(0, 5)}
                         </span>
                       </div>
@@ -775,7 +775,7 @@ export default function AdminProfissionaisPage() {
                         size="icon"
                         onClick={() => handleRemoveHour(hour.id)}
                       >
-                        <Trash2 className="h-4 w-4 text-destructive" />
+                        <Trash2 className="h-4 w-4 text-[#EAD8AC]" />
                       </Button>
                     </div>
                   ))}
@@ -828,3 +828,6 @@ export default function AdminProfissionaisPage() {
     </div>
   );
 }
+
+
+

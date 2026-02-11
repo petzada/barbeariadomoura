@@ -75,15 +75,15 @@ export default function CadastroPage() {
     <div className="relative">
       {/* Overlay de loading */}
       {isPending && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#013648]/80 backdrop-blur-sm rounded-lg">
           <div className="flex flex-col items-center gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">Criando conta...</p>
+            <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
+            <p className="text-sm text-[#EAD8AC]">Criando conta...</p>
           </div>
         </div>
       )}
 
-      <Card className="border-border bg-card">
+      <Card className="border-black bg-card">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold">Criar conta</CardTitle>
         <CardDescription>
@@ -97,7 +97,7 @@ export default function CadastroPage() {
           <div className="space-y-2">
             <Label htmlFor="nome">Nome completo</Label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
               <Input
                 id="nome"
                 name="nome"
@@ -110,7 +110,7 @@ export default function CadastroPage() {
               />
             </div>
             {state.errors?.nome && (
-              <p className="text-sm text-destructive">{state.errors.nome[0]}</p>
+              <p className="text-sm text-[#EAD8AC]">{state.errors.nome[0]}</p>
             )}
           </div>
 
@@ -118,7 +118,7 @@ export default function CadastroPage() {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
               <Input
                 id="email"
                 name="email"
@@ -131,7 +131,7 @@ export default function CadastroPage() {
               />
             </div>
             {state.errors?.email && (
-              <p className="text-sm text-destructive">{state.errors.email[0]}</p>
+              <p className="text-sm text-[#EAD8AC]">{state.errors.email[0]}</p>
             )}
           </div>
 
@@ -139,10 +139,10 @@ export default function CadastroPage() {
           <div className="space-y-2">
             <Label htmlFor="telefone">
               Telefone{" "}
-              <span className="text-muted-foreground font-normal">(opcional)</span>
+              <span className="text-[#EAD8AC] font-normal">(opcional)</span>
             </Label>
             <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
               <Input
                 id="telefone"
                 name="telefone"
@@ -154,7 +154,7 @@ export default function CadastroPage() {
               />
             </div>
             {state.errors?.telefone && (
-              <p className="text-sm text-destructive">{state.errors.telefone[0]}</p>
+              <p className="text-sm text-[#EAD8AC]">{state.errors.telefone[0]}</p>
             )}
           </div>
 
@@ -162,7 +162,7 @@ export default function CadastroPage() {
           <div className="space-y-2">
             <Label htmlFor="password">Senha</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
               <Input
                 id="password"
                 name="password"
@@ -176,7 +176,7 @@ export default function CadastroPage() {
               />
             </div>
             {state.errors?.password && (
-              <p className="text-sm text-destructive">{state.errors.password[0]}</p>
+              <p className="text-sm text-[#EAD8AC]">{state.errors.password[0]}</p>
             )}
           </div>
 
@@ -184,7 +184,7 @@ export default function CadastroPage() {
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirmar senha</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -197,7 +197,7 @@ export default function CadastroPage() {
               />
             </div>
             {state.errors?.confirmPassword && (
-              <p className="text-sm text-destructive">{state.errors.confirmPassword[0]}</p>
+              <p className="text-sm text-[#EAD8AC]">{state.errors.confirmPassword[0]}</p>
             )}
           </div>
         </CardContent>
@@ -212,9 +212,9 @@ export default function CadastroPage() {
             {state.success ? "Redirecionando..." : isPending ? "Criando conta..." : "Criar conta"}
           </Button>
 
-          <p className="text-sm text-center text-muted-foreground">
+          <p className="text-sm text-center text-[#EAD8AC]">
             Já tem uma conta?{" "}
-            <Link href="/login" className="text-primary hover:underline">
+            <Link href="/login" className="text-[#EAD8AC] hover:underline">
               Faça login
             </Link>
           </p>
@@ -224,3 +224,5 @@ export default function CadastroPage() {
     </div>
   );
 }
+
+

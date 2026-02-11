@@ -113,7 +113,7 @@ export function DateFilterCalendarButton({
               </Button>
             </div>
 
-            <div className="grid grid-cols-7 text-center text-xs text-muted-foreground">
+            <div className="grid grid-cols-7 text-center text-xs text-[#EAD8AC]">
               {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"].map((day) => (
                 <span key={day}>{day}</span>
               ))}
@@ -138,9 +138,9 @@ export function DateFilterCalendarButton({
                     }}
                     className={cn(
                       "relative h-10 rounded-md text-sm transition-colors",
-                      selected && "bg-primary text-primary-foreground font-medium",
-                      !selected && currentMonth && "hover:bg-secondary",
-                      !currentMonth && "text-muted-foreground/50",
+                      selected && "bg-primary text-[#EAD8AC] font-medium",
+                      !selected && currentMonth && "hover:bg-[#013648] hover:border-[#EAD8AC]",
+                      !currentMonth && "text-[#EAD8AC]/50",
                       disabled && "opacity-40 cursor-not-allowed"
                     )}
                   >
@@ -158,3 +158,5 @@ export function DateFilterCalendarButton({
     </>
   );
 }
+
+

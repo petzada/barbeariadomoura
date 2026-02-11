@@ -261,7 +261,7 @@ export default function AgendarPage() {
   if (loadingUser) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
       </div>
     );
   }
@@ -273,7 +273,7 @@ export default function AgendarPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-2">Agendar Horário</h1>
-            <p className="text-muted-foreground">
+            <p className="text-[#EAD8AC]">
               Selecione o serviço, profissional e horário desejado
             </p>
           </div>
@@ -286,8 +286,8 @@ export default function AgendarPage() {
                   className={cn(
                     "flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all",
                     step >= s
-                      ? "bg-primary border-primary text-primary-foreground"
-                      : "border-border text-muted-foreground"
+                      ? "bg-primary border-primary text-[#EAD8AC]"
+                      : "border-black text-[#EAD8AC]"
                   )}
                 >
                   {step > s ? (
@@ -310,19 +310,19 @@ export default function AgendarPage() {
 
           {/* Step Labels */}
           <div className="flex justify-center gap-4 sm:gap-8 mb-8 text-xs sm:text-sm">
-            <div className={cn("text-center", step === 1 && "text-primary font-medium")}>
+            <div className={cn("text-center", step === 1 && "text-[#EAD8AC] font-medium")}>
               <Scissors className="h-4 w-4 mx-auto mb-1" />
               Serviço
             </div>
-            <div className={cn("text-center", step === 2 && "text-primary font-medium")}>
+            <div className={cn("text-center", step === 2 && "text-[#EAD8AC] font-medium")}>
               <User className="h-4 w-4 mx-auto mb-1" />
               Profissional
             </div>
-            <div className={cn("text-center", step === 3 && "text-primary font-medium")}>
+            <div className={cn("text-center", step === 3 && "text-[#EAD8AC] font-medium")}>
               <CalendarDays className="h-4 w-4 mx-auto mb-1" />
               Data/Hora
             </div>
-            <div className={cn("text-center", step === 4 && "text-primary font-medium")}>
+            <div className={cn("text-center", step === 4 && "text-[#EAD8AC] font-medium")}>
               <CreditCard className="h-4 w-4 mx-auto mb-1" />
               Confirmação
             </div>
@@ -350,7 +350,7 @@ export default function AgendarPage() {
                           "cursor-pointer transition-all",
                           selectedService?.id === service.id
                             ? "border-primary ring-2 ring-primary"
-                            : "hover:border-primary/50"
+                            : "hover:border-[#EAD8AC]"
                         )}
                         onClick={() => setSelectedService(service)}
                       >
@@ -358,10 +358,10 @@ export default function AgendarPage() {
                           <div className="flex justify-between items-start">
                             <div>
                               <h3 className="font-medium">{service.nome}</h3>
-                              <p className="text-sm text-muted-foreground mt-1">
+                              <p className="text-sm text-[#EAD8AC] mt-1">
                                 {service.descricao}
                               </p>
-                              <div className="flex items-center gap-3 mt-2 text-sm text-muted-foreground">
+                              <div className="flex items-center gap-3 mt-2 text-sm text-[#EAD8AC]">
                                 <span className="flex items-center">
                                   <Clock className="h-4 w-4 mr-1" />
                                   {service.duracao_minutos} min
@@ -400,22 +400,22 @@ export default function AgendarPage() {
                           "cursor-pointer transition-all text-center",
                           selectedProfessional?.id === prof.id
                             ? "border-primary ring-2 ring-primary"
-                            : "hover:border-primary/50"
+                            : "hover:border-[#EAD8AC]"
                         )}
                         onClick={() => setSelectedProfessional(prof)}
                       >
                         <CardContent className="p-6">
                           <Avatar className="h-16 w-16 mx-auto mb-3">
                             <AvatarImage
-                              src={prof?.foto_url || prof.user.avatar_url || undefined}
-                              alt={prof.user.nome}
+                              src={prof?.foto_url || prof?.user?.avatar_url || undefined}
+                              alt={prof?.user?.nome ?? "Profissional"}
                             />
-                            <AvatarFallback className="bg-primary text-primary-foreground text-lg">
-                              {getInitials(prof.user.nome)}
+                            <AvatarFallback className="bg-primary text-[#EAD8AC] text-lg">
+                              {getInitials(prof?.user?.nome ?? "P")}
                             </AvatarFallback>
                           </Avatar>
-                          <h3 className="font-medium">{prof.user.nome}</h3>
-                          <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                          <h3 className="font-medium">{prof?.user?.nome ?? "Profissional"}</h3>
+                          <p className="text-sm text-[#EAD8AC] mt-1 line-clamp-2">
                             {prof.bio}
                           </p>
                         </CardContent>
@@ -452,15 +452,15 @@ export default function AgendarPage() {
                             className={cn(
                               "p-3 rounded-lg border text-center transition-all",
                               selectedDate === date
-                                ? "border-primary bg-primary/10"
-                                : "border-border hover:border-primary/50"
+                                ? "border-primary bg-[#013648]/70"
+                                : "border-black hover:border-[#EAD8AC]"
                             )}
                           >
-                            <div className="text-xs text-muted-foreground capitalize">
+                            <div className="text-xs text-[#EAD8AC] capitalize">
                               {dayName}
                             </div>
                             <div className="text-lg font-bold">{dayNum}</div>
-                            <div className="text-xs text-muted-foreground capitalize">
+                            <div className="text-xs text-[#EAD8AC] capitalize">
                               {monthName}
                             </div>
                           </button>
@@ -473,7 +473,7 @@ export default function AgendarPage() {
                   <div>
                     <h3 className="font-medium mb-3">Horário</h3>
                     {!selectedDate ? (
-                      <p className="text-muted-foreground">
+                      <p className="text-[#EAD8AC]">
                         Selecione uma data para ver os horários disponíveis
                       </p>
                     ) : loadingTimes ? (
@@ -484,11 +484,11 @@ export default function AgendarPage() {
                       </div>
                     ) : availableTimes.length === 0 ? (
                       <div className="text-center py-8">
-                        <AlertTriangle className="h-12 w-12 mx-auto text-warning mb-3" />
-                        <p className="text-muted-foreground mb-4">
+                        <AlertTriangle className="h-12 w-12 mx-auto text-[#EAD8AC] mb-3" />
+                        <p className="text-[#EAD8AC] mb-4">
                           Não há horários disponíveis para esta data.
                         </p>
-                        <p className="text-sm text-muted-foreground mb-4">
+                        <p className="text-sm text-[#EAD8AC] mb-4">
                           Para agendamentos de última hora, entre em contato via WhatsApp.
                         </p>
                         <Button variant="outline" asChild>
@@ -518,8 +518,8 @@ export default function AgendarPage() {
                             className={cn(
                               "p-3 rounded-lg border text-center font-medium transition-all",
                               selectedTime === time
-                                ? "border-primary bg-primary/10"
-                                : "border-border hover:border-primary/50"
+                                ? "border-primary bg-[#013648]/70"
+                                : "border-black hover:border-[#EAD8AC]"
                             )}
                           >
                             {time}
@@ -542,15 +542,15 @@ export default function AgendarPage() {
                     {/* Resumo */}
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <h4 className="text-sm text-muted-foreground mb-1">Serviço</h4>
+                        <h4 className="text-sm text-[#EAD8AC] mb-1">Serviço</h4>
                         <p className="font-medium">{selectedService?.nome}</p>
                       </div>
                       <div>
-                        <h4 className="text-sm text-muted-foreground mb-1">Profissional</h4>
-                        <p className="font-medium">{selectedProfessional?.user.nome}</p>
+                        <h4 className="text-sm text-[#EAD8AC] mb-1">Profissional</h4>
+                        <p className="font-medium">{selectedProfessional?.user?.nome ?? "Profissional"}</p>
                       </div>
                       <div>
-                        <h4 className="text-sm text-muted-foreground mb-1">Data</h4>
+                        <h4 className="text-sm text-[#EAD8AC] mb-1">Data</h4>
                         <p className="font-medium">
                           {selectedDate &&
                             format(parseISO(selectedDate), "EEEE, dd 'de' MMMM", {
@@ -559,12 +559,12 @@ export default function AgendarPage() {
                         </p>
                       </div>
                       <div>
-                        <h4 className="text-sm text-muted-foreground mb-1">Horário</h4>
+                        <h4 className="text-sm text-[#EAD8AC] mb-1">Horário</h4>
                         <p className="font-medium">{selectedTime}</p>
                       </div>
                     </div>
 
-                    <hr className="border-border" />
+                    <hr className="border-black" />
 
                     {/* Valor */}
                     {loadingCalculo ? (
@@ -572,7 +572,7 @@ export default function AgendarPage() {
                     ) : calculo ? (
                       <div>
                         {calculo.avisoPlanoLimitado && (
-                          <div className="flex items-start gap-2 p-3 rounded-lg bg-warning/10 text-warning text-sm mb-4">
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm mb-4">
                             <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                             <span>{calculo.avisoPlanoLimitado}</span>
                           </div>
@@ -581,7 +581,7 @@ export default function AgendarPage() {
                         {calculo.cobertoAssinatura ? (
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="text-muted-foreground">
+                              <p className="text-[#EAD8AC]">
                                 Valor do serviço:{" "}
                                 <span className="line-through">
                                   {formatCurrency(calculo.valorServico)}
@@ -595,14 +595,14 @@ export default function AgendarPage() {
                               </div>
                             </div>
                             <div className="text-right">
-                              <p className="text-3xl font-bold text-success">GRÁTIS</p>
+                              <p className="text-3xl font-bold text-[#EAD8AC]">GRÁTIS</p>
                             </div>
                           </div>
                         ) : (
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="text-muted-foreground">Pagamento na barbearia</p>
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-[#EAD8AC]">Pagamento na barbearia</p>
+                              <p className="text-sm text-[#EAD8AC]">
                                 PIX, cartão ou dinheiro
                               </p>
                             </div>
@@ -658,3 +658,5 @@ export default function AgendarPage() {
     </>
   );
 }
+
+

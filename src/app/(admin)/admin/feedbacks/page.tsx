@@ -140,8 +140,8 @@ export default function AdminFeedbacksPage() {
             key={star}
             className={`${sizeClass} ${
               star <= nota
-                ? "fill-primary text-primary"
-                : "text-muted-foreground/30"
+                ? "fill-primary text-[#EAD8AC]"
+                : "text-[#EAD8AC]/30"
             }`}
           />
         ))}
@@ -154,7 +154,7 @@ export default function AdminFeedbacksPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Feedbacks</h1>
-        <p className="text-muted-foreground">
+        <p className="text-[#EAD8AC]">
           Acompanhe as avaliações dos clientes sobre os atendimentos
         </p>
       </div>
@@ -177,7 +177,7 @@ export default function AdminFeedbacksPage() {
                 <CardTitle className="text-sm font-medium">
                   Total de Avaliações
                 </CardTitle>
-                <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                <MessageSquare className="h-4 w-4 text-[#EAD8AC]" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
@@ -191,7 +191,7 @@ export default function AdminFeedbacksPage() {
                 <CardTitle className="text-sm font-medium">
                   Média Geral
                 </CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                <TrendingUp className="h-4 w-4 text-[#EAD8AC]" />
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-2">
@@ -208,13 +208,13 @@ export default function AdminFeedbacksPage() {
                 <CardTitle className="text-sm font-medium">
                   5 Estrelas
                 </CardTitle>
-                <Star className="h-4 w-4 text-primary fill-primary" />
+                <Star className="h-4 w-4 text-[#EAD8AC] fill-primary" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
                   {stats?.distribuicaoNotas?.find((d) => d.nota === 5)?.quantidade || 0}
                 </div>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-[#EAD8AC]">
                   {stats?.totalFeedbacks
                     ? Math.round(
                         ((stats.distribuicaoNotas?.find((d) => d.nota === 5)?.quantidade || 0) /
@@ -232,7 +232,7 @@ export default function AdminFeedbacksPage() {
                 <CardTitle className="text-sm font-medium">
                   Profissionais Avaliados
                 </CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
+                <Users className="h-4 w-4 text-[#EAD8AC]" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
@@ -262,12 +262,12 @@ export default function AdminFeedbacksPage() {
                       className="flex items-center justify-between"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-lg font-bold text-muted-foreground w-6">
+                        <span className="text-lg font-bold text-[#EAD8AC] w-6">
                           {index + 1}
                         </span>
                         <div>
                           <p className="font-medium">{prof.profissionalNome}</p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-[#EAD8AC]">
                             {prof.totalFeedbacks} avaliações
                           </p>
                         </div>
@@ -294,14 +294,14 @@ export default function AdminFeedbacksPage() {
                   Avaliações Recentes
                 </CardTitle>
                 <Select value={filtro} onValueChange={setFiltro}>
-                  <SelectTrigger className="w-[200px]">
+                  <SelectTrigger className="w-full sm:w-[200px]">
                     <SelectValue placeholder="Filtrar por profissional" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="todos">Todos os profissionais</SelectItem>
                     {professionals.map((prof) => (
                       <SelectItem key={prof.id} value={prof.id}>
-                        {prof.user.nome}
+                        {prof.user?.nome ?? "Profissional"}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -310,7 +310,7 @@ export default function AdminFeedbacksPage() {
             </CardHeader>
             <CardContent>
               {feedbacks.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
+                <div className="text-center py-12 text-[#EAD8AC]">
                   <MessageSquare className="h-12 w-12 mx-auto mb-3 opacity-50" />
                   <p>Nenhuma avaliação encontrada</p>
                 </div>
@@ -323,25 +323,25 @@ export default function AdminFeedbacksPage() {
                     >
                       <Avatar className="h-10 w-10">
                         <AvatarImage
-                          src={feedback.cliente.avatar_url || undefined}
-                          alt={feedback.cliente.nome}
+                          src={feedback.cliente?.avatar_url || undefined}
+                          alt={feedback.cliente?.nome ?? "Cliente"}
                         />
-                        <AvatarFallback className="bg-primary text-primary-foreground">
-                          {getInitials(feedback.cliente.nome)}
+                        <AvatarFallback className="bg-primary text-[#EAD8AC]">
+                          {getInitials(feedback.cliente?.nome ?? "C")}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 space-y-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="font-medium">
-                            {feedback.cliente.nome}
+                            {feedback.cliente?.nome ?? "Cliente"}
                           </span>
                           {renderStars(feedback.nota)}
                           <Badge variant="secondary">
                             {feedback.profissional_nome || "Profissional removido"}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          {feedback.agendamento.servico.nome} •{" "}
+                        <p className="text-sm text-[#EAD8AC]">
+                          {feedback.agendamento?.servico?.nome ?? "Serviço"} •{" "}
                           {format(
                             parseISO(feedback.agendamento.data_hora_inicio),
                             "dd/MM/yyyy",
@@ -353,7 +353,7 @@ export default function AdminFeedbacksPage() {
                             &ldquo;{feedback.comentario}&rdquo;
                           </p>
                         )}
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-[#EAD8AC]">
                           Avaliado em{" "}
                           {format(
                             parseISO(feedback.created_at),
@@ -373,3 +373,6 @@ export default function AdminFeedbacksPage() {
     </div>
   );
 }
+
+
+

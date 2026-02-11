@@ -3,23 +3,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-full border border-black px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[#EAD8AC] focus:ring-offset-2",
   {
     variants: {
       variant: {
-        default:
-          "border-transparent bg-primary/20 text-primary",
-        secondary:
-          "border-transparent bg-secondary text-secondary-foreground",
-        destructive:
-          "border-transparent bg-destructive/20 text-destructive",
-        success:
-          "border-transparent bg-success/20 text-success",
-        warning:
-          "border-transparent bg-warning/20 text-warning",
-        info:
-          "border-transparent bg-info/20 text-info",
-        outline: "text-foreground border-border",
+        default: "bg-black/50 backdrop-blur-sm text-[#EAD8AC] border border-black",
+        secondary: "bg-black/50 backdrop-blur-sm text-[#EAD8AC] border border-black",
+        destructive: "bg-black/50 backdrop-blur-sm text-[#EAD8AC] border border-black",
+        outline: "text-[#EAD8AC] border border-black",
+        success: "bg-black/50 backdrop-blur-sm text-[#EAD8AC] border border-black",
+        warning: "bg-black/50 backdrop-blur-sm text-[#EAD8AC] border border-black",
+        info: "bg-black/50 backdrop-blur-sm text-[#EAD8AC] border border-black",
       },
     },
     defaultVariants: {

@@ -116,20 +116,28 @@ export default function ProfissionalDashboardPage() {
     async function loadProfessional() {
       if (!user) return;
 
-      const supabase = createClient();
-      const { data } = await supabase
-        .from("professionals")
-        .select("id")
-        .eq("user_id", user.id)
-        .single();
+      try {
+        const supabase = createClient();
+        const { data } = await supabase
+          .from("professionals")
+          .select("id")
+          .eq("user_id", user.id)
+          .maybeSingle();
 
-      if (data) {
-        setProfessionalId(data.id);
+        if (data) {
+          setProfessionalId(data.id);
+        }
+      } catch {
+        toast({
+          title: "Erro",
+          description: "Não foi possível carregar dados do profissional.",
+          variant: "destructive",
+        });
       }
     }
 
     loadProfessional();
-  }, [user]);
+  }, [user, toast]);
 
   // Carregar agendamentos e métricas
   useEffect(() => {
@@ -139,89 +147,91 @@ export default function ProfissionalDashboardPage() {
       setLoading(true);
       const supabase = createClient();
 
-      const dayStart = startOfDay(selectedDate).toISOString();
-      const dayEnd = endOfDay(selectedDate).toISOString();
-      const monthStart = startOfMonth(new Date()).toISOString();
-      const monthEnd = endOfMonth(new Date()).toISOString();
+      try {
+        const dayStart = startOfDay(selectedDate).toISOString();
+        const dayEnd = endOfDay(selectedDate).toISOString();
 
-      // Agendamentos do dia
-      const { data: appointmentsData } = await supabase
-        .from("appointments")
-        .select(`
-          *,
-          cliente:users!appointments_cliente_id_fkey(nome, telefone, avatar_url),
-          servico:services(nome, duracao_minutos)
-        `)
-        .eq("profissional_id", professionalId)
-        .gte("data_hora_inicio", dayStart)
-        .lte("data_hora_inicio", dayEnd)
-        .order("data_hora_inicio");
+        // Agendamentos do dia
+        const { data: appointmentsData } = await supabase
+          .from("appointments")
+          .select(`
+            *,
+            cliente:users!appointments_cliente_id_fkey(nome, telefone, avatar_url),
+            servico:services(nome, duracao_minutos)
+          `)
+          .eq("profissional_id", professionalId)
+          .gte("data_hora_inicio", dayStart)
+          .lte("data_hora_inicio", dayEnd)
+          .order("data_hora_inicio");
 
-      if (appointmentsData) {
-        setAppointments(appointmentsData as Appointment[]);
-      }
+        if (appointmentsData) {
+          setAppointments(appointmentsData as Appointment[]);
+        }
 
-      const rangeStart = startOfMonth(subMonths(selectedDate, 2)).toISOString();
-      const rangeEnd = endOfMonth(addMonths(selectedDate, 2)).toISOString();
-      const { data: markedData } = await supabase
-        .from("appointments")
-        .select("data_hora_inicio")
-        .eq("profissional_id", professionalId)
-        .gte("data_hora_inicio", rangeStart)
-        .lte("data_hora_inicio", rangeEnd)
-        .not("status", "eq", "cancelado");
+        const rangeStart = startOfMonth(subMonths(selectedDate, 2)).toISOString();
+        const rangeEnd = endOfMonth(addMonths(selectedDate, 2)).toISOString();
+        const { data: markedData } = await supabase
+          .from("appointments")
+          .select("data_hora_inicio")
+          .eq("profissional_id", professionalId)
+          .gte("data_hora_inicio", rangeStart)
+          .lte("data_hora_inicio", rangeEnd)
+          .not("status", "eq", "cancelado");
 
-      if (markedData) {
-        const uniqueDates = Array.from(
-          new Set(
-            markedData.map((item) =>
-              format(parseISO(item.data_hora_inicio), "yyyy-MM-dd")
+        if (markedData) {
+          const uniqueDates = Array.from(
+            new Set(
+              markedData.map((item) =>
+                format(parseISO(item.data_hora_inicio), "yyyy-MM-dd")
+              )
             )
-          )
-        );
-        setMarkedDates(uniqueDates);
+          );
+          setMarkedDates(uniqueDates);
+        }
+
+        // Métricas
+        const { count: atendimentosHoje } = await supabase
+          .from("appointments")
+          .select("*", { count: "exact", head: true })
+          .eq("profissional_id", professionalId)
+          .gte("data_hora_inicio", dayStart)
+          .lte("data_hora_inicio", dayEnd)
+          .eq("status", "concluido");
+
+        setMetricas({
+          atendimentosHoje: atendimentosHoje || 0,
+        });
+
+        // Buscar próximo atendimento
+        const agora = new Date().toISOString();
+        const { data: proximoData } = await supabase
+          .from("appointments")
+          .select(`
+            *,
+            cliente:users!appointments_cliente_id_fkey(nome, telefone, avatar_url),
+            servico:services(nome, duracao_minutos)
+          `)
+          .eq("profissional_id", professionalId)
+          .gte("data_hora_inicio", agora)
+          .in("status", ["agendado", "em_andamento"])
+          .order("data_hora_inicio")
+          .limit(1)
+          .maybeSingle();
+
+        setProximoAtendimento(proximoData ? (proximoData as Appointment) : null);
+      } catch {
+        toast({
+          title: "Erro",
+          description: "Não foi possível carregar os dados da agenda.",
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
       }
-
-      // Métricas
-      const { count: atendimentosHoje } = await supabase
-        .from("appointments")
-        .select("*", { count: "exact", head: true })
-        .eq("profissional_id", professionalId)
-        .gte("data_hora_inicio", dayStart)
-        .lte("data_hora_inicio", dayEnd)
-        .eq("status", "concluido");
-
-      setMetricas({
-        atendimentosHoje: atendimentosHoje || 0,
-      });
-
-      // Buscar próximo atendimento
-      const agora = new Date().toISOString();
-      const { data: proximoData } = await supabase
-        .from("appointments")
-        .select(`
-          *,
-          cliente:users!appointments_cliente_id_fkey(nome, telefone, avatar_url),
-          servico:services(nome, duracao_minutos)
-        `)
-        .eq("profissional_id", professionalId)
-        .gte("data_hora_inicio", agora)
-        .in("status", ["agendado", "em_andamento"])
-        .order("data_hora_inicio")
-        .limit(1)
-        .single();
-
-      if (proximoData) {
-        setProximoAtendimento(proximoData as Appointment);
-      } else {
-        setProximoAtendimento(null);
-      }
-
-      setLoading(false);
     }
 
     loadData();
-  }, [professionalId, selectedDate]);
+  }, [professionalId, selectedDate, toast]);
 
   // Navegar entre dias
   const goToPreviousDay = () => setSelectedDate((prev) => subDays(prev, 1));
@@ -333,40 +343,40 @@ export default function ProfissionalDashboardPage() {
     <div className="space-y-6">
       {/* Header com Saudação */}
       <div>
-        <p className="text-muted-foreground">{getSaudacao()},</p>
+        <p className="text-[#EAD8AC]">{getSaudacao()},</p>
         <h1 className="text-2xl font-bold">{user?.nome?.split(" ")[0]}</h1>
       </div>
 
       {/* Ações Rápidas */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <Link href="/profissional/dashboard#agenda" className="block">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+          <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
             <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <Calendar className="h-8 w-8 mb-2 text-primary" />
+              <Calendar className="h-8 w-8 mb-2 text-[#EAD8AC]" />
               <p className="text-sm font-medium">Minha Agenda</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/profissional/comissoes" className="block">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+          <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
             <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <DollarSign className="h-8 w-8 mb-2 text-success" />
+              <DollarSign className="h-8 w-8 mb-2 text-[#EAD8AC]" />
               <p className="text-sm font-medium">Comissões</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/profissional/bloqueios" className="block">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+          <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
             <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <CalendarOff className="h-8 w-8 mb-2 text-warning" />
+              <CalendarOff className="h-8 w-8 mb-2 text-[#EAD8AC]" />
               <p className="text-sm font-medium">Bloqueios</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/profissional/perfil" className="block">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+          <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
             <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <User className="h-8 w-8 mb-2 text-muted-foreground" />
+              <User className="h-8 w-8 mb-2 text-[#EAD8AC]" />
               <p className="text-sm font-medium">Meu Perfil</p>
             </CardContent>
           </Card>
@@ -387,17 +397,17 @@ export default function ProfissionalDashboardPage() {
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12">
                   <AvatarImage
-                    src={proximoAtendimento.cliente.avatar_url || undefined}
-                    alt={proximoAtendimento.cliente.nome}
+                    src={proximoAtendimento.cliente?.avatar_url || undefined}
+                    alt={proximoAtendimento.cliente?.nome ?? "Cliente"}
                   />
                   <AvatarFallback className="bg-secondary text-secondary-foreground">
-                    {getInitials(proximoAtendimento.cliente.nome)}
+                    {getInitials(proximoAtendimento.cliente?.nome ?? "C")}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium">{proximoAtendimento.cliente.nome}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {proximoAtendimento.servico.nome}
+                  <p className="font-medium">{proximoAtendimento.cliente?.nome ?? "Cliente"}</p>
+                  <p className="text-sm text-[#EAD8AC]">
+                    {proximoAtendimento.servico?.nome ?? "Serviço"}
                   </p>
                 </div>
               </div>
@@ -405,7 +415,7 @@ export default function ProfissionalDashboardPage() {
                 <p className="text-2xl font-bold">
                   {format(parseISO(proximoAtendimento.data_hora_inicio), "HH:mm")}
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-[#EAD8AC]">
                   {format(parseISO(proximoAtendimento.data_hora_inicio), "dd/MM", { locale: ptBR })}
                 </p>
               </div>
@@ -418,13 +428,13 @@ export default function ProfissionalDashboardPage() {
       <div className="grid grid-cols-1 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-sm font-medium text-[#EAD8AC]">
               Atendimentos Hoje
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{metricas.atendimentosHoje}</div>
-            <p className="text-xs text-muted-foreground">Concluídos</p>
+            <p className="text-xs text-[#EAD8AC]">Concluídos</p>
           </CardContent>
         </Card>
       </div>
@@ -432,7 +442,7 @@ export default function ProfissionalDashboardPage() {
       {/* Título da Agenda */}
       <div id="agenda">
         <h2 className="text-xl font-bold">Agenda do Dia</h2>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-[#EAD8AC] text-sm">
           Gerencie seus atendimentos
         </p>
       </div>
@@ -475,7 +485,7 @@ export default function ProfissionalDashboardPage() {
               ))}
             </div>
           ) : appointments.filter((a) => a.status !== "cancelado").length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <Calendar className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhum atendimento para este dia</p>
             </div>
@@ -498,8 +508,8 @@ export default function ProfissionalDashboardPage() {
                           <p className="text-2xl font-bold">
                             {format(dataHora, "HH:mm")}
                           </p>
-                          <p className="text-xs text-muted-foreground">
-                            {appointment.servico.duracao_minutos} min
+                          <p className="text-xs text-[#EAD8AC]">
+                            {appointment.servico?.duracao_minutos ?? 0} min
                           </p>
                         </div>
                         <div className="flex-1">
@@ -515,17 +525,17 @@ export default function ProfissionalDashboardPage() {
                           <div className="flex items-center gap-2">
                             <Avatar className="h-8 w-8">
                               <AvatarImage
-                                src={appointment.cliente.avatar_url || undefined}
-                                alt={appointment.cliente.nome}
+                                src={appointment.cliente?.avatar_url || undefined}
+                                alt={appointment.cliente?.nome ?? "Cliente"}
                               />
-                              <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                                {getInitials(appointment.cliente.nome)}
+                              <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
+                                {getInitials(appointment.cliente?.nome ?? "C")}
                               </AvatarFallback>
                             </Avatar>
                             <div>
-                              <p className="font-medium">{appointment.cliente.nome}</p>
-                              <p className="text-sm text-muted-foreground">
-                                {appointment.servico.nome}
+                              <p className="font-medium">{appointment.cliente?.nome ?? "Cliente"}</p>
+                              <p className="text-sm text-[#EAD8AC]">
+                                {appointment.servico?.nome ?? "Serviço"}
                               </p>
                             </div>
                           </div>
@@ -596,10 +606,10 @@ export default function ProfissionalDashboardPage() {
             <div className="py-4">
               <div className="bg-secondary rounded-lg p-4 space-y-2">
                 <p>
-                  <strong>Cliente:</strong> {selectedAppointment.cliente.nome}
+                  <strong>Cliente:</strong> {selectedAppointment.cliente?.nome ?? "Cliente"}
                 </p>
                 <p>
-                  <strong>Serviço:</strong> {selectedAppointment.servico.nome}
+                  <strong>Serviço:</strong> {selectedAppointment.servico?.nome ?? "Serviço"}
                 </p>
                 <p>
                   <strong>Horário:</strong>{" "}
@@ -653,3 +663,6 @@ export default function ProfissionalDashboardPage() {
     </div>
   );
 }
+
+
+

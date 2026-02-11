@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Barbearia do Moura is a complete online barbershop scheduling system with a subscription club. The application serves three user roles: **cliente** (customer), **barbeiro** (barber/professional), and **admin**.
+Barbearia do Moura is a complete online barbershop scheduling system with a subscription club. The application serves three user roles: **cliente** (customer), **barbeiro** (barber/professional), and **admin**. The codebase uses Portuguese for all domain terms, database columns, UI text, and type names.
 
 ## Commands
 
@@ -13,6 +13,8 @@ npm run dev      # Start development server
 npm run build    # Production build
 npm run lint     # Run ESLint
 ```
+
+There are no tests configured in this project.
 
 ## Tech Stack
 
@@ -23,6 +25,7 @@ npm run lint     # Run ESLint
 - **Payments**: Mercado Pago integration
 - **Forms**: react-hook-form + Zod validation
 - **Date handling**: date-fns + date-fns-tz (timezone: America/Sao_Paulo)
+- **Data fetching**: SWR for client-side cache/revalidation
 
 ## Architecture
 
@@ -35,11 +38,24 @@ The app uses Next.js route groups to organize by user role:
 - `(public)/*` - Public pages (landing, payment result pages)
 - `api/webhooks/mercadopago` - Mercado Pago webhook handler
 
+Each role route group has its own layout with role-based access control:
+- `(admin)/layout.tsx` - Server component, verifies `admin` role, redirects unauthorized to `/`
+- `(profissional)/layout.tsx` - Server component, allows `barbeiro` or `admin` roles
+- `(cliente)/layout.tsx` - Client component, relies on middleware for auth
+
 ### Server Actions Pattern
 Business logic is implemented as React Server Actions in `src/lib/`:
 - `lib/auth/actions.ts` - Authentication (login, register, logout, password reset, profile update)
 - `lib/scheduling/actions.ts` - Scheduling logic (available slots, create/cancel appointments, pricing calculation)
 - `lib/mercadopago/actions.ts` - Payment processing
+- `lib/feedback/actions.ts` - Feedback/contact form handling
+
+### Supabase Client Pattern
+Three Supabase clients in `src/lib/supabase/`:
+- **`client.ts`** → `createBrowserClient()` for `"use client"` components
+- **`server.ts`** → `createClient()` (async, uses cookies) for Server Components, Route Handlers, and Server Actions
+- **`server.ts`** → `createServiceClient()` for admin/bypass-RLS operations using `SUPABASE_SERVICE_ROLE_KEY`. Never use client-side.
+- **`middleware.ts`** → `updateSession()` for session refresh in Next.js middleware
 
 ### Database
 Supabase PostgreSQL with Row Level Security (RLS). Key tables:
@@ -52,16 +68,22 @@ Supabase PostgreSQL with Row Level Security (RLS). Key tables:
 - `business_hours` / `professional_hours` - Operating hours
 - `blocked_slots` - Time blocks (per professional or whole shop)
 
-Database types are in `src/types/database.ts`. Update with:
+App-level types are in `src/types/index.ts`. Auto-generated Supabase types are in `src/types/database.ts`:
 ```bash
 npx supabase gen types typescript --project-id <id> > src/types/database.ts
 ```
 
-### Authentication Flow
+### Authentication & Routing
 - Supabase Auth with email/password
-- Middleware (`src/middleware.ts`) handles session refresh and route protection
-- On login, users are redirected to their role-specific dashboard
+- Middleware (`src/middleware.ts` → `src/lib/supabase/middleware.ts`) handles session refresh and route protection
+- **Public paths** (no auth required): `/`, `/login`, `/cadastro`, `/esqueci-senha`, `/resetar-senha`, `/api/webhooks/*`, `/pagamento/*`
+- **All other paths** redirect unauthenticated users to `/login`
+- On login, users are redirected by role: admin → `/admin/dashboard`, barbeiro → `/profissional/dashboard`, cliente → `/dashboard`
 - New users automatically get a `users` table entry via database trigger
+
+### Key Hooks
+- **`useUser()`** (`src/hooks/use-user.ts`) - Client-side auth state. Returns `user`, `loading`, `isAdmin`, `isBarbeiro`, `isCliente`, `refresh()`. Listens to auth state changes.
+- **`useToast()`** (`src/hooks/use-toast.ts`) - Toast notifications, limited to 1 visible at a time.
 
 ### Key Business Rules
 1. **Appointment Pricing**: Checks if customer has active subscription, if service is included in plan, and if the day is allowed by plan restrictions. If covered, price is 0; otherwise full price.
@@ -69,10 +91,12 @@ npx supabase gen types typescript --project-id <id> > src/types/database.ts
 3. **Commissions**: Auto-calculated when appointment status changes to "concluido" (completed). Uses configured rate or 50% default.
 4. **Timezone**: All dates use America/Sao_Paulo (GMT-3). Server actions use `date-fns-tz` for conversions.
 
-### UI Components
+### UI & Theming
 - shadcn/ui components in `src/components/ui/`
-- Layout components in `src/components/layout/` (navigation, sidebar, header for each role)
-- Dark theme by default with gold accent color (#D4AF37)
+- Layout components in `src/components/layout/` (navigation per role)
+- Dark theme with gold primary (`#ECD8A8`), deep blue accent (`#013648`), dark background (`#121212`)
+- Font: Roboto (400/500/700) via CSS variable `--font-roboto`
+- Utility helpers in `src/lib/utils.ts`: `cn()` (class merge), `formatCurrency()` (BRL), `formatPhone()` (Brazilian format)
 
 ## Environment Variables
 

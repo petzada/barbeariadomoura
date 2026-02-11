@@ -273,7 +273,7 @@ export default function AdminAgendaPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Agenda</h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Gerencie os atendimentos do dia
           </p>
         </div>
@@ -317,7 +317,7 @@ export default function AdminAgendaPage() {
               ))}
             </div>
           ) : appointments.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <Calendar className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhum agendamento para este dia</p>
             </div>
@@ -341,8 +341,8 @@ export default function AdminAgendaPage() {
                         <p className="text-2xl font-bold">
                           {format(dataHora, "HH:mm")}
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          {appointment.servico.duracao_minutos} min
+                        <p className="text-xs text-[#EAD8AC]">
+                          {appointment.servico?.duracao_minutos ?? 0} min
                         </p>
                       </div>
                       <div className="flex-1">
@@ -358,18 +358,18 @@ export default function AdminAgendaPage() {
                         <div className="flex items-center gap-2">
                           <Avatar className="h-8 w-8">
                             <AvatarImage
-                              src={appointment.cliente.avatar_url || undefined}
-                              alt={appointment.cliente.nome}
+                              src={appointment.cliente?.avatar_url || undefined}
+                              alt={appointment.cliente?.nome ?? "Cliente"}
                             />
-                            <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                              {getInitials(appointment.cliente.nome)}
+                            <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
+                              {getInitials(appointment.cliente?.nome ?? "C")}
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <p className="font-medium">{appointment.cliente.nome}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {appointment.servico.nome} •{" "}
-                              {appointment.profissional?.user.nome || appointment.profissional_nome || "Profissional removido"}
+                            <p className="font-medium">{appointment.cliente?.nome ?? "Cliente"}</p>
+                            <p className="text-sm text-[#EAD8AC]">
+                              {appointment.servico?.nome ?? "Serviço"} •{" "}
+                              {appointment.profissional?.user?.nome || appointment.profissional_nome || "Profissional removido"}
                             </p>
                           </div>
                         </div>
@@ -385,7 +385,7 @@ export default function AdminAgendaPage() {
                             : formatCurrency(appointment.valor_cobrado)}
                         </p>
                         {appointment.payment_status === "pago" && (
-                          <p className="text-xs text-success">Pago</p>
+                          <p className="text-xs text-[#EAD8AC]">Pago</p>
                         )}
                       </div>
 
@@ -451,10 +451,10 @@ export default function AdminAgendaPage() {
             <div className="py-4">
               <div className="bg-secondary rounded-lg p-4 space-y-2">
                 <p>
-                  <strong>Cliente:</strong> {selectedAppointment.cliente.nome}
+                  <strong>Cliente:</strong> {selectedAppointment.cliente?.nome ?? "Cliente"}
                 </p>
                 <p>
-                  <strong>Serviço:</strong> {selectedAppointment.servico.nome}
+                  <strong>Serviço:</strong> {selectedAppointment.servico?.nome ?? "Serviço"}
                 </p>
                 <p>
                   <strong>Horário:</strong>{" "}
@@ -514,3 +514,5 @@ export default function AdminAgendaPage() {
     </div>
   );
 }
+
+

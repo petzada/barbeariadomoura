@@ -10,30 +10,30 @@ export const metadata = {
 
 export default function PagamentoSucessoPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-background to-secondary/20">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#013648]">
       <Card className="max-w-md w-full text-center">
         <CardHeader className="pb-4">
-          <div className="w-20 h-20 mx-auto mb-4 bg-success/20 rounded-full flex items-center justify-center">
-            <CheckCircle className="h-10 w-10 text-success" />
+          <div className="w-20 h-20 mx-auto mb-4 bg-[#EAD8AC]/20 rounded-full flex items-center justify-center">
+            <CheckCircle className="h-10 w-10 text-[#EAD8AC]" />
           </div>
-          <CardTitle className="text-2xl text-success">
+          <CardTitle className="text-2xl text-[#EAD8AC]">
             Pagamento Aprovado!
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Seu pagamento foi processado com sucesso. Você receberá uma
             confirmação por e-mail em instantes.
           </p>
 
-          <div className="bg-secondary rounded-lg p-4 text-sm text-left space-y-2">
-            <p className="text-muted-foreground">
+          <div className="bg-card border border-black rounded-lg p-4 text-sm text-left space-y-2">
+            <p className="text-[#EAD8AC]">
               ✓ Pagamento confirmado pelo Mercado Pago
             </p>
-            <p className="text-muted-foreground">
+            <p className="text-[#EAD8AC]">
               ✓ Agendamento/Assinatura ativado
             </p>
-            <p className="text-muted-foreground">
+            <p className="text-[#EAD8AC]">
               ✓ E-mail de confirmação enviado
             </p>
           </div>
@@ -57,3 +57,5 @@ export default function PagamentoSucessoPage() {
     </div>
   );
 }
+
+

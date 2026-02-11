@@ -22,14 +22,14 @@ export default async function AdminLayout({
     .from("users")
     .select("role")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (profile?.role !== "admin") {
+  if (!profile || profile.role !== "admin") {
     redirect("/");
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#013648] text-[#EAD8AC]">
       <AdminNav />
       <main className="flex-1 p-4 sm:p-6">{children}</main>
     </div>

@@ -137,7 +137,7 @@ export default function ConfiguracoesProfissionalPage() {
   if (loadingUser) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
       </div>
     );
   }
@@ -157,7 +157,7 @@ export default function ConfiguracoesProfissionalPage() {
         </Button>
         <div>
           <h1 className="text-3xl font-bold">Configurações</h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Gerencie suas preferências e segurança
           </p>
         </div>
@@ -179,7 +179,7 @@ export default function ConfiguracoesProfissionalPage() {
             <form onSubmit={handlePasswordChange} className="space-y-4">
               {/* Mensagem de sucesso */}
               {passwordSuccess && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                   <CheckCircle className="h-4 w-4 flex-shrink-0" />
                   <span>Senha alterada com sucesso!</span>
                 </div>
@@ -187,7 +187,7 @@ export default function ConfiguracoesProfissionalPage() {
 
               {/* Mensagem de erro */}
               {passwordError && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                   <AlertCircle className="h-4 w-4 flex-shrink-0" />
                   <span>{passwordError}</span>
                 </div>
@@ -247,7 +247,7 @@ export default function ConfiguracoesProfissionalPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Novos Agendamentos</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-[#EAD8AC]">
                   Receba aviso quando um cliente agendar
                 </p>
               </div>
@@ -259,7 +259,7 @@ export default function ConfiguracoesProfissionalPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Cancelamentos</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-[#EAD8AC]">
                   Receba aviso quando um agendamento for cancelado
                 </p>
               </div>
@@ -271,7 +271,7 @@ export default function ConfiguracoesProfissionalPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Resumo Diário</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-[#EAD8AC]">
                   Receba um resumo dos agendamentos do dia
                 </p>
               </div>
@@ -281,9 +281,9 @@ export default function ConfiguracoesProfissionalPage() {
         </Card>
 
         {/* Zona de Perigo */}
-        <Card className="border-destructive/50">
+        <Card className="border-black">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-destructive">
+            <CardTitle className="flex items-center gap-2 text-[#EAD8AC]">
               <Trash2 className="h-5 w-5" />
               Zona de Perigo
             </CardTitle>
@@ -295,7 +295,7 @@ export default function ConfiguracoesProfissionalPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <p className="font-medium">Excluir minha conta</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-[#EAD8AC]">
                   Remove permanentemente sua conta e todos os dados
                 </p>
               </div>
@@ -310,7 +310,7 @@ export default function ConfiguracoesProfissionalPage() {
                     <DialogTitle>Excluir Conta</DialogTitle>
                     <DialogDescription asChild>
                       <div className="space-y-4">
-                        <div className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 text-destructive">
+                        <div className="flex items-start gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC]">
                           <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                           <div>
                             <p className="font-medium">Esta ação é irreversível!</p>
@@ -369,3 +369,5 @@ export default function ConfiguracoesProfissionalPage() {
     </div>
   );
 }
+
+
