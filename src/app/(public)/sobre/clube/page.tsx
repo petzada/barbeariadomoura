@@ -82,10 +82,10 @@ export default function ClubPage() {
                             <Crown className="h-3 w-3 mr-1" />
                             Clube do Moura
                         </Badge>
-                        <h1 className="text-4xl font-bold mb-3" style={{ fontFamily: "Tangerine, cursive" }}>
+                        <h1 className="text-3xl font-bold mb-3">
                             Clube do Moura
                         </h1>
-                        <p className="text-[#E4D0B0]/70 max-w-2xl mx-auto">
+                        <p className="text-sm text-[#E4D0B0]/70 max-w-2xl mx-auto">
                             Assine nosso clube e tenha acesso a serviços ilimitados com
                             condições especiais. Escolha o plano ideal para você.
                         </p>
@@ -98,8 +98,8 @@ export default function ClubPage() {
                         <Card
                             key={plan.id}
                             className={`relative ${plan.popular
-                                    ? "bg-[#E4D0B0]/10 border-[#E4D0B0] shadow-lg"
-                                    : "bg-[#05384B]/50 border-[#E4D0B0]/20"
+                                ? "bg-[#E4D0B0]/10 border-[#E4D0B0] shadow-lg"
+                                : "bg-[#05384B]/50 border-[#E4D0B0]/20"
                                 } hover:border-[#E4D0B0]/60 transition-all`}
                         >
                             {plan.popular && (
@@ -107,15 +107,15 @@ export default function ClubPage() {
                                     Mais Popular
                                 </Badge>
                             )}
-                            <CardContent className="p-6">
-                                <h3 className="text-2xl font-bold text-[#E4D0B0] mb-2">
+                            <CardContent className="p-4">
+                                <h3 className="text-xl font-bold text-[#E4D0B0] mb-1.5">
                                     {plan.nome}
                                 </h3>
                                 <p className="text-[#E4D0B0]/70 text-sm mb-3">
                                     {plan.descricao}
                                 </p>
-                                <div className="mb-4">
-                                    <span className="text-4xl font-bold text-[#E4D0B0]">
+                                <div className="mb-3">
+                                    <span className="text-3xl font-bold text-[#E4D0B0]">
                                         R$ {plan.preco.toFixed(2).replace(".", ",")}
                                     </span>
                                     <span className="text-[#E4D0B0]/60">/mês</span>
@@ -135,8 +135,8 @@ export default function ClubPage() {
                                 </ul>
                                 <Button
                                     className={`w-full ${plan.popular
-                                            ? "bg-[#E4D0B0] text-[#05384B] hover:bg-[#E4D0B0]/90"
-                                            : "bg-transparent border border-[#E4D0B0] text-[#E4D0B0] hover:bg-[#E4D0B0]/10"
+                                        ? "bg-[#E4D0B0] text-[#05384B] hover:bg-[#E4D0B0]/90"
+                                        : "bg-transparent border border-[#E4D0B0] text-[#E4D0B0] hover:bg-[#E4D0B0]/10"
                                         }`}
                                     asChild
                                 >

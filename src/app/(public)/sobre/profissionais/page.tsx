@@ -24,10 +24,10 @@ export default async function ProfessionalsPage() {
                             Voltar
                         </Link>
                     </Button>
-                    <h1 className="text-4xl font-bold mb-3" style={{ fontFamily: "Tangerine, cursive" }}>
+                    <h1 className="text-3xl font-bold mb-3">
                         Nossa Equipe
                     </h1>
-                    <p className="text-[#E4D0B0]/70">
+                    <p className="text-sm text-[#E4D0B0]/70">
                         Conheça os profissionais que farão seu atendimento
                     </p>
                 </div>
@@ -40,8 +40,8 @@ export default async function ProfessionalsPage() {
                                 key={prof.id}
                                 className="bg-[#05384B]/50 border-[#E4D0B0]/20 hover:border-[#E4D0B0]/40 transition-all"
                             >
-                                <CardContent className="p-6 text-center">
-                                    <Avatar className="h-24 w-24 mx-auto mb-4 border-2 border-[#E4D0B0]/20">
+                                <CardContent className="p-4 text-center">
+                                    <Avatar className="h-20 w-20 mx-auto mb-3 border-2 border-[#E4D0B0]/20">
                                         <AvatarImage
                                             src={prof.user?.avatar_url || undefined}
                                             alt={prof.user?.nome || "Profissional"}
@@ -50,7 +50,7 @@ export default async function ProfessionalsPage() {
                                             {getInitials(prof.user?.nome || "?")}
                                         </AvatarFallback>
                                     </Avatar>
-                                    <h3 className="text-xl font-semibold text-[#E4D0B0] mb-2">
+                                    <h3 className="text-lg font-semibold text-[#E4D0B0] mb-1.5">
                                         {prof.user?.nome || "Profissional"}
                                     </h3>
                                     <p className="text-[#E4D0B0]/70 text-sm">

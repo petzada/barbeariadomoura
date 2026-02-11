@@ -24,10 +24,10 @@ export default async function ServicesPage() {
               Voltar
             </Link>
           </Button>
-          <h1 className="text-4xl font-bold mb-3" style={{ fontFamily: "Tangerine, cursive" }}>
+          <h1 className="text-3xl font-bold mb-3">
             Nossos Serviços
           </h1>
-          <p className="text-[#E4D0B0]/70">
+          <p className="text-sm text-[#E4D0B0]/70">
             Confira todos os serviços disponíveis na Barbearia do Moura
           </p>
         </div>
@@ -40,10 +40,10 @@ export default async function ServicesPage() {
                 key={service.id}
                 className="bg-[#05384B]/50 border-[#E4D0B0]/20 hover:border-[#E4D0B0]/40 transition-all"
               >
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-start gap-4">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start gap-3">
                     <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-[#E4D0B0] mb-2">
+                      <h3 className="text-lg font-semibold text-[#E4D0B0] mb-1.5">
                         {service.nome}
                       </h3>
                       <p className="text-[#E4D0B0]/70 text-sm mb-3">
