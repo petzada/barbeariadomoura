@@ -348,36 +348,36 @@ export default function ProfissionalDashboardPage() {
       </div>
 
       {/* Ações Rápidas */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <Link href="/profissional/dashboard#agenda" className="block">
           <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <Calendar className="h-8 w-8 mb-2 text-[#EAD8AC]" />
-              <p className="text-sm font-medium">Minha Agenda</p>
+            <CardContent className="p-3 sm:p-4 flex flex-col items-center justify-center text-center min-h-[80px] sm:min-h-[100px]">
+              <Calendar className="h-6 w-6 sm:h-8 sm:w-8 mb-1 sm:mb-2 text-[#EAD8AC]" />
+              <p className="text-xs sm:text-sm font-medium">Minha Agenda</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/profissional/comissoes" className="block">
           <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <DollarSign className="h-8 w-8 mb-2 text-[#EAD8AC]" />
-              <p className="text-sm font-medium">Comissões</p>
+            <CardContent className="p-3 sm:p-4 flex flex-col items-center justify-center text-center min-h-[80px] sm:min-h-[100px]">
+              <DollarSign className="h-6 w-6 sm:h-8 sm:w-8 mb-1 sm:mb-2 text-[#EAD8AC]" />
+              <p className="text-xs sm:text-sm font-medium">Comissões</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/profissional/bloqueios" className="block">
           <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <CalendarOff className="h-8 w-8 mb-2 text-[#EAD8AC]" />
-              <p className="text-sm font-medium">Bloqueios</p>
+            <CardContent className="p-3 sm:p-4 flex flex-col items-center justify-center text-center min-h-[80px] sm:min-h-[100px]">
+              <CalendarOff className="h-6 w-6 sm:h-8 sm:w-8 mb-1 sm:mb-2 text-[#EAD8AC]" />
+              <p className="text-xs sm:text-sm font-medium">Bloqueios</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/profissional/perfil" className="block">
           <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <User className="h-8 w-8 mb-2 text-[#EAD8AC]" />
-              <p className="text-sm font-medium">Meu Perfil</p>
+            <CardContent className="p-3 sm:p-4 flex flex-col items-center justify-center text-center min-h-[80px] sm:min-h-[100px]">
+              <User className="h-6 w-6 sm:h-8 sm:w-8 mb-1 sm:mb-2 text-[#EAD8AC]" />
+              <p className="text-xs sm:text-sm font-medium">Meu Perfil</p>
             </CardContent>
           </Card>
         </Link>

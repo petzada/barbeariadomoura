@@ -203,18 +203,18 @@ export default function DashboardPage() {
         {/* Ações Rápidas */}
         <section className="mb-8">
           <h2 className="text-lg font-semibold mb-4">Ações Rápidas</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {quickActions.map((action) => (
               <Link key={action.href} href={action.href}>
                 <Card className="h-full hover:border-[#EAD8AC] transition-colors cursor-pointer">
-                  <CardContent className="pt-6 text-center">
-                    <div className={`inline-flex p-3 rounded-lg mb-3 ${action.variant === "default" ? "bg-[#013648]/70" : "bg-secondary"
+                  <CardContent className="p-3 sm:p-4 text-center">
+                    <div className={`inline-flex p-2 sm:p-3 rounded-lg mb-2 ${action.variant === "default" ? "bg-[#013648]/70" : "bg-secondary"
                       }`}>
-                      <action.icon className={`h-6 w-6 ${action.variant === "default" ? "text-[#EAD8AC]" : "text-[#EAD8AC]"
+                      <action.icon className={`h-5 w-5 sm:h-6 sm:w-6 ${action.variant === "default" ? "text-[#EAD8AC]" : "text-[#EAD8AC]"
                         }`} />
                     </div>
-                    <h3 className="font-medium">{action.title}</h3>
-                    <p className="text-xs text-[#EAD8AC] mt-1">
+                    <h3 className="font-medium text-sm sm:text-base">{action.title}</h3>
+                    <p className="text-xs text-[#EAD8AC] mt-0.5 hidden sm:block">
                       {action.description}
                     </p>
                   </CardContent>
@@ -351,7 +351,7 @@ export default function DashboardPage() {
         <section className="mt-8">
           <Card>
             <CardContent className="pt-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+              <div className="grid grid-cols-2 gap-3 text-center">
                 <div>
                   <p className="text-3xl font-bold text-[#EAD8AC]">{appointmentsCount}</p>
                   <p className="text-sm text-[#EAD8AC]">

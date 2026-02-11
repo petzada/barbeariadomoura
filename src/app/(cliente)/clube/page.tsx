@@ -274,10 +274,10 @@ export default function ClubePage() {
                         <p className="font-semibold">
                           {currentSubscription.proxima_cobranca
                             ? format(
-                                parseISO(currentSubscription.proxima_cobranca),
-                                "dd/MM/yyyy",
-                                { locale: ptBR }
-                              )
+                              parseISO(currentSubscription.proxima_cobranca),
+                              "dd/MM/yyyy",
+                              { locale: ptBR }
+                            )
                             : "-"}
                         </p>
                       </div>
@@ -317,7 +317,7 @@ export default function ClubePage() {
                 ))}
               </div>
             ) : (
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {plans.map((plan, index) => {
                   const isPremium = index === 1;
                   const isCurrentPlan = currentSubscription?.plano.id === plan.id;
@@ -345,7 +345,7 @@ export default function ClubePage() {
                           Seu Plano Atual
                         </Badge>
                       )}
-                      <CardContent className="p-6 flex-1 flex flex-col">
+                      <CardContent className="p-4 sm:p-6 flex-1 flex flex-col">
                         <h3 className="font-semibold text-xl mb-2">{plan.nome}</h3>
                         <p className="text-sm text-[#EAD8AC] mb-4">
                           {plan.descricao}
@@ -393,8 +393,8 @@ export default function ClubePage() {
                           {isCurrentPlan
                             ? "Plano Atual"
                             : !isAuthenticated
-                            ? "Faça Login"
-                            : "Assinar Agora"}
+                              ? "Faça Login"
+                              : "Assinar Agora"}
                         </Button>
                       </CardContent>
                     </Card>

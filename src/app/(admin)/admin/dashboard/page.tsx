@@ -138,7 +138,7 @@ async function DashboardMetrics() {
   const metrics = await getMetrics();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-3">
       <MetricCard
         title="Agendamentos Hoje"
         value={metrics.agendamentosHoje}
@@ -302,28 +302,28 @@ export default function AdminDashboardPage() {
           <CardHeader>
             <CardTitle>Ações Rápidas</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Button asChild variant="outline" className="h-auto py-4 flex-col">
+          <CardContent className="grid grid-cols-2 gap-3 p-4">
+            <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex-col text-xs sm:text-sm">
               <Link href="/admin/agenda">
-                <Calendar className="h-6 w-6 mb-2" />
+                <Calendar className="h-5 w-5 sm:h-6 sm:w-6 mb-1 sm:mb-2" />
                 Ver Agenda
               </Link>
             </Button>
-            <Button asChild variant="outline" className="h-auto py-4 flex-col">
+            <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex-col text-xs sm:text-sm">
               <Link href="/admin/servicos">
-                <Users className="h-6 w-6 mb-2" />
+                <Users className="h-5 w-5 sm:h-6 sm:w-6 mb-1 sm:mb-2" />
                 Gerenciar Serviços
               </Link>
             </Button>
-            <Button asChild variant="outline" className="h-auto py-4 flex-col">
+            <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex-col text-xs sm:text-sm">
               <Link href="/admin/bloqueios">
-                <Clock className="h-6 w-6 mb-2" />
+                <Clock className="h-5 w-5 sm:h-6 sm:w-6 mb-1 sm:mb-2" />
                 Bloquear Horário
               </Link>
             </Button>
-            <Button asChild variant="outline" className="h-auto py-4 flex-col">
+            <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex-col text-xs sm:text-sm">
               <Link href="/admin/financeiro">
-                <DollarSign className="h-6 w-6 mb-2" />
+                <DollarSign className="h-5 w-5 sm:h-6 sm:w-6 mb-1 sm:mb-2" />
                 Ver Caixa
               </Link>
             </Button>

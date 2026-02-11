@@ -342,7 +342,7 @@ export default function AgendarPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3">
                     {services.map((service) => (
                       <Card
                         key={service.id}
@@ -354,7 +354,7 @@ export default function AgendarPage() {
                         )}
                         onClick={() => setSelectedService(service)}
                       >
-                        <CardContent className="p-4">
+                        <CardContent className="p-3 sm:p-4">
                           <div className="flex justify-between items-start">
                             <div>
                               <h3 className="font-medium">{service.nome}</h3>
@@ -368,7 +368,7 @@ export default function AgendarPage() {
                                 </span>
                               </div>
                             </div>
-                            <Badge variant="default" className="text-lg font-bold">
+                            <Badge variant="default" className="text-sm sm:text-lg font-bold">
                               {formatCurrency(service.preco)}
                             </Badge>
                           </div>
@@ -392,7 +392,7 @@ export default function AgendarPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                     {professionals.map((prof) => (
                       <Card
                         key={prof.id}
@@ -404,8 +404,8 @@ export default function AgendarPage() {
                         )}
                         onClick={() => setSelectedProfessional(prof)}
                       >
-                        <CardContent className="p-6">
-                          <Avatar className="h-16 w-16 mx-auto mb-3">
+                        <CardContent className="p-4 sm:p-6">
+                          <Avatar className="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-2 sm:mb-3">
                             <AvatarImage
                               src={prof?.foto_url || prof?.user?.avatar_url || undefined}
                               alt={prof?.user?.nome ?? "Profissional"}
@@ -435,7 +435,7 @@ export default function AgendarPage() {
                   {/* Calendário */}
                   <div>
                     <h3 className="font-medium mb-3">Data</h3>
-                    <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[400px] overflow-y-auto pr-2">
+                    <div className="grid grid-cols-5 sm:grid-cols-6 gap-1.5 sm:gap-2 max-h-[300px] sm:max-h-[400px] overflow-y-auto pr-2">
                       {generateDates().map((date) => {
                         const dateObj = parseISO(date);
                         const dayName = format(dateObj, "EEE", { locale: ptBR });
@@ -510,7 +510,7 @@ export default function AgendarPage() {
                         </Button>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-3 gap-2 max-h-[400px] overflow-y-auto pr-2">
+                      <div className="grid grid-cols-4 sm:grid-cols-3 gap-1.5 sm:gap-2 max-h-[300px] sm:max-h-[400px] overflow-y-auto pr-2">
                         {availableTimes.map((time) => (
                           <button
                             key={time}

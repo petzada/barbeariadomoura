@@ -216,7 +216,7 @@ export default function AdminFinanceiroPage() {
       </div>
 
       {/* Estatísticas do Mês */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-[#EAD8AC] flex items-center gap-2">
@@ -295,22 +295,22 @@ export default function AdminFinanceiroPage() {
           <CardTitle className="text-base">Resumo por Forma de Pagamento</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3">
             {Object.entries(metodoConfig).map(([key, config]) => {
               const value = key === "pix" ? dayStats.pix
                 : key === "cartao_credito" ? dayStats.credito
-                : key === "cartao_debito" ? dayStats.debito
-                : key === "dinheiro" ? dayStats.dinheiro
-                : dayStats.assinatura;
+                  : key === "cartao_debito" ? dayStats.debito
+                    : key === "dinheiro" ? dayStats.dinheiro
+                      : dayStats.assinatura;
 
               return (
                 <div
                   key={key}
-                  className="p-3 rounded-lg bg-secondary/50 text-center"
+                  className="p-2 sm:p-3 rounded-lg bg-secondary/50 text-center"
                 >
-                  <config.icon className={`h-5 w-5 mx-auto mb-2 ${config.color}`} />
-                  <p className="text-xs text-[#EAD8AC]">{config.label}</p>
-                  <p className="font-bold">{formatCurrency(value)}</p>
+                  <config.icon className={`h-4 w-4 sm:h-5 sm:w-5 mx-auto mb-1 ${config.color}`} />
+                  <p className="text-[10px] sm:text-xs text-[#EAD8AC]">{config.label}</p>
+                  <p className="text-xs sm:text-sm font-bold">{formatCurrency(value)}</p>
                 </div>
               );
             })}

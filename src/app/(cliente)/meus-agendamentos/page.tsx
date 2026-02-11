@@ -391,7 +391,7 @@ function AppointmentCard({
 
   return (
     <Card className={cn(isPast && "opacity-70")}>
-      <CardContent className="p-6">
+      <CardContent className="p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Info */}
           <div className="flex items-start gap-4">
@@ -491,7 +491,7 @@ function AppointmentCard({
           </div>
         </div>
       </CardContent>
-    </Card>
+    </Card >
   );
 }
 
