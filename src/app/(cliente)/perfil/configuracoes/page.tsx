@@ -138,7 +138,7 @@ export default function ConfiguracoesPage() {
   if (loadingUser) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
       </div>
     );
   }
@@ -148,7 +148,7 @@ export default function ConfiguracoesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#013648]">
       <div className="container-app max-w-2xl py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
@@ -159,7 +159,7 @@ export default function ConfiguracoesPage() {
           </Button>
           <div>
             <h1 className="text-3xl font-bold">Configurações</h1>
-            <p className="text-muted-foreground">
+            <p className="text-[#EAD8AC]">
               Gerencie suas preferências e segurança
             </p>
           </div>
@@ -181,7 +181,7 @@ export default function ConfiguracoesPage() {
               <form onSubmit={handlePasswordChange} className="space-y-4">
                 {/* Mensagem de sucesso */}
                 {passwordSuccess && (
-                  <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                     <CheckCircle className="h-4 w-4 flex-shrink-0" />
                     <span>Senha alterada com sucesso!</span>
                   </div>
@@ -189,7 +189,7 @@ export default function ConfiguracoesPage() {
 
                 {/* Mensagem de erro */}
                 {passwordError && (
-                  <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                     <AlertCircle className="h-4 w-4 flex-shrink-0" />
                     <span>{passwordError}</span>
                   </div>
@@ -249,7 +249,7 @@ export default function ConfiguracoesPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Lembretes por Email</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#EAD8AC]">
                     Receba lembretes de agendamento por email
                   </p>
                 </div>
@@ -261,7 +261,7 @@ export default function ConfiguracoesPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Lembretes por SMS</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#EAD8AC]">
                     Receba lembretes de agendamento por SMS
                   </p>
                 </div>
@@ -273,7 +273,7 @@ export default function ConfiguracoesPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Promoções e Novidades</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#EAD8AC]">
                     Receba ofertas especiais e novidades
                   </p>
                 </div>
@@ -283,9 +283,9 @@ export default function ConfiguracoesPage() {
           </Card>
 
           {/* Zona de Perigo */}
-          <Card className="border-destructive/50">
+          <Card className="border-black">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-destructive">
+              <CardTitle className="flex items-center gap-2 text-[#EAD8AC]">
                 <Trash2 className="h-5 w-5" />
                 Zona de Perigo
               </CardTitle>
@@ -297,7 +297,7 @@ export default function ConfiguracoesPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <p className="font-medium">Excluir minha conta</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#EAD8AC]">
                     Remove permanentemente sua conta e todos os dados
                   </p>
                 </div>
@@ -312,7 +312,7 @@ export default function ConfiguracoesPage() {
                       <DialogTitle>Excluir Conta</DialogTitle>
                       <DialogDescription asChild>
                         <div className="space-y-4">
-                          <div className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 text-destructive">
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC]">
                             <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                             <div>
                               <p className="font-medium">Esta ação é irreversível!</p>
@@ -372,3 +372,5 @@ export default function ConfiguracoesPage() {
     </div>
   );
 }
+
+

@@ -227,7 +227,7 @@ export default function ClubePage() {
             <h1 className="text-3xl sm:text-4xl font-bold mb-4">
               Assine e <span className="text-gradient-gold">Economize</span>
             </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-[#EAD8AC] max-w-2xl mx-auto">
               Faça parte do nosso clube exclusivo e tenha acesso a serviços
               ilimitados com preços especiais. Escolha o plano ideal para você.
             </p>
@@ -243,7 +243,7 @@ export default function ClubePage() {
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <CardTitle className="flex items-center gap-2">
-                        <Crown className="h-5 w-5 text-primary" />
+                        <Crown className="h-5 w-5 text-[#EAD8AC]" />
                         Sua Assinatura Ativa
                       </CardTitle>
                       <Badge variant="success">Ativa</Badge>
@@ -252,17 +252,17 @@ export default function ClubePage() {
                   <CardContent>
                     <div className="grid sm:grid-cols-2 gap-4 mb-6">
                       <div>
-                        <p className="text-sm text-muted-foreground">Plano</p>
+                        <p className="text-sm text-[#EAD8AC]">Plano</p>
                         <p className="font-semibold">{currentSubscription.plano.nome}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Valor mensal</p>
+                        <p className="text-sm text-[#EAD8AC]">Valor mensal</p>
                         <p className="font-semibold">
                           {formatCurrency(currentSubscription.plano.preco_mensal)}
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Membro desde</p>
+                        <p className="text-sm text-[#EAD8AC]">Membro desde</p>
                         <p className="font-semibold">
                           {format(parseISO(currentSubscription.data_inicio), "dd/MM/yyyy", {
                             locale: ptBR,
@@ -270,7 +270,7 @@ export default function ClubePage() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Próxima cobrança</p>
+                        <p className="text-sm text-[#EAD8AC]">Próxima cobrança</p>
                         <p className="font-semibold">
                           {currentSubscription.proxima_cobranca
                             ? format(
@@ -347,7 +347,7 @@ export default function ClubePage() {
                       )}
                       <CardContent className="p-6 flex-1 flex flex-col">
                         <h3 className="font-semibold text-xl mb-2">{plan.nome}</h3>
-                        <p className="text-sm text-muted-foreground mb-4">
+                        <p className="text-sm text-[#EAD8AC] mb-4">
                           {plan.descricao}
                         </p>
 
@@ -355,24 +355,24 @@ export default function ClubePage() {
                           <span className="text-4xl font-bold text-gradient-gold">
                             {formatCurrency(plan.preco_mensal)}
                           </span>
-                          <span className="text-muted-foreground">/mês</span>
+                          <span className="text-[#EAD8AC]">/mês</span>
                         </div>
 
                         <ul className="space-y-3 mb-6 flex-1">
                           <li className="flex items-center gap-2 text-sm">
-                            <Check className="h-4 w-4 text-success flex-shrink-0" />
+                            <Check className="h-4 w-4 text-[#EAD8AC] flex-shrink-0" />
                             Serviços inclusos ilimitados
                           </li>
                           <li className="flex items-center gap-2 text-sm">
-                            <Check className="h-4 w-4 text-success flex-shrink-0" />
+                            <Check className="h-4 w-4 text-[#EAD8AC] flex-shrink-0" />
                             {formatDias(plan.dias_permitidos)}
                           </li>
                           <li className="flex items-center gap-2 text-sm">
-                            <Check className="h-4 w-4 text-success flex-shrink-0" />
+                            <Check className="h-4 w-4 text-[#EAD8AC] flex-shrink-0" />
                             Agendamento prioritário
                           </li>
                           <li className="flex items-center gap-2 text-sm">
-                            <Check className="h-4 w-4 text-success flex-shrink-0" />
+                            <Check className="h-4 w-4 text-[#EAD8AC] flex-shrink-0" />
                             Sem fidelidade
                           </li>
                         </ul>
@@ -413,7 +413,7 @@ export default function ClubePage() {
               <Card>
                 <CardContent className="p-4">
                   <h3 className="font-medium mb-2">Como funciona a assinatura?</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#EAD8AC]">
                     Você paga um valor fixo mensal e tem acesso ilimitado aos
                     serviços inclusos no seu plano. Basta agendar normalmente e o
                     desconto é aplicado automaticamente.
@@ -423,7 +423,7 @@ export default function ClubePage() {
               <Card>
                 <CardContent className="p-4">
                   <h3 className="font-medium mb-2">Posso cancelar quando quiser?</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#EAD8AC]">
                     Sim! Não há fidelidade. Você pode cancelar sua assinatura a
                     qualquer momento diretamente pelo site.
                   </p>
@@ -434,7 +434,7 @@ export default function ClubePage() {
                   <h3 className="font-medium mb-2">
                     E se eu quiser um serviço fora do plano?
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#EAD8AC]">
                     Serviços não inclusos no plano são cobrados normalmente. No
                     agendamento, você verá se o serviço está incluso ou não.
                   </p>
@@ -457,24 +457,24 @@ export default function ClubePage() {
 
           {selectedPlan && (
             <div className="py-4">
-              <div className="bg-card border border-border rounded-lg p-4 space-y-3">
+              <div className="bg-[#013648] border border-black rounded-lg p-4 space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Plano</span>
+                  <span className="text-[#EAD8AC]">Plano</span>
                   <span className="font-medium">{selectedPlan.nome}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Valor mensal</span>
+                  <span className="text-[#EAD8AC]">Valor mensal</span>
                   <span className="font-medium">
                     {formatCurrency(selectedPlan.preco_mensal)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Primeira cobrança</span>
+                  <span className="text-[#EAD8AC]">Primeira cobrança</span>
                   <span className="font-medium">Hoje</span>
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 mt-4 p-3 rounded-lg bg-info/10 text-info text-sm">
+              <div className="flex items-start gap-2 mt-4 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                 <CreditCard className="h-5 w-5 flex-shrink-0 mt-0.5" />
                 <span>
                   Pagamento processado via Mercado Pago com cartão de crédito.
@@ -516,7 +516,7 @@ export default function ClubePage() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex items-start gap-2 p-3 rounded-lg bg-warning/10 text-warning text-sm">
+          <div className="flex items-start gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
             <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
             <span>
               Ao cancelar, sua assinatura será encerrada imediatamente e você não
@@ -551,3 +551,4 @@ export default function ClubePage() {
     </>
   );
 }
+

@@ -6,12 +6,12 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#013648] text-[#EAD8AC]">
       {/* Header simples */}
-      <header className="p-4 border-b border-border">
+      <header className="p-4 border-b border-black">
         <div className="container-app">
           <Link href="/" className="flex items-center gap-2">
-            <div className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-primary/20">
+            <div className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-black">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo.png"
@@ -32,9 +32,10 @@ export default function AuthLayout({
       </main>
 
       {/* Footer simples */}
-      <footer className="p-4 text-center text-sm text-muted-foreground border-t border-border">
+      <footer className="p-4 text-center text-sm text-[#EAD8AC] border-t border-black">
         <p>&copy; {new Date().getFullYear()} Barbearia do Moura. Todos os direitos reservados.</p>
       </footer>
     </div>
   );
 }
+

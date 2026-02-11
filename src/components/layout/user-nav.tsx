@@ -60,7 +60,7 @@ export function UserNav() {
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
             <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
-            <AvatarFallback className="bg-primary text-primary-foreground">
+            <AvatarFallback className="bg-primary text-[#EAD8AC]">
               {getInitials(user.nome)}
             </AvatarFallback>
           </Avatar>
@@ -70,7 +70,7 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user.nome}</p>
-            <p className="text-xs leading-none text-muted-foreground">
+            <p className="text-xs leading-none text-[#EAD8AC]">
               {user.email}
             </p>
           </div>
@@ -134,7 +134,7 @@ export function UserNav() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          className="text-destructive focus:text-destructive cursor-pointer"
+          className="text-[#EAD8AC] focus:text-[#EAD8AC] cursor-pointer"
           onClick={handleLogout}
         >
           <LogOut className="mr-2 h-4 w-4" />
@@ -144,3 +144,5 @@ export function UserNav() {
     </DropdownMenu>
   );
 }
+
+

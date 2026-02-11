@@ -3,5 +3,5 @@ export default function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <div className="bg-[#013648] text-[#EAD8AC]">{children}</div>;
 }

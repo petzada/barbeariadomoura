@@ -182,7 +182,7 @@ export default function ComissoesPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Minhas Comissões</h1>
-        <p className="text-muted-foreground">
+        <p className="text-[#EAD8AC]">
           Acompanhe seus ganhos mensais e histórico de comissões
         </p>
       </div>
@@ -213,7 +213,7 @@ export default function ComissoesPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-[#EAD8AC] flex items-center gap-2">
               <DollarSign className="h-4 w-4" />
               Total em Comissões
             </CardTitle>
@@ -222,7 +222,7 @@ export default function ComissoesPage() {
             {loading ? (
               <Skeleton className="h-8 w-24" />
             ) : (
-              <div className="text-2xl font-bold text-success">
+              <div className="text-2xl font-bold text-[#EAD8AC]">
                 {formatCurrency(stats.totalComissoes)}
               </div>
             )}
@@ -231,7 +231,7 @@ export default function ComissoesPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-[#EAD8AC] flex items-center gap-2">
               <Scissors className="h-4 w-4" />
               Atendimentos
             </CardTitle>
@@ -247,7 +247,7 @@ export default function ComissoesPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-[#EAD8AC] flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               Ticket Médio
             </CardTitle>
@@ -265,7 +265,7 @@ export default function ComissoesPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-[#EAD8AC] flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               % Médio de Comissão
             </CardTitle>
@@ -295,7 +295,7 @@ export default function ComissoesPage() {
               ))}
             </div>
           ) : commissions.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <DollarSign className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhuma comissão registrada neste mês</p>
             </div>
@@ -304,7 +304,7 @@ export default function ComissoesPage() {
               {commissions.map((commission) => (
                 <div
                   key={commission.id}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg border hover:bg-secondary/50 transition-colors"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg border hover:bg-[#013648] hover:border-[#EAD8AC]/50 transition-colors"
                 >
                   {/* Info */}
                   <div className="mb-2 sm:mb-0">
@@ -316,7 +316,7 @@ export default function ComissoesPage() {
                         {commission.percentual}%
                       </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-[#EAD8AC]">
                       {commission.agendamento?.cliente?.nome || "Cliente"} •{" "}
                       {format(
                         parseISO(commission.agendamento?.data_hora_inicio || commission.created_at),
@@ -328,10 +328,10 @@ export default function ComissoesPage() {
 
                   {/* Valores */}
                   <div className="text-right">
-                    <p className="text-lg font-bold text-success">
+                    <p className="text-lg font-bold text-[#EAD8AC]">
                       +{formatCurrency(commission.valor_comissao)}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-[#EAD8AC]">
                       Serviço: {formatCurrency(commission.valor_servico)}
                     </p>
                   </div>
@@ -352,7 +352,7 @@ export default function ComissoesPage() {
                   <DollarSign className="h-6 w-6 text-gold" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#EAD8AC]">
                     Total a receber em{" "}
                     {format(selectedMonth, "MMMM", { locale: ptBR })}
                   </p>
@@ -361,7 +361,7 @@ export default function ComissoesPage() {
                   </p>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground text-center sm:text-right">
+              <p className="text-sm text-[#EAD8AC] text-center sm:text-right">
                 Baseado em {stats.atendimentos} atendimentos concluídos
               </p>
             </div>
@@ -371,3 +371,4 @@ export default function ComissoesPage() {
     </div>
   );
 }
+

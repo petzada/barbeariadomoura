@@ -168,7 +168,7 @@ export default function PerfilProfissionalPage() {
   if (loadingUser) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
       </div>
     );
   }
@@ -188,7 +188,7 @@ export default function PerfilProfissionalPage() {
         </Button>
         <div>
           <h1 className="text-3xl font-bold">Meu Perfil</h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Gerencie suas informações pessoais
           </p>
         </div>
@@ -202,12 +202,12 @@ export default function PerfilProfissionalPage() {
             <CardContent className="pt-6 text-center">
               <Avatar className="h-24 w-24 mx-auto mb-4">
                 <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
-                <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
+                <AvatarFallback className="bg-primary text-[#EAD8AC] text-2xl">
                   {getInitials(user.nome)}
                 </AvatarFallback>
               </Avatar>
               <h2 className="font-semibold text-lg">{user.nome}</h2>
-              <p className="text-sm text-muted-foreground">{user.email}</p>
+              <p className="text-sm text-[#EAD8AC]">{user.email}</p>
               <Badge variant="default" className="mt-2">
                 Profissional
               </Badge>
@@ -228,24 +228,24 @@ export default function PerfilProfissionalPage() {
               ) : (
                 <>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Clientes atendidos</span>
+                    <span className="text-sm text-[#EAD8AC]">Clientes atendidos</span>
                     <span className="font-semibold">{stats.clientesAtendidos}</span>
                   </div>
                   <Separator className="my-3" />
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Atendimentos este mês</span>
+                    <span className="text-sm text-[#EAD8AC]">Atendimentos este mês</span>
                     <span className="font-semibold">{stats.atendimentosMes}</span>
                   </div>
                   <Separator className="my-3" />
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Ganhos do mês</span>
-                    <span className="font-semibold text-success">
+                    <span className="text-sm text-[#EAD8AC]">Ganhos do mês</span>
+                    <span className="font-semibold text-[#EAD8AC]">
                       {formatCurrency(stats.ganhosMes)}
                     </span>
                   </div>
                   <Separator className="my-3" />
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Membro desde</span>
+                    <span className="text-sm text-[#EAD8AC]">Membro desde</span>
                     <span className="text-sm">
                       {user.created_at
                         ? format(parseISO(user.created_at), "MMM/yyyy", { locale: ptBR })
@@ -272,7 +272,7 @@ export default function PerfilProfissionalPage() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Mensagem de sucesso */}
                 {state.success && (
-                  <div className="flex items-center gap-2 p-3 rounded-lg bg-success/10 text-success text-sm">
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                     <CheckCircle className="h-4 w-4 flex-shrink-0" />
                     <span>{state.message}</span>
                   </div>
@@ -280,7 +280,7 @@ export default function PerfilProfissionalPage() {
 
                 {/* Mensagem de erro */}
                 {state.message && !state.success && (
-                  <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                     <AlertCircle className="h-4 w-4 flex-shrink-0" />
                     <span>{state.message}</span>
                   </div>
@@ -290,7 +290,7 @@ export default function PerfilProfissionalPage() {
                 <div className="space-y-2">
                   <Label htmlFor="nome">Nome completo</Label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
                     <Input
                       id="nome"
                       name="nome"
@@ -306,7 +306,7 @@ export default function PerfilProfissionalPage() {
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
                     <Input
                       id="email"
                       type="email"
@@ -315,7 +315,7 @@ export default function PerfilProfissionalPage() {
                       disabled
                     />
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-[#EAD8AC]">
                     O email não pode ser alterado
                   </p>
                 </div>
@@ -324,7 +324,7 @@ export default function PerfilProfissionalPage() {
                 <div className="space-y-2">
                   <Label htmlFor="telefone">Telefone</Label>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
                     <Input
                       id="telefone"
                       name="telefone"
@@ -357,18 +357,18 @@ export default function PerfilProfissionalPage() {
             <CardContent className="pt-6">
               <Link
                 href="/profissional/perfil/configuracoes"
-                className="flex items-center justify-between p-4 rounded-lg border border-border hover:bg-secondary transition-colors"
+                className="flex items-center justify-between p-4 rounded-lg border border-black hover:bg-[#013648] hover:border-[#EAD8AC] transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <Settings className="h-5 w-5 text-muted-foreground" />
+                  <Settings className="h-5 w-5 text-[#EAD8AC]" />
                   <div>
                     <p className="font-medium">Configurações</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-[#EAD8AC]">
                       Alterar senha, preferências e mais
                     </p>
                   </div>
                 </div>
-                <ArrowLeft className="h-5 w-5 rotate-180 text-muted-foreground" />
+                <ArrowLeft className="h-5 w-5 rotate-180 text-[#EAD8AC]" />
               </Link>
             </CardContent>
           </Card>
@@ -377,3 +377,5 @@ export default function PerfilProfissionalPage() {
     </div>
   );
 }
+
+

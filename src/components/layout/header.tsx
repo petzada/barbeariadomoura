@@ -30,12 +30,12 @@ export function Header({ showNav = true }: HeaderProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-black bg-[#013648] backdrop-blur ">
       <div className="container-app flex h-16 items-center justify-between">
         {/* Logo */}
         {/* Logo - Vintage Style */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-primary/20 group-hover:border-primary/50 transition-colors">
+          <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-black group-hover:border-[#EAD8AC] transition-colors">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo.png"
@@ -45,12 +45,12 @@ export function Header({ showNav = true }: HeaderProps) {
           </div>
 
           <div className="flex flex-col select-none">
-            <span className="text-2xl font-bold text-primary tracking-wide drop-shadow-sm group-hover:brightness-110 transition-all leading-none">
+            <span className="text-2xl font-bold text-[#EAD8AC] tracking-wide drop-shadow-sm group-hover:brightness-110 transition-all leading-none">
               Barbearia
             </span>
             <div className="flex items-center gap-2">
-              <span className="text-lg text-primary/90 -my-1">do</span>
-              <span className="text-2xl font-bold text-primary tracking-wider drop-shadow-md group-hover:scale-105 transition-transform duration-300 leading-none">
+              <span className="text-lg text-[#EAD8AC]/90 -my-1">do</span>
+              <span className="text-2xl font-bold text-[#EAD8AC] tracking-wider drop-shadow-md group-hover:scale-105 transition-transform duration-300 leading-none">
                 Moura
               </span>
             </div>
@@ -64,7 +64,7 @@ export function Header({ showNav = true }: HeaderProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className="text-sm font-medium text-[#EAD8AC] hover:text-[#EAD8AC] transition-colors"
               >
                 {link.label}
               </Link>
@@ -99,7 +99,7 @@ export function Header({ showNav = true }: HeaderProps) {
                       key={link.href}
                       href={link.href}
                       onClick={closeMenu}
-                      className="flex items-center gap-3 px-3 py-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                      className="flex items-center gap-3 px-3 py-3 rounded-lg text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC] transition-colors"
                     >
                       <link.icon className="h-5 w-5" />
                       {link.label}
@@ -108,7 +108,7 @@ export function Header({ showNav = true }: HeaderProps) {
                 </nav>
 
                 {/* Botão de Agendar no Mobile */}
-                <div className="mt-8 pt-8 border-t border-border">
+                <div className="mt-8 pt-8 border-t border-black">
                   <Button asChild className="w-full" onClick={closeMenu}>
                     <Link href="/agendar">
                       <Calendar className="mr-2 h-4 w-4" />
@@ -134,3 +134,4 @@ export function Header({ showNav = true }: HeaderProps) {
     </header>
   );
 }
+

@@ -179,7 +179,7 @@ export default function MeusAgendamentosPage() {
   if (loadingUser) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
       </div>
     );
   }
@@ -192,7 +192,7 @@ export default function MeusAgendamentosPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
               <h1 className="text-3xl font-bold">Meus Agendamentos</h1>
-              <p className="text-muted-foreground mt-1">
+              <p className="text-[#EAD8AC] mt-1">
                 Gerencie seus horários na Barbearia do Moura
               </p>
             </div>
@@ -213,11 +213,11 @@ export default function MeusAgendamentosPage() {
           ) : appointments.length === 0 ? (
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12">
-                <Calendar className="h-16 w-16 text-muted-foreground mb-4" />
+                <Calendar className="h-16 w-16 text-[#EAD8AC] mb-4" />
                 <h3 className="text-xl font-semibold mb-2">
                   Nenhum agendamento encontrado
                 </h3>
-                <p className="text-muted-foreground text-center mb-6">
+                <p className="text-[#EAD8AC] text-center mb-6">
                   Você ainda não fez nenhum agendamento. Que tal agendar agora?
                 </p>
                 <Button asChild>
@@ -231,7 +231,7 @@ export default function MeusAgendamentosPage() {
               {futureAppointments.length > 0 && (
                 <section>
                   <h2 className="text-lg font-semibold mb-4 flex items-center">
-                    <Calendar className="mr-2 h-5 w-5 text-primary" />
+                    <Calendar className="mr-2 h-5 w-5 text-[#EAD8AC]" />
                     Próximos Agendamentos
                   </h2>
                   <div className="space-y-4">
@@ -251,7 +251,7 @@ export default function MeusAgendamentosPage() {
               {pastAppointments.length > 0 && (
                 <section>
                   <h2 className="text-lg font-semibold mb-4 flex items-center">
-                    <Clock className="mr-2 h-5 w-5 text-muted-foreground" />
+                    <Clock className="mr-2 h-5 w-5 text-[#EAD8AC]" />
                     Histórico
                   </h2>
                   <div className="space-y-4">
@@ -277,7 +277,7 @@ export default function MeusAgendamentosPage() {
             <DialogTitle>Cancelar Agendamento</DialogTitle>
             <DialogDescription>
               {cancelError ? (
-                <div className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 text-destructive mt-4">
+                <div className="flex items-start gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] mt-4">
                   <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                   <div>
                     <p>{cancelError}</p>
@@ -400,7 +400,7 @@ function AppointmentCard({
                 src={profissionalFoto}
                 alt={profissionalNome}
               />
-              <AvatarFallback className="bg-primary text-primary-foreground">
+              <AvatarFallback className="bg-primary text-[#EAD8AC]">
                 {getInitials(profissionalNome)}
               </AvatarFallback>
             </Avatar>
@@ -415,7 +415,7 @@ function AppointmentCard({
                   </Badge>
                 )}
               </div>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-sm text-muted-foreground">
+              <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-sm text-[#EAD8AC]">
                 <span className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1" />
                   {format(dataHora, "EEE, dd/MM/yyyy", { locale: ptBR })}
@@ -437,7 +437,7 @@ function AppointmentCard({
           <div className="flex items-center gap-4 sm:flex-col sm:items-end">
             <div className="text-right">
               {appointment.coberto_assinatura ? (
-                <span className="text-success font-semibold">Incluso</span>
+                <span className="text-[#EAD8AC] font-semibold">Incluso</span>
               ) : (
                 <span className="font-semibold">
                   {formatCurrency(appointment.valor_cobrado)}
@@ -494,3 +494,5 @@ function AppointmentCard({
     </Card>
   );
 }
+
+

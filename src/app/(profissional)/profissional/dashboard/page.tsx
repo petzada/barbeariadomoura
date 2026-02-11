@@ -343,40 +343,40 @@ export default function ProfissionalDashboardPage() {
     <div className="space-y-6">
       {/* Header com Saudação */}
       <div>
-        <p className="text-muted-foreground">{getSaudacao()},</p>
+        <p className="text-[#EAD8AC]">{getSaudacao()},</p>
         <h1 className="text-2xl font-bold">{user?.nome?.split(" ")[0]}</h1>
       </div>
 
       {/* Ações Rápidas */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <Link href="/profissional/dashboard#agenda" className="block">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+          <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
             <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <Calendar className="h-8 w-8 mb-2 text-primary" />
+              <Calendar className="h-8 w-8 mb-2 text-[#EAD8AC]" />
               <p className="text-sm font-medium">Minha Agenda</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/profissional/comissoes" className="block">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+          <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
             <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <DollarSign className="h-8 w-8 mb-2 text-success" />
+              <DollarSign className="h-8 w-8 mb-2 text-[#EAD8AC]" />
               <p className="text-sm font-medium">Comissões</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/profissional/bloqueios" className="block">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+          <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
             <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <CalendarOff className="h-8 w-8 mb-2 text-warning" />
+              <CalendarOff className="h-8 w-8 mb-2 text-[#EAD8AC]" />
               <p className="text-sm font-medium">Bloqueios</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/profissional/perfil" className="block">
-          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+          <Card className="hover:border-[#EAD8AC] transition-colors cursor-pointer h-full">
             <CardContent className="p-4 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <User className="h-8 w-8 mb-2 text-muted-foreground" />
+              <User className="h-8 w-8 mb-2 text-[#EAD8AC]" />
               <p className="text-sm font-medium">Meu Perfil</p>
             </CardContent>
           </Card>
@@ -406,7 +406,7 @@ export default function ProfissionalDashboardPage() {
                 </Avatar>
                 <div>
                   <p className="font-medium">{proximoAtendimento.cliente?.nome ?? "Cliente"}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#EAD8AC]">
                     {proximoAtendimento.servico?.nome ?? "Serviço"}
                   </p>
                 </div>
@@ -415,7 +415,7 @@ export default function ProfissionalDashboardPage() {
                 <p className="text-2xl font-bold">
                   {format(parseISO(proximoAtendimento.data_hora_inicio), "HH:mm")}
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-[#EAD8AC]">
                   {format(parseISO(proximoAtendimento.data_hora_inicio), "dd/MM", { locale: ptBR })}
                 </p>
               </div>
@@ -428,13 +428,13 @@ export default function ProfissionalDashboardPage() {
       <div className="grid grid-cols-1 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-sm font-medium text-[#EAD8AC]">
               Atendimentos Hoje
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{metricas.atendimentosHoje}</div>
-            <p className="text-xs text-muted-foreground">Concluídos</p>
+            <p className="text-xs text-[#EAD8AC]">Concluídos</p>
           </CardContent>
         </Card>
       </div>
@@ -442,7 +442,7 @@ export default function ProfissionalDashboardPage() {
       {/* Título da Agenda */}
       <div id="agenda">
         <h2 className="text-xl font-bold">Agenda do Dia</h2>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-[#EAD8AC] text-sm">
           Gerencie seus atendimentos
         </p>
       </div>
@@ -485,7 +485,7 @@ export default function ProfissionalDashboardPage() {
               ))}
             </div>
           ) : appointments.filter((a) => a.status !== "cancelado").length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <Calendar className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhum atendimento para este dia</p>
             </div>
@@ -508,7 +508,7 @@ export default function ProfissionalDashboardPage() {
                           <p className="text-2xl font-bold">
                             {format(dataHora, "HH:mm")}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-[#EAD8AC]">
                             {appointment.servico?.duracao_minutos ?? 0} min
                           </p>
                         </div>
@@ -528,13 +528,13 @@ export default function ProfissionalDashboardPage() {
                                 src={appointment.cliente?.avatar_url || undefined}
                                 alt={appointment.cliente?.nome ?? "Cliente"}
                               />
-                              <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                              <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                                 {getInitials(appointment.cliente?.nome ?? "C")}
                               </AvatarFallback>
                             </Avatar>
                             <div>
                               <p className="font-medium">{appointment.cliente?.nome ?? "Cliente"}</p>
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-sm text-[#EAD8AC]">
                                 {appointment.servico?.nome ?? "Serviço"}
                               </p>
                             </div>
@@ -663,3 +663,5 @@ export default function ProfissionalDashboardPage() {
     </div>
   );
 }
+
+

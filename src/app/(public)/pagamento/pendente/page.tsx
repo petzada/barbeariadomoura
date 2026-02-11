@@ -11,36 +11,36 @@ export const metadata = {
 
 export default function PagamentoPendentePage() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-background to-secondary/20">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#013648]">
       <Card className="max-w-md w-full text-center">
         <CardHeader className="pb-4">
-          <div className="w-20 h-20 mx-auto mb-4 bg-warning/20 rounded-full flex items-center justify-center">
-            <Clock className="h-10 w-10 text-warning" />
+          <div className="w-20 h-20 mx-auto mb-4 bg-[#EAD8AC]/20 rounded-full flex items-center justify-center">
+            <Clock className="h-10 w-10 text-[#EAD8AC]" />
           </div>
-          <CardTitle className="text-2xl text-warning">
+          <CardTitle className="text-2xl text-[#EAD8AC]">
             Pagamento Pendente
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Seu pagamento está sendo processado. Assim que for confirmado, você
             receberá uma notificação por e-mail.
           </p>
 
-          <div className="bg-secondary rounded-lg p-4 text-sm text-left space-y-3">
+          <div className="bg-[#013648] border border-black rounded-lg p-4 text-sm text-left space-y-3">
             <p className="font-medium">Se você pagou com boleto:</p>
-            <p className="text-muted-foreground">
+            <p className="text-[#EAD8AC]">
               • O prazo de compensação é de até 3 dias úteis
             </p>
-            <p className="text-muted-foreground">
+            <p className="text-[#EAD8AC]">
               • Após a confirmação, seu agendamento será ativado automaticamente
             </p>
             
             <p className="font-medium mt-4">Se você pagou com PIX:</p>
-            <p className="text-muted-foreground">
+            <p className="text-[#EAD8AC]">
               • A confirmação geralmente é instantânea
             </p>
-            <p className="text-muted-foreground">
+            <p className="text-[#EAD8AC]">
               • Pode levar até alguns minutos em casos excepcionais
             </p>
           </div>
@@ -73,3 +73,4 @@ export default function PagamentoPendentePage() {
     </div>
   );
 }
+

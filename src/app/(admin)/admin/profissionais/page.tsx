@@ -455,7 +455,7 @@ export default function AdminProfissionaisPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Profissionais</h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Gerencie os barbeiros e seus horários de trabalho
           </p>
         </div>
@@ -481,7 +481,7 @@ export default function AdminProfissionaisPage() {
               ))}
             </div>
           ) : professionals.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhum profissional cadastrado</p>
               <Button className="mt-4" onClick={openCreateDialog} disabled={availableUsers.length === 0}>
@@ -503,7 +503,7 @@ export default function AdminProfissionaisPage() {
                         src={professional?.foto_url || professional?.user?.avatar_url || undefined}
                         alt={professional?.user?.nome ?? "Profissional"}
                       />
-                      <AvatarFallback className="bg-primary text-primary-foreground">
+                      <AvatarFallback className="bg-primary text-[#EAD8AC]">
                         {getInitials(professional?.user?.nome ?? "P")}
                       </AvatarFallback>
                     </Avatar>
@@ -515,11 +515,11 @@ export default function AdminProfissionaisPage() {
                         </Badge>
                       </div>
                       {professional.bio && (
-                        <p className="text-sm text-muted-foreground mb-2 max-w-md">
+                        <p className="text-sm text-[#EAD8AC] mb-2 max-w-md">
                           {professional.bio}
                         </p>
                       )}
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-[#EAD8AC]">
                         <span className="flex items-center">
                           <Mail className="h-4 w-4 mr-1" />
                           {professional?.user?.email}
@@ -550,7 +550,7 @@ export default function AdminProfissionaisPage() {
                       title={professional.ativo ? "Desativar" : "Ativar"}
                     >
                       {professional.ativo ? (
-                        <ToggleRight className="h-5 w-5 text-success" />
+                        <ToggleRight className="h-5 w-5 text-[#EAD8AC]" />
                       ) : (
                         <ToggleLeft className="h-5 w-5" />
                       )}
@@ -567,7 +567,7 @@ export default function AdminProfissionaisPage() {
                       size="icon"
                       onClick={() => setDeleteId(professional.id)}
                     >
-                      <Trash2 className="h-4 w-4 text-destructive" />
+                      <Trash2 className="h-4 w-4 text-[#EAD8AC]" />
                     </Button>
                   </div>
                 </div>
@@ -616,22 +616,22 @@ export default function AdminProfissionaisPage() {
                         type="button"
                         onClick={() => setSelectedUserId(u.id)}
                         className={cn(
-                          "w-full flex items-center gap-3 px-3 py-2 text-left text-sm transition-colors hover:bg-secondary",
-                          selectedUserId === u.id && "bg-primary/10 border-l-2 border-primary"
+                          "w-full flex items-center gap-3 px-3 py-2 text-left text-sm transition-colors hover:bg-[#013648] hover:border-[#EAD8AC]",
+                          selectedUserId === u.id && "bg-[#013648]/70 border-l-2 border-primary"
                         )}
                       >
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={u.avatar_url || undefined} alt={u.nome} />
-                          <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                          <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                             {getInitials(u.nome)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium truncate">{u.nome}</p>
-                          <p className="text-xs text-muted-foreground truncate">{u.email}</p>
+                          <p className="text-xs text-[#EAD8AC] truncate">{u.email}</p>
                         </div>
                         {selectedUserId === u.id && (
-                          <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                          <CheckCircle className="h-4 w-4 text-[#EAD8AC] flex-shrink-0" />
                         )}
                       </button>
                     ))}
@@ -642,13 +642,13 @@ export default function AdminProfissionaisPage() {
                       u.email.toLowerCase().includes(search)
                     );
                   }).length === 0 && (
-                      <p className="p-3 text-sm text-muted-foreground text-center">
+                      <p className="p-3 text-sm text-[#EAD8AC] text-center">
                         Nenhum usuário encontrado
                       </p>
                     )}
                 </div>
                 {availableUsers.length === 0 && (
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-[#EAD8AC]">
                     Não há usuários disponíveis para vincular.
                   </p>
                 )}
@@ -752,7 +752,7 @@ export default function AdminProfissionaisPage() {
             <div className="space-y-2">
               <Label>Horários Configurados</Label>
               {professionalHours.length === 0 ? (
-                <p className="text-sm text-muted-foreground py-4 text-center">
+                <p className="text-sm text-[#EAD8AC] py-4 text-center">
                   Nenhum horário configurado
                 </p>
               ) : (
@@ -766,7 +766,7 @@ export default function AdminProfissionaisPage() {
                         <span className="font-medium">
                           {diasSemana.find(d => d.value === hour.dia_semana)?.label}
                         </span>
-                        <span className="text-muted-foreground ml-2">
+                        <span className="text-[#EAD8AC] ml-2">
                           {hour.abertura.slice(0, 5)} - {hour.fechamento.slice(0, 5)}
                         </span>
                       </div>
@@ -775,7 +775,7 @@ export default function AdminProfissionaisPage() {
                         size="icon"
                         onClick={() => handleRemoveHour(hour.id)}
                       >
-                        <Trash2 className="h-4 w-4 text-destructive" />
+                        <Trash2 className="h-4 w-4 text-[#EAD8AC]" />
                       </Button>
                     </div>
                   ))}
@@ -828,3 +828,5 @@ export default function AdminProfissionaisPage() {
     </div>
   );
 }
+
+

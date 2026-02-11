@@ -29,7 +29,7 @@ export default async function ProfissionalLayout({
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#013648] text-[#EAD8AC]">
       <ProfessionalNav />
       <main className="flex-1 p-4 sm:p-6">{children}</main>
     </div>

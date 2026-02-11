@@ -367,7 +367,7 @@ export default function BloqueiosPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Bloqueios de Horário</h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Gerencie os horários em que você não estará disponível
           </p>
         </div>
@@ -486,10 +486,10 @@ export default function BloqueiosPage() {
       {/* Info Card */}
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="flex items-start gap-3 pt-6">
-          <AlertTriangle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+          <AlertTriangle className="h-5 w-5 text-[#EAD8AC] flex-shrink-0 mt-0.5" />
           <div className="text-sm">
             <p className="font-medium">Como funcionam os bloqueios</p>
-            <p className="text-muted-foreground mt-1">
+            <p className="text-[#EAD8AC] mt-1">
               Os bloqueios que você criar afetam apenas a sua agenda pessoal. Os clientes não poderão
               agendar horários com você durante os períodos bloqueados, mas outros profissionais
               continuarão disponíveis normalmente.
@@ -504,8 +504,8 @@ export default function BloqueiosPage() {
         {activeBlocks.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <CalendarOff className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">
+              <CalendarOff className="h-12 w-12 mx-auto text-[#EAD8AC] mb-4" />
+              <p className="text-[#EAD8AC]">
                 Você não possui bloqueios ativos ou futuros
               </p>
             </CardContent>
@@ -516,8 +516,8 @@ export default function BloqueiosPage() {
               <Card key={block.id}>
                 <CardContent className="flex items-center justify-between p-4">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <CalendarOff className="h-5 w-5 text-primary" />
+                    <div className="p-3 rounded-lg bg-[#013648]/70">
+                      <CalendarOff className="h-5 w-5 text-[#EAD8AC]" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
@@ -531,12 +531,12 @@ export default function BloqueiosPage() {
                           <Badge variant="default">Ativo</Badge>
                         )}
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-[#EAD8AC]">
                         {formatDateBR(block.data_inicio, "HH:mm")} às{" "}
                         {formatDateBR(block.data_fim, "HH:mm")}
                       </p>
                       {block.motivo && (
-                        <p className="text-sm text-muted-foreground mt-1">
+                        <p className="text-sm text-[#EAD8AC] mt-1">
                           {block.motivo}
                         </p>
                       )}
@@ -553,7 +553,7 @@ export default function BloqueiosPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="text-destructive hover:text-destructive"
+                      className="text-[#EAD8AC] hover:text-[#EAD8AC]"
                       onClick={() => openDeleteDialog(block)}
                     >
                       <Trash2 className="h-4 w-4" />
@@ -569,7 +569,7 @@ export default function BloqueiosPage() {
       {/* Bloqueios Passados */}
       {pastBlocks.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold mb-4 text-muted-foreground">
+          <h2 className="text-lg font-semibold mb-4 text-[#EAD8AC]">
             Bloqueios Passados
           </h2>
           <div className="grid gap-4 opacity-60">
@@ -578,7 +578,7 @@ export default function BloqueiosPage() {
                 <CardContent className="flex items-center justify-between p-4">
                   <div className="flex items-center gap-4">
                     <div className="p-3 rounded-lg bg-secondary">
-                      <CalendarOff className="h-5 w-5 text-muted-foreground" />
+                      <CalendarOff className="h-5 w-5 text-[#EAD8AC]" />
                     </div>
                     <div>
                       <span className="font-medium">
@@ -587,12 +587,12 @@ export default function BloqueiosPage() {
                           formatDateBR(block.data_fim, "yyyy-MM-dd") &&
                           ` - ${formatDateBR(block.data_fim, "dd/MM/yyyy")}`}
                       </span>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-[#EAD8AC]">
                         {formatDateBR(block.data_inicio, "HH:mm")} às{" "}
                         {formatDateBR(block.data_fim, "HH:mm")}
                       </p>
                       {block.motivo && (
-                        <p className="text-sm text-muted-foreground mt-1">
+                        <p className="text-sm text-[#EAD8AC] mt-1">
                           {block.motivo}
                         </p>
                       )}
@@ -601,7 +601,7 @@ export default function BloqueiosPage() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="text-destructive hover:text-destructive"
+                    className="text-[#EAD8AC] hover:text-[#EAD8AC]"
                     onClick={() => openDeleteDialog(block)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -741,7 +741,7 @@ export default function BloqueiosPage() {
             <AlertDialogAction
               onClick={handleDelete}
               disabled={processing}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className="bg-destructive text-[#EAD8AC] hover:bg-destructive/90"
             >
               {processing ? (
                 <>
@@ -758,3 +758,5 @@ export default function BloqueiosPage() {
     </div>
   );
 }
+
+

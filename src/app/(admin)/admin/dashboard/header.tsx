@@ -25,8 +25,9 @@ export function AdminDashboardHeader() {
 
   return (
     <div>
-      <p className="text-muted-foreground">{getSaudacao()},</p>
+      <p className="text-[#EAD8AC]">{getSaudacao()},</p>
       <h1 className="text-2xl font-bold">{user?.nome?.split(" ")[0]}</h1>
     </div>
   );
 }
+

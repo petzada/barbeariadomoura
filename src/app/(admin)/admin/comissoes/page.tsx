@@ -357,7 +357,7 @@ export default function AdminComissoesPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Comissões</h1>
-        <p className="text-muted-foreground">
+        <p className="text-[#EAD8AC]">
           Configure taxas e gerencie as comissões dos profissionais
         </p>
       </div>
@@ -367,25 +367,25 @@ export default function AdminComissoesPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-2xl font-bold">{formatCurrency(stats.total)}</div>
-            <p className="text-sm text-muted-foreground">Total do Mês</p>
+            <p className="text-sm text-[#EAD8AC]">Total do Mês</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-2xl font-bold text-warning">{formatCurrency(stats.pendente)}</div>
-            <p className="text-sm text-muted-foreground">Pendente</p>
+            <div className="text-2xl font-bold text-[#EAD8AC]">{formatCurrency(stats.pendente)}</div>
+            <p className="text-sm text-[#EAD8AC]">Pendente</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-2xl font-bold text-success">{formatCurrency(stats.pago)}</div>
-            <p className="text-sm text-muted-foreground">Pago</p>
+            <div className="text-2xl font-bold text-[#EAD8AC]">{formatCurrency(stats.pago)}</div>
+            <p className="text-sm text-[#EAD8AC]">Pago</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
             <div className="text-2xl font-bold">{stats.count}</div>
-            <p className="text-sm text-muted-foreground">Atendimentos</p>
+            <p className="text-sm text-[#EAD8AC]">Atendimentos</p>
           </CardContent>
         </Card>
       </div>
@@ -442,7 +442,7 @@ export default function AdminComissoesPage() {
                   ))}
                 </div>
               ) : filteredCommissions.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
+                <div className="text-center py-12 text-[#EAD8AC]">
                   <PieChart className="h-12 w-12 mx-auto mb-3 opacity-50" />
                   <p>Nenhuma comissão encontrada</p>
                 </div>
@@ -459,16 +459,16 @@ export default function AdminComissoesPage() {
                             src={commission.profissional?.user?.avatar_url || undefined}
                             alt={commission.profissional?.user?.nome ?? "Profissional"}
                           />
-                          <AvatarFallback className="bg-primary text-primary-foreground">
+                          <AvatarFallback className="bg-primary text-[#EAD8AC]">
                             {getInitials(commission.profissional?.user?.nome ?? "P")}
                           </AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-medium">{commission.profissional?.user?.nome ?? "Profissional"}</p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-[#EAD8AC]">
                             {commission.agendamento?.servico?.nome ?? "Serviço"} • {commission.agendamento?.cliente?.nome ?? "Cliente"}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-[#EAD8AC]">
                             {commission.agendamento?.data_hora_inicio ? format(parseISO(commission.agendamento.data_hora_inicio), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR }) : "-"}
                           </p>
                         </div>
@@ -476,10 +476,10 @@ export default function AdminComissoesPage() {
 
                       <div className="flex items-center gap-4">
                         <div className="text-right">
-                          <p className="font-bold text-success">
+                          <p className="font-bold text-[#EAD8AC]">
                             {formatCurrency(commission.valor_comissao)}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-[#EAD8AC]">
                             {commission.percentual}% de {formatCurrency(commission.valor_servico)}
                           </p>
                         </div>
@@ -524,7 +524,7 @@ export default function AdminComissoesPage() {
               {loading ? (
                 <Skeleton className="h-40" />
               ) : professionals.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
+                <div className="text-center py-12 text-[#EAD8AC]">
                   <User className="h-12 w-12 mx-auto mb-3 opacity-50" />
                   <p>Nenhum profissional cadastrado</p>
                 </div>
@@ -538,7 +538,7 @@ export default function AdminComissoesPage() {
                             src={prof.user?.avatar_url || undefined}
                             alt={prof.user?.nome ?? "Profissional"}
                           />
-                          <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                          <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                             {getInitials(prof.user?.nome ?? "P")}
                           </AvatarFallback>
                         </Avatar>
@@ -553,7 +553,7 @@ export default function AdminComissoesPage() {
                               key={service.id}
                               className="p-2 rounded-lg bg-secondary/50 text-sm"
                             >
-                              <p className="text-muted-foreground truncate">{service.nome}</p>
+                              <p className="text-[#EAD8AC] truncate">{service.nome}</p>
                               <p className="font-bold">{rate}%</p>
                             </div>
                           );
@@ -623,7 +623,7 @@ export default function AdminComissoesPage() {
                 placeholder="50"
               />
               {rateProfessional && rateService && ratePercentual && (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-[#EAD8AC]">
                   O profissional receberá{" "}
                   {formatCurrency(
                     (services.find((s) => s.id === rateService)?.preco || 0) *
@@ -655,3 +655,5 @@ export default function AdminComissoesPage() {
     </div>
   );
 }
+
+

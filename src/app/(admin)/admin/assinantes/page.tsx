@@ -241,7 +241,7 @@ export default function AdminAssinantesPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Assinantes</h1>
-        <p className="text-muted-foreground">
+        <p className="text-[#EAD8AC]">
           Gerencie os assinantes do Clube do Moura
         </p>
       </div>
@@ -251,27 +251,27 @@ export default function AdminAssinantesPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-2xl font-bold">{stats.total}</div>
-            <p className="text-sm text-muted-foreground">Total de Assinantes</p>
+            <p className="text-sm text-[#EAD8AC]">Total de Assinantes</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-2xl font-bold text-success">{stats.ativas}</div>
-            <p className="text-sm text-muted-foreground">Assinaturas Ativas</p>
+            <div className="text-2xl font-bold text-[#EAD8AC]">{stats.ativas}</div>
+            <p className="text-sm text-[#EAD8AC]">Assinaturas Ativas</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-2xl font-bold text-destructive">{stats.canceladas}</div>
-            <p className="text-sm text-muted-foreground">Canceladas</p>
+            <div className="text-2xl font-bold text-[#EAD8AC]">{stats.canceladas}</div>
+            <p className="text-sm text-[#EAD8AC]">Canceladas</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-2xl font-bold text-primary">
+            <div className="text-2xl font-bold text-[#EAD8AC]">
               {formatCurrency(stats.receitaMensal)}
             </div>
-            <p className="text-sm text-muted-foreground">Receita Mensal</p>
+            <p className="text-sm text-[#EAD8AC]">Receita Mensal</p>
           </CardContent>
         </Card>
       </div>
@@ -279,7 +279,7 @@ export default function AdminAssinantesPage() {
       {/* Filtros */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
           <Input
             placeholder="Buscar por nome ou email..."
             value={searchTerm}
@@ -317,7 +317,7 @@ export default function AdminAssinantesPage() {
               ))}
             </div>
           ) : filteredSubscriptions.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <Crown className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhum assinante encontrado</p>
             </div>
@@ -337,7 +337,7 @@ export default function AdminAssinantesPage() {
                           src={subscription.cliente?.avatar_url || undefined}
                           alt={subscription.cliente?.nome ?? "Cliente"}
                         />
-                        <AvatarFallback className="bg-primary text-primary-foreground">
+                        <AvatarFallback className="bg-primary text-[#EAD8AC]">
                           {getInitials(subscription.cliente?.nome ?? "C")}
                         </AvatarFallback>
                       </Avatar>
@@ -346,10 +346,10 @@ export default function AdminAssinantesPage() {
                           <h3 className="font-medium">{subscription.cliente?.nome ?? "Cliente"}</h3>
                           <Badge variant={status.variant}>{status.label}</Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-1">
+                        <p className="text-sm text-[#EAD8AC] mb-1">
                           {subscription.plano.nome} • {formatCurrency(subscription.plano.preco_mensal)}/mês
                         </p>
-                        <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-4 text-xs text-[#EAD8AC]">
                           <span className="flex items-center">
                             <Calendar className="h-3 w-3 mr-1" />
                             Desde {format(parseISO(subscription.data_inicio), "dd/MM/yyyy")}
@@ -398,18 +398,18 @@ export default function AdminAssinantesPage() {
                     src={selectedSubscription.cliente?.avatar_url || undefined}
                     alt={selectedSubscription.cliente?.nome ?? "Cliente"}
                   />
-                  <AvatarFallback className="bg-primary text-primary-foreground text-lg">
+                  <AvatarFallback className="bg-primary text-[#EAD8AC] text-lg">
                     {getInitials(selectedSubscription.cliente?.nome ?? "C")}
                   </AvatarFallback>
                 </Avatar>
                 <div>
                   <h3 className="font-medium text-lg">{selectedSubscription.cliente?.nome ?? "Cliente"}</h3>
-                  <p className="text-sm text-muted-foreground flex items-center gap-1">
+                  <p className="text-sm text-[#EAD8AC] flex items-center gap-1">
                     <Mail className="h-3 w-3" />
                     {selectedSubscription.cliente.email}
                   </p>
                   {selectedSubscription.cliente.telefone && (
-                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                    <p className="text-sm text-[#EAD8AC] flex items-center gap-1">
                       <Phone className="h-3 w-3" />
                       {selectedSubscription.cliente.telefone}
                     </p>
@@ -422,28 +422,28 @@ export default function AdminAssinantesPage() {
                 <h4 className="font-medium">Informações do Plano</h4>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Plano</p>
+                    <p className="text-[#EAD8AC]">Plano</p>
                     <p className="font-medium">{selectedSubscription.plano.nome}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Valor</p>
+                    <p className="text-[#EAD8AC]">Valor</p>
                     <p className="font-medium">{formatCurrency(selectedSubscription.plano.preco_mensal)}/mês</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Status</p>
+                    <p className="text-[#EAD8AC]">Status</p>
                     <Badge variant={statusConfig[selectedSubscription.status]?.variant || "secondary"}>
                       {statusConfig[selectedSubscription.status]?.label || selectedSubscription.status}
                     </Badge>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Data de Início</p>
+                    <p className="text-[#EAD8AC]">Data de Início</p>
                     <p className="font-medium">
                       {format(parseISO(selectedSubscription.data_inicio), "dd/MM/yyyy")}
                     </p>
                   </div>
                   {selectedSubscription.proxima_cobranca && (
                     <div>
-                      <p className="text-muted-foreground">Próxima Cobrança</p>
+                      <p className="text-[#EAD8AC]">Próxima Cobrança</p>
                       <p className="font-medium">
                         {format(parseISO(selectedSubscription.proxima_cobranca), "dd/MM/yyyy")}
                       </p>
@@ -451,8 +451,8 @@ export default function AdminAssinantesPage() {
                   )}
                   {selectedSubscription.data_cancelamento && (
                     <div>
-                      <p className="text-muted-foreground">Data de Cancelamento</p>
-                      <p className="font-medium text-destructive">
+                      <p className="text-[#EAD8AC]">Data de Cancelamento</p>
+                      <p className="font-medium text-[#EAD8AC]">
                         {format(parseISO(selectedSubscription.data_cancelamento), "dd/MM/yyyy")}
                       </p>
                     </div>
@@ -469,7 +469,7 @@ export default function AdminAssinantesPage() {
                 {loadingPayments ? (
                   <Skeleton className="h-20" />
                 ) : payments.length === 0 ? (
-                  <p className="text-sm text-muted-foreground py-4 text-center">
+                  <p className="text-sm text-[#EAD8AC] py-4 text-center">
                     Nenhum pagamento registrado
                   </p>
                 ) : (
@@ -481,7 +481,7 @@ export default function AdminAssinantesPage() {
                       >
                         <div>
                           <p className="font-medium">{formatCurrency(payment.valor)}</p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-[#EAD8AC]">
                             {format(parseISO(payment.created_at), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
                           </p>
                         </div>
@@ -549,3 +549,5 @@ export default function AdminAssinantesPage() {
     </div>
   );
 }
+
+

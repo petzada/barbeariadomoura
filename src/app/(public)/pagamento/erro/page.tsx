@@ -11,28 +11,28 @@ export const metadata = {
 
 export default function PagamentoErroPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-background to-secondary/20">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#013648]">
       <Card className="max-w-md w-full text-center">
         <CardHeader className="pb-4">
-          <div className="w-20 h-20 mx-auto mb-4 bg-destructive/20 rounded-full flex items-center justify-center">
-            <XCircle className="h-10 w-10 text-destructive" />
+          <div className="w-20 h-20 mx-auto mb-4 bg-[#EAD8AC]/20 rounded-full flex items-center justify-center">
+            <XCircle className="h-10 w-10 text-[#EAD8AC]" />
           </div>
-          <CardTitle className="text-2xl text-destructive">
+          <CardTitle className="text-2xl text-[#EAD8AC]">
             Pagamento Recusado
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Infelizmente seu pagamento não foi aprovado. Isso pode acontecer por
             diversos motivos, como saldo insuficiente ou dados incorretos.
           </p>
 
-          <div className="bg-secondary rounded-lg p-4 text-sm text-left space-y-2">
+          <div className="bg-[#013648] border border-black rounded-lg p-4 text-sm text-left space-y-2">
             <p className="font-medium mb-2">Possíveis causas:</p>
-            <p className="text-muted-foreground">• Saldo ou limite insuficiente</p>
-            <p className="text-muted-foreground">• Dados do cartão incorretos</p>
-            <p className="text-muted-foreground">• Cartão bloqueado ou vencido</p>
-            <p className="text-muted-foreground">• Recusa pela operadora</p>
+            <p className="text-[#EAD8AC]">• Saldo ou limite insuficiente</p>
+            <p className="text-[#EAD8AC]">• Dados do cartão incorretos</p>
+            <p className="text-[#EAD8AC]">• Cartão bloqueado ou vencido</p>
+            <p className="text-[#EAD8AC]">• Recusa pela operadora</p>
           </div>
 
           <div className="flex flex-col gap-3">
@@ -63,3 +63,4 @@ export default function PagamentoErroPage() {
     </div>
   );
 }
+

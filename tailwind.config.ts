@@ -10,65 +10,39 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Cores principais - Barbearia do Moura
+        border: "#000000",
+        input: "#000000",
+        ring: "#EAD8AC",
+        background: "#013648",
+        foreground: "#EAD8AC",
         primary: {
-          DEFAULT: "#ECD8A8",
-          foreground: "#121212",
-        },
-        accent: {
           DEFAULT: "#013648",
-          foreground: "#FFFFFF",
-        },
-        background: "#121212",
-        "background-card": "#1A1A1A",
-        "background-elevated": "#242424",
-
-        // Cores semânticas
-        success: {
-          DEFAULT: "#22C55E",
-          foreground: "#FFFFFF",
-        },
-        warning: {
-          DEFAULT: "#E67300",
-          foreground: "#FFFFFF",
-        },
-        destructive: {
-          DEFAULT: "#EF4444",
-          foreground: "#FFFFFF",
-        },
-        info: {
-          DEFAULT: "#3B82F6",
-          foreground: "#FFFFFF",
-        },
-
-        // Textos
-        foreground: "#FFFFFF",
-        "muted-foreground": "#A1A1AA",
-        "disabled-foreground": "#71717A",
-
-        // Bordas
-        border: "#2A2A2A",
-        "border-hover": "#3A3A3A",
-
-        // shadcn/ui compatibility
-        card: {
-          DEFAULT: "#1A1A1A",
-          foreground: "#FFFFFF",
-        },
-        popover: {
-          DEFAULT: "#1A1A1A",
-          foreground: "#FFFFFF",
-        },
-        muted: {
-          DEFAULT: "#242424",
-          foreground: "#A1A1AA",
+          foreground: "#EAD8AC",
         },
         secondary: {
-          DEFAULT: "#242424",
-          foreground: "#FFFFFF",
+          DEFAULT: "#013648",
+          foreground: "#EAD8AC",
         },
-        input: "#2A2A2A",
-        ring: "#ECD8A8",
+        destructive: {
+          DEFAULT: "#013648",
+          foreground: "#EAD8AC",
+        },
+        muted: {
+          DEFAULT: "#013648",
+          foreground: "#EAD8AC",
+        },
+        accent: {
+          DEFAULT: "#EAD8AC",
+          foreground: "#013648",
+        },
+        popover: {
+          DEFAULT: "#013648",
+          foreground: "#EAD8AC",
+        },
+        card: {
+          DEFAULT: "#013648",
+          foreground: "#EAD8AC",
+        },
       },
       fontFamily: {
         sans: ["var(--font-roboto)", "system-ui", "sans-serif"],

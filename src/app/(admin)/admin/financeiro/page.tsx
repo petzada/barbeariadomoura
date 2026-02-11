@@ -66,10 +66,10 @@ interface DayStats {
 }
 
 const metodoConfig: Record<string, { label: string; icon: React.ElementType; color: string }> = {
-  pix: { label: "PIX", icon: Smartphone, color: "text-success" },
-  cartao_credito: { label: "Crédito", icon: CreditCard, color: "text-primary" },
+  pix: { label: "PIX", icon: Smartphone, color: "text-[#EAD8AC]" },
+  cartao_credito: { label: "Crédito", icon: CreditCard, color: "text-[#EAD8AC]" },
   cartao_debito: { label: "Débito", icon: CreditCard, color: "text-blue-500" },
-  dinheiro: { label: "Dinheiro", icon: Banknote, color: "text-warning" },
+  dinheiro: { label: "Dinheiro", icon: Banknote, color: "text-[#EAD8AC]" },
   assinatura: { label: "Assinatura", icon: Crown, color: "text-purple-500" },
 };
 
@@ -210,7 +210,7 @@ export default function AdminFinanceiroPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Financeiro</h1>
-        <p className="text-muted-foreground">
+        <p className="text-[#EAD8AC]">
           Acompanhe o caixa e movimentações financeiras
         </p>
       </div>
@@ -219,23 +219,23 @@ export default function AdminFinanceiroPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-[#EAD8AC] flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               Faturamento do Mês
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-success">
+            <div className="text-2xl font-bold text-[#EAD8AC]">
               {formatCurrency(monthStats.total)}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-[#EAD8AC]">
               {monthStats.count} pagamentos
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-[#EAD8AC] flex items-center gap-2">
               <DollarSign className="h-4 w-4" />
               Ticket Médio
             </CardTitle>
@@ -244,23 +244,23 @@ export default function AdminFinanceiroPage() {
             <div className="text-2xl font-bold">
               {formatCurrency(monthStats.avgTicket)}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-[#EAD8AC]">
               Por atendimento
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-[#EAD8AC] flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               Caixa de Hoje
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">
+            <div className="text-2xl font-bold text-[#EAD8AC]">
               {formatCurrency(dayStats.total)}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-[#EAD8AC]">
               {dayStats.count} recebimentos
             </p>
           </CardContent>
@@ -309,7 +309,7 @@ export default function AdminFinanceiroPage() {
                   className="p-3 rounded-lg bg-secondary/50 text-center"
                 >
                   <config.icon className={`h-5 w-5 mx-auto mb-2 ${config.color}`} />
-                  <p className="text-xs text-muted-foreground">{config.label}</p>
+                  <p className="text-xs text-[#EAD8AC]">{config.label}</p>
                   <p className="font-bold">{formatCurrency(value)}</p>
                 </div>
               );
@@ -347,7 +347,7 @@ export default function AdminFinanceiroPage() {
               ))}
             </div>
           ) : filteredPayments.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <DollarSign className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhuma movimentação neste dia</p>
             </div>
@@ -370,14 +370,14 @@ export default function AdminFinanceiroPage() {
                         <p className="font-medium">
                           {payment.agendamento?.cliente?.nome || "Pagamento de Assinatura"}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-[#EAD8AC]">
                           {payment.agendamento?.servico?.nome || "Plano mensal"} •{" "}
                           {format(parseISO(payment.created_at), "HH:mm")}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-success flex items-center">
+                      <span className="font-bold text-[#EAD8AC] flex items-center">
                         <ArrowUpRight className="h-4 w-4 mr-1" />
                         {formatCurrency(payment.valor)}
                       </span>
@@ -393,3 +393,4 @@ export default function AdminFinanceiroPage() {
     </div>
   );
 }
+

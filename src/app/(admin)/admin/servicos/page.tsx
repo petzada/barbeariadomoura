@@ -228,7 +228,7 @@ export default function AdminServicosPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Serviços</h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#EAD8AC]">
             Gerencie os serviços oferecidos pela barbearia
           </p>
         </div>
@@ -254,7 +254,7 @@ export default function AdminServicosPage() {
               ))}
             </div>
           ) : services.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
+            <div className="text-center py-12 text-[#EAD8AC]">
               <Scissors className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Nenhum serviço cadastrado</p>
               <Button className="mt-4" onClick={openCreateDialog}>
@@ -279,11 +279,11 @@ export default function AdminServicosPage() {
                       </Badge>
                     </div>
                     {service.descricao && (
-                      <p className="text-sm text-muted-foreground mb-2">
+                      <p className="text-sm text-[#EAD8AC] mb-2">
                         {service.descricao}
                       </p>
                     )}
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-4 text-sm text-[#EAD8AC]">
                       <span className="flex items-center">
                         <DollarSign className="h-4 w-4 mr-1" />
                         {formatCurrency(service.preco)}
@@ -303,7 +303,7 @@ export default function AdminServicosPage() {
                       title={service.ativo ? "Desativar" : "Ativar"}
                     >
                       {service.ativo ? (
-                        <ToggleRight className="h-5 w-5 text-success" />
+                        <ToggleRight className="h-5 w-5 text-[#EAD8AC]" />
                       ) : (
                         <ToggleLeft className="h-5 w-5" />
                       )}
@@ -320,7 +320,7 @@ export default function AdminServicosPage() {
                       size="icon"
                       onClick={() => setDeleteId(service.id)}
                     >
-                      <Trash2 className="h-4 w-4 text-destructive" />
+                      <Trash2 className="h-4 w-4 text-[#EAD8AC]" />
                     </Button>
                   </div>
                 </div>
@@ -447,3 +447,4 @@ export default function AdminServicosPage() {
     </div>
   );
 }
+

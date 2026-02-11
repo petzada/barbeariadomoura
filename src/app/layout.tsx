@@ -66,7 +66,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#121212",
+  themeColor: "#013648",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -118,7 +118,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`min-h-screen bg-background font-sans antialiased ${roboto.variable}`}>
+      <body className={`min-h-screen bg-[#013648] text-[#EAD8AC] font-sans antialiased ${roboto.variable}`}>
         {children}
         <Toaster />
         <WhatsAppFloatingButton />
@@ -126,3 +126,4 @@ export default function RootLayout({
     </html>
   );
 }
+

@@ -105,7 +105,7 @@ async function ServicesSection() {
   if (!services || services.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-muted-foreground">
+        <p className="text-[#EAD8AC]">
           Nenhum serviço disponível no momento.
         </p>
       </div>
@@ -120,7 +120,7 @@ async function ServicesSection() {
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h3 className="font-semibold text-lg">{service.nome}</h3>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-sm text-[#EAD8AC] mt-1">
                   {service.descricao}
                 </p>
               </div>
@@ -128,7 +128,7 @@ async function ServicesSection() {
                 {formatCurrency(service.preco)}
               </Badge>
             </div>
-            <div className="flex items-center text-sm text-muted-foreground">
+            <div className="flex items-center text-sm text-[#EAD8AC]">
               <Clock className="h-4 w-4 mr-1" />
               {service.duracao_minutos} min
             </div>
@@ -168,7 +168,7 @@ async function ProfessionalsSection() {
   if (!professionals || professionals.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-muted-foreground">
+        <p className="text-[#EAD8AC]">
           Nenhum profissional disponível no momento.
         </p>
       </div>
@@ -182,12 +182,12 @@ async function ProfessionalsSection() {
           <CardContent className="p-6">
             <Avatar className="h-24 w-24 mx-auto mb-4">
               <AvatarImage src={prof.user?.avatar_url || undefined} alt={prof.user?.nome || "Profissional"} />
-              <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
+              <AvatarFallback className="bg-primary text-[#EAD8AC] text-2xl">
                 {getInitials(prof.user?.nome || "?")}
               </AvatarFallback>
             </Avatar>
             <h3 className="font-semibold text-lg">{prof.user?.nome || "Profissional"}</h3>
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-sm text-[#EAD8AC] mt-2">
               {prof.bio || "Barbeiro profissional"}
             </p>
           </CardContent>
@@ -224,10 +224,7 @@ export default function HomePage() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-          {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-accent/20" />
-
+        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#013648]">
           {/* Content */}
           <div className="container-app relative z-10 text-center py-20">
             <Badge variant="default" className="mb-6">
@@ -241,7 +238,7 @@ export default function HomePage() {
               <span className="text-gradient-gold block mt-2 text-5xl sm:text-7xl lg:text-8xl">Barbearia do Moura</span>
             </h1>
 
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            <p className="text-lg sm:text-xl text-[#EAD8AC] max-w-2xl mx-auto mb-8">
               Cortes modernos, barba tradicional e ambiente acolhedor. Agende
               online 24/7 e descubra por que somos referência na região.
             </p>
@@ -264,17 +261,17 @@ export default function HomePage() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto mt-16">
               <div>
-                <p className="text-3xl font-bold text-primary">15+</p>
-                <p className="text-sm text-muted-foreground">Anos de experiência</p>
+                <p className="text-3xl font-bold text-[#EAD8AC]">15+</p>
+                <p className="text-sm text-[#EAD8AC]">Anos de experiência</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-primary">5000+</p>
-                <p className="text-sm text-muted-foreground">Clientes satisfeitos</p>
+                <p className="text-3xl font-bold text-[#EAD8AC]">5000+</p>
+                <p className="text-sm text-[#EAD8AC]">Clientes satisfeitos</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-primary">4.9</p>
-                <p className="text-sm text-muted-foreground">
-                  <Star className="h-4 w-4 inline text-primary" /> Avaliação
+                <p className="text-3xl font-bold text-[#EAD8AC]">4.9</p>
+                <p className="text-sm text-[#EAD8AC]">
+                  <Star className="h-4 w-4 inline text-[#EAD8AC]" /> Avaliação
                 </p>
               </div>
             </div>
@@ -282,17 +279,17 @@ export default function HomePage() {
         </section>
 
         {/* Serviços Section */}
-        <section id="servicos" className="section-padding bg-card/50">
+        <section id="servicos" className="section-padding bg-[#013648]">
           <div className="container-app">
             <div className="text-center mb-12">
               <Badge variant="secondary" className="mb-4">
                 <Scissors className="h-3 w-3 mr-1" />
                 Nossos Serviços
               </Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-[#F5F5F0]">
-                Serviços de <span className="text-primary">Qualidade</span>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-[#EAD8AC]">
+                Serviços de <span className="text-[#EAD8AC]">Qualidade</span>
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-[#EAD8AC] max-w-2xl mx-auto">
                 Oferecemos uma variedade de serviços para você ficar no estilo.
                 Todos executados por profissionais experientes.
               </p>
@@ -320,10 +317,10 @@ export default function HomePage() {
               <Badge variant="secondary" className="mb-4">
                 Nossa Equipe
               </Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-[#F5F5F0]">
-                Profissionais <span className="text-primary">Experientes</span>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-[#EAD8AC]">
+                Profissionais <span className="text-[#EAD8AC]">Experientes</span>
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-[#EAD8AC] max-w-2xl mx-auto">
                 Conheça os barbeiros que vão cuidar do seu visual com
                 dedicação e profissionalismo.
               </p>
@@ -336,7 +333,7 @@ export default function HomePage() {
         </section>
 
         {/* Depoimentos Section */}
-        <section id="depoimentos" className="section-padding bg-card/50">
+        <section id="depoimentos" className="section-padding bg-[#013648]">
           <div className="container-app">
             <div className="text-center mb-12">
               <Badge variant="secondary" className="mb-4">
@@ -346,7 +343,7 @@ export default function HomePage() {
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                 O que nossos <span className="text-gradient-gold">Clientes</span> dizem
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-[#EAD8AC] max-w-2xl mx-auto">
                 A satisfação dos nossos clientes é nossa maior recompensa.
                 Confira alguns depoimentos de quem já passou por aqui.
               </p>
@@ -356,17 +353,17 @@ export default function HomePage() {
               {SOCIAL_PROOF.map((item) => (
                 <Card key={item.id} className="card-hover">
                   <CardContent className="p-5">
-                    <div className="flex items-center gap-1 text-primary mb-3">
+                    <div className="flex items-center gap-1 text-[#EAD8AC] mb-3">
                       {Array.from({ length: item.nota }).map((_, index) => (
                         <Star key={`${item.id}-${index}`} className="h-4 w-4 fill-current" />
                       ))}
                     </div>
-                    <p className="text-sm text-muted-foreground mb-4">
+                    <p className="text-sm text-[#EAD8AC] mb-4">
                       &quot;{item.feedback}&quot;
                     </p>
                     <div>
                       <p className="font-medium">{item.nome}</p>
-                      <p className="text-xs text-muted-foreground">{item.bairro}</p>
+                      <p className="text-xs text-[#EAD8AC]">{item.bairro}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -386,7 +383,7 @@ export default function HomePage() {
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                 Assine e <span className="text-gradient-gold">Economize</span>
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-[#EAD8AC] max-w-2xl mx-auto">
                 Faça parte do nosso clube e tenha acesso a serviços ilimitados
                 com preços especiais. Escolha o plano ideal para você.
               </p>
@@ -397,7 +394,7 @@ export default function HomePage() {
                 <Card
                   key={plan.id}
                   className={`relative ${plan.popular
-                    ? "border-primary shadow-lg scale-105"
+                    ? "border-[#EAD8AC] shadow-lg scale-105"
                     : "card-hover"
                     }`}
                 >
@@ -408,19 +405,19 @@ export default function HomePage() {
                   )}
                   <CardContent className="p-6">
                     <h3 className="font-semibold text-xl mb-2">{plan.nome}</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
+                    <p className="text-sm text-[#EAD8AC] mb-4">
                       {plan.descricao}
                     </p>
                     <div className="mb-6">
                       <span className="text-4xl font-bold text-gradient-gold">
                         {formatCurrency(plan.preco_mensal)}
                       </span>
-                      <span className="text-muted-foreground">/mês</span>
+                      <span className="text-[#EAD8AC]">/mês</span>
                     </div>
                     <ul className="space-y-3 mb-6">
                       {plan.beneficios.map((beneficio, i) => (
                         <li key={i} className="flex items-center gap-2 text-sm">
-                          <Check className="h-4 w-4 text-success flex-shrink-0" />
+                          <Check className="h-4 w-4 text-[#EAD8AC] flex-shrink-0" />
                           {beneficio}
                         </li>
                       ))}
@@ -450,19 +447,19 @@ export default function HomePage() {
                 <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                   Venha nos <span className="text-gradient-gold">Visitar</span>
                 </h2>
-                <p className="text-muted-foreground mb-8">
+                <p className="text-[#EAD8AC] mb-8">
                   Estamos localizados no centro de Mauá, com fácil acesso e
                   estacionamento próximo. Venha conhecer nossa estrutura!
                 </p>
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <MapPin className="h-6 w-6 text-primary" />
+                    <div className="p-3 rounded-lg bg-[#013648]/70">
+                      <MapPin className="h-6 w-6 text-[#EAD8AC]" />
                     </div>
                     <div>
                       <h4 className="font-medium">Endereço</h4>
-                      <p className="text-muted-foreground">
+                      <p className="text-[#EAD8AC]">
                         Rua Exemplo, 123 - Centro
                         <br />
                         Mauá-SP, 09310-000
@@ -471,12 +468,12 @@ export default function HomePage() {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <Clock className="h-6 w-6 text-primary" />
+                    <div className="p-3 rounded-lg bg-[#013648]/70">
+                      <Clock className="h-6 w-6 text-[#EAD8AC]" />
                     </div>
                     <div>
                       <h4 className="font-medium">Horário de Funcionamento</h4>
-                      <p className="text-muted-foreground">
+                      <p className="text-[#EAD8AC]">
                         Terça a Sexta: 09h às 20h
                         <br />
                         Sábado: 09h às 18h
@@ -485,12 +482,12 @@ export default function HomePage() {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <Phone className="h-6 w-6 text-primary" />
+                    <div className="p-3 rounded-lg bg-[#013648]/70">
+                      <Phone className="h-6 w-6 text-[#EAD8AC]" />
                     </div>
                     <div>
                       <h4 className="font-medium">Telefone / WhatsApp</h4>
-                      <p className="text-muted-foreground">(11) 96023-4545</p>
+                      <p className="text-[#EAD8AC]">(11) 96023-4545</p>
                     </div>
                   </div>
                 </div>
@@ -519,7 +516,7 @@ export default function HomePage() {
               </div>
 
               {/* Mapa placeholder */}
-              <div className="aspect-square md:aspect-auto md:h-[500px] rounded-xl overflow-hidden bg-secondary">
+              <div className="aspect-square md:aspect-auto md:h-[500px] rounded-xl overflow-hidden bg-[#013648] border border-black">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3654.8889!2d-46.4614!3d-23.6676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDQwJzAzLjQiUyA0NsKwMjcnNDEuMCJX!5e0!3m2!1spt-BR!2sbr!4v1234567890"
                   width="100%"
@@ -536,12 +533,12 @@ export default function HomePage() {
         </section>
 
         {/* CTA Final */}
-        <section className="py-20 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20">
+        <section className="py-20 bg-[#013648] border-y border-black">
           <div className="container-app text-center">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Pronto para ficar no estilo?
             </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+            <p className="text-[#EAD8AC] max-w-xl mx-auto mb-8">
               Agende agora mesmo e venha conhecer a Barbearia do Moura.
               Primeira visita? Ganhe 10% de desconto!
             </p>
@@ -559,3 +556,5 @@ export default function HomePage() {
     </>
   );
 }
+
+

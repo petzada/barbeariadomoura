@@ -143,7 +143,7 @@ export default function DashboardPage() {
   if (loadingUser || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
       </div>
     );
   }
@@ -192,11 +192,11 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#013648]">
       <div className="container-app py-8">
         {/* Header com Saudação */}
         <div className="mb-6">
-          <p className="text-muted-foreground">{getSaudacao()},</p>
+          <p className="text-[#EAD8AC]">{getSaudacao()},</p>
           <h1 className="text-3xl font-bold text-gradient-gold tracking-wide">{user?.nome?.split(" ")[0] ?? "Cliente"}</h1>
         </div>
 
@@ -206,15 +206,15 @@ export default function DashboardPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {quickActions.map((action) => (
               <Link key={action.href} href={action.href}>
-                <Card className="h-full hover:border-primary/50 transition-colors cursor-pointer">
+                <Card className="h-full hover:border-[#EAD8AC] transition-colors cursor-pointer">
                   <CardContent className="pt-6 text-center">
-                    <div className={`inline-flex p-3 rounded-lg mb-3 ${action.variant === "default" ? "bg-primary/10" : "bg-secondary"
+                    <div className={`inline-flex p-3 rounded-lg mb-3 ${action.variant === "default" ? "bg-[#013648]/70" : "bg-secondary"
                       }`}>
-                      <action.icon className={`h-6 w-6 ${action.variant === "default" ? "text-primary" : "text-muted-foreground"
+                      <action.icon className={`h-6 w-6 ${action.variant === "default" ? "text-[#EAD8AC]" : "text-[#EAD8AC]"
                         }`} />
                     </div>
                     <h3 className="font-medium">{action.title}</h3>
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="text-xs text-[#EAD8AC] mt-1">
                       {action.description}
                     </p>
                   </CardContent>
@@ -229,7 +229,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-primary" />
+                <Calendar className="h-4 w-4 text-[#EAD8AC]" />
                 Próximo Agendamento
               </CardTitle>
             </CardHeader>
@@ -246,13 +246,13 @@ export default function DashboardPage() {
                         }
                         alt={nextAppointment.profissional?.user?.nome ?? "Profissional"}
                       />
-                      <AvatarFallback className="bg-primary/10">
+                      <AvatarFallback className="bg-[#013648]/70">
                         {getInitials(nextAppointment.profissional?.user?.nome ?? "P")}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
                       <p className="font-medium">{nextAppointment.servico?.nome ?? "Serviço"}</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-[#EAD8AC]">
                         com {nextAppointment.profissional?.user?.nome ?? "Profissional"}
                       </p>
                     </div>
@@ -260,11 +260,11 @@ export default function DashboardPage() {
                   </div>
 
                   <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1 text-muted-foreground">
+                    <div className="flex items-center gap-1 text-[#EAD8AC]">
                       <Calendar className="h-4 w-4" />
                       {format(parseISO(nextAppointment.data_hora_inicio), "EEE, dd/MM", { locale: ptBR })}
                     </div>
-                    <div className="flex items-center gap-1 text-muted-foreground">
+                    <div className="flex items-center gap-1 text-[#EAD8AC]">
                       <Clock className="h-4 w-4" />
                       {format(parseISO(nextAppointment.data_hora_inicio), "HH:mm")}
                     </div>
@@ -279,8 +279,8 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <Scissors className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-                  <p className="text-muted-foreground mb-4">
+                  <Scissors className="h-12 w-12 mx-auto text-[#EAD8AC] mb-3" />
+                  <p className="text-[#EAD8AC] mb-4">
                     Você não tem agendamentos futuros
                   </p>
                   <Button asChild>
@@ -298,7 +298,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
-                <Crown className="h-4 w-4 text-primary" />
+                <Crown className="h-4 w-4 text-[#EAD8AC]" />
                 Clube do Moura
               </CardTitle>
             </CardHeader>
@@ -308,14 +308,14 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium">{subscription.plano.nome}</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-[#EAD8AC]">
                         {formatCurrency(subscription.plano.preco_mensal)}/mês
                       </p>
                     </div>
                     <Badge variant="success">Ativa</Badge>
                   </div>
 
-                  <div className="p-3 rounded-lg bg-success/10 text-success text-sm">
+                  <div className="p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
                     Você tem benefícios ativos! Seus serviços inclusos são gratuitos.
                   </div>
 
@@ -328,11 +328,11 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <Crown className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-                  <p className="text-muted-foreground mb-2">
+                  <Crown className="h-12 w-12 mx-auto text-[#EAD8AC] mb-3" />
+                  <p className="text-[#EAD8AC] mb-2">
                     Você ainda não é assinante
                   </p>
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className="text-sm text-[#EAD8AC] mb-4">
                     Assine e ganhe serviços ilimitados!
                   </p>
                   <Button asChild>
@@ -353,16 +353,16 @@ export default function DashboardPage() {
             <CardContent className="pt-6">
               <div className="grid grid-cols-2 gap-4 text-center">
                 <div>
-                  <p className="text-3xl font-bold text-primary">{appointmentsCount}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-3xl font-bold text-[#EAD8AC]">{appointmentsCount}</p>
+                  <p className="text-sm text-[#EAD8AC]">
                     {appointmentsCount === 1 ? "Agendamento" : "Agendamentos"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold text-primary">
+                  <p className="text-3xl font-bold text-[#EAD8AC]">
                     {subscription ? "Ativo" : "-"}
                   </p>
-                  <p className="text-sm text-muted-foreground">Status do Clube</p>
+                  <p className="text-sm text-[#EAD8AC]">Status do Clube</p>
                 </div>
               </div>
             </CardContent>
@@ -372,3 +372,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

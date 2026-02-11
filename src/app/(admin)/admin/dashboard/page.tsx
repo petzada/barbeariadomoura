@@ -43,19 +43,19 @@ function MetricCard({
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
+        <CardTitle className="text-sm font-medium text-[#EAD8AC]">
           {title}
         </CardTitle>
-        <Icon className="h-4 w-4 text-muted-foreground" />
+        <Icon className="h-4 w-4 text-[#EAD8AC]" />
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
         {description && (
-          <p className="text-xs text-muted-foreground mt-1">{description}</p>
+          <p className="text-xs text-[#EAD8AC] mt-1">{description}</p>
         )}
         {trend && (
           <div
-            className={`flex items-center text-xs mt-2 ${trend.positive ? "text-success" : "text-destructive"
+            className={`flex items-center text-xs mt-2 ${trend.positive ? "text-[#EAD8AC]" : "text-[#EAD8AC]"
               }`}
           >
             <TrendingUp
@@ -159,10 +159,10 @@ async function TodaySchedule() {
   const appointments = await getTodayAppointments();
 
   const statusConfig: Record<string, { icon: React.ElementType; color: string }> = {
-    agendado: { icon: Clock, color: "text-primary" },
-    em_andamento: { icon: AlertCircle, color: "text-warning" },
-    concluido: { icon: CheckCircle, color: "text-success" },
-    nao_compareceu: { icon: XCircle, color: "text-destructive" },
+    agendado: { icon: Clock, color: "text-[#EAD8AC]" },
+    em_andamento: { icon: AlertCircle, color: "text-[#EAD8AC]" },
+    concluido: { icon: CheckCircle, color: "text-[#EAD8AC]" },
+    nao_compareceu: { icon: XCircle, color: "text-[#EAD8AC]" },
   };
 
   if (appointments.length === 0) {
@@ -175,7 +175,7 @@ async function TodaySchedule() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="text-center py-8 text-[#EAD8AC]">
             <Calendar className="h-12 w-12 mx-auto mb-3 opacity-50" />
             <p>Nenhum agendamento para hoje</p>
           </div>
@@ -212,13 +212,13 @@ async function TodaySchedule() {
                       src={appointment.cliente?.avatar_url}
                       alt={appointment.cliente?.nome}
                     />
-                    <AvatarFallback className="bg-primary text-primary-foreground">
+                    <AvatarFallback className="bg-primary text-[#EAD8AC]">
                       {getInitials(appointment.cliente?.nome || "?")}
                     </AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="font-medium">{appointment.cliente?.nome}</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-[#EAD8AC]">
                       {appointment.servico?.nome} • {appointment.profissional?.user?.nome}
                     </p>
                   </div>
@@ -228,7 +228,7 @@ async function TodaySchedule() {
                     <p className="font-medium">
                       {format(new Date(appointment.data_hora_inicio), "HH:mm")}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-[#EAD8AC]">
                       {appointment.coberto_assinatura
                         ? "Assinatura"
                         : formatCurrency(appointment.valor_cobrado)}
@@ -333,3 +333,5 @@ export default function AdminDashboardPage() {
     </div>
   );
 }
+
+
