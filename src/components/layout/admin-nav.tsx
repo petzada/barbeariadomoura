@@ -74,7 +74,7 @@ export function AdminNav() {
       <div className="container-app flex h-14 items-center justify-between">
         {/* Logo */}
         <Link href="/admin/dashboard" className="flex items-center gap-2">
-          <div className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-black">
+          <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-black">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo.png"
@@ -82,12 +82,6 @@ export function AdminNav() {
               className="h-full w-full object-cover"
             />
           </div>
-          <span className="font-bold text-gradient-gold hidden sm:inline">
-            Admin
-          </span>
-          <span className="font-bold text-gradient-gold sm:hidden">
-            Admin
-          </span>
         </Link>
 
         {/* Desktop Nav */}
@@ -253,5 +247,6 @@ export function AdminNav() {
     </header>
   );
 }
+
 
 

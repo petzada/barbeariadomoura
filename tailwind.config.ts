@@ -36,11 +36,11 @@ const config: Config = {
           foreground: "#013648",
         },
         popover: {
-          DEFAULT: "#0B0B0B",
+          DEFAULT: "#00000080",
           foreground: "#EAD8AC",
         },
         card: {
-          DEFAULT: "#0B0B0B",
+          DEFAULT: "#00000080",
           foreground: "#EAD8AC",
         },
       },

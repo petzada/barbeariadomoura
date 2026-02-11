@@ -6,9 +6,9 @@
   :root {
     --background: 197 100% 14%;
     --foreground: 43 56% 80%;
-    --card: 0 0% 4%;
+    --card: 0 0% 0% / 50%;
     --card-foreground: 43 56% 80%;
-    --popover: 0 0% 4%;
+    --popover: 0 0% 0% / 50%;
     --popover-foreground: 43 56% 80%;
     --primary: 197 100% 14%;
     --primary-foreground: 43 56% 80%;
@@ -116,7 +116,7 @@
 
   .card-hover {
     border: 1px solid #000000;
-    background-color: #0B0B0B;
+    background-color: rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
   }
 
@@ -129,7 +129,7 @@
   }
 
   .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-black bg-[#013648] text-[#EAD8AC];
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-black bg-black/50 backdrop-blur-sm text-[#EAD8AC];
   }
 
   .skeleton {
@@ -204,7 +204,7 @@
   }
 
   .glass {
-    @apply bg-[#013648]/80 backdrop-blur-sm;
+    @apply bg-black/50 backdrop-blur-sm;
   }
 
   @media (prefers-reduced-motion: reduce) {
