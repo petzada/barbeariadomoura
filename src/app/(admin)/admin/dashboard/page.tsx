@@ -208,10 +208,7 @@ async function TodaySchedule() {
               >
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage
-                      src={appointment.cliente?.avatar_url}
                       alt={appointment.cliente?.nome}
-                    />
                     <AvatarFallback className="bg-primary text-[#EAD8AC]">
                       {getInitials(appointment.cliente?.nome || "?")}
                     </AvatarFallback>

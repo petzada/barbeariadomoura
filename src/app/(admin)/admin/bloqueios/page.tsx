@@ -479,10 +479,7 @@ export default function AdminBloqueiosPage() {
                     <div className="flex items-start gap-4 mb-4 sm:mb-0">
                       {block.profissional_id ? (
                         <Avatar className="h-10 w-10">
-                          <AvatarImage
-                            src={block.profissional?.user?.avatar_url || undefined}
                             alt={block.profissional?.user?.nome}
-                          />
                           <AvatarFallback className="bg-secondary">
                             {getInitials(block.profissional?.user?.nome || "")}
                           </AvatarFallback>

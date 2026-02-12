@@ -277,7 +277,6 @@ export default function FeedbackPage() {
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div className="flex items-start gap-4">
                               <Avatar className="h-12 w-12">
-                                <AvatarImage src={profFoto} alt={profNome} />
                                 <AvatarFallback className="bg-primary text-[#EAD8AC]">
                                   {getInitials(profNome)}
                                 </AvatarFallback>

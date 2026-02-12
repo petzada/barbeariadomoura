@@ -108,7 +108,6 @@ export function ProfessionalNav() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
                     <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                       {getInitials(user.nome)}
                     </AvatarFallback>
@@ -176,7 +175,6 @@ export function ProfessionalNav() {
                   <SheetTitle className="text-left">
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10">
-                        <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
                         <AvatarFallback className="bg-primary text-[#EAD8AC]">
                           {getInitials(user.nome)}
                         </AvatarFallback>

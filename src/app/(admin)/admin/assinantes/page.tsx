@@ -333,10 +333,7 @@ export default function AdminAssinantesPage() {
                   >
                     <div className="flex items-start gap-4 mb-4 sm:mb-0">
                       <Avatar className="h-12 w-12">
-                        <AvatarImage
-                          src={subscription.cliente?.avatar_url || undefined}
                           alt={subscription.cliente?.nome ?? "Cliente"}
-                        />
                         <AvatarFallback className="bg-primary text-[#EAD8AC]">
                           {getInitials(subscription.cliente?.nome ?? "C")}
                         </AvatarFallback>
@@ -394,10 +391,7 @@ export default function AdminAssinantesPage() {
               {/* Info do Cliente */}
               <div className="flex items-center gap-4 p-4 bg-secondary rounded-lg">
                 <Avatar className="h-16 w-16">
-                  <AvatarImage
-                    src={selectedSubscription.cliente?.avatar_url || undefined}
                     alt={selectedSubscription.cliente?.nome ?? "Cliente"}
-                  />
                   <AvatarFallback className="bg-primary text-[#EAD8AC] text-lg">
                     {getInitials(selectedSubscription.cliente?.nome ?? "C")}
                   </AvatarFallback>

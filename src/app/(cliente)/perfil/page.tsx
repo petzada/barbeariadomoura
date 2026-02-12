@@ -174,7 +174,6 @@ export default function PerfilPage() {
             <Card>
               <CardContent className="pt-6 text-center">
                 <Avatar className="h-24 w-24 mx-auto mb-4">
-                  <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
                   <AvatarFallback className="bg-primary text-[#EAD8AC] text-2xl">
                     {getInitials(user.nome)}
                   </AvatarFallback>

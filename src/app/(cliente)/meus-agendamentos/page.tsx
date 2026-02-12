@@ -396,10 +396,7 @@ function AppointmentCard({
           {/* Info */}
           <div className="flex items-start gap-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage
                 src={profissionalFoto}
-                alt={profissionalNome}
-              />
               <AvatarFallback className="bg-primary text-[#EAD8AC]">
                 {getInitials(profissionalNome)}
               </AvatarFallback>

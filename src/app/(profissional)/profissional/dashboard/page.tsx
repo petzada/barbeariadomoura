@@ -396,10 +396,7 @@ export default function ProfissionalDashboardPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12">
-                  <AvatarImage
-                    src={proximoAtendimento.cliente?.avatar_url || undefined}
                     alt={proximoAtendimento.cliente?.nome ?? "Cliente"}
-                  />
                   <AvatarFallback className="bg-secondary text-secondary-foreground">
                     {getInitials(proximoAtendimento.cliente?.nome ?? "C")}
                   </AvatarFallback>
@@ -524,10 +521,7 @@ export default function ProfissionalDashboardPage() {
                           </div>
                           <div className="flex items-center gap-2">
                             <Avatar className="h-8 w-8">
-                              <AvatarImage
-                                src={appointment.cliente?.avatar_url || undefined}
                                 alt={appointment.cliente?.nome ?? "Cliente"}
-                              />
                               <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                                 {getInitials(appointment.cliente?.nome ?? "C")}
                               </AvatarFallback>

@@ -238,14 +238,12 @@ export default function DashboardPage() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <Avatar>
-                      <AvatarImage
                         src={
                           nextAppointment.profissional?.foto_url ||
                           nextAppointment.profissional?.user?.avatar_url ||
                           undefined
                         }
                         alt={nextAppointment.profissional?.user?.nome ?? "Profissional"}
-                      />
                       <AvatarFallback className="bg-[#013648]/70">
                         {getInitials(nextAppointment.profissional?.user?.nome ?? "P")}
                       </AvatarFallback>

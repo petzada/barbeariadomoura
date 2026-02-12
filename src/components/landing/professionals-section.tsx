@@ -4,10 +4,8 @@ import { Container, SectionWrapper } from "./primitives";
 interface ProfessionalData {
   id: string;
   bio: string | null;
-  foto_url: string | null;
   user?: {
     nome: string;
-    avatar_url: string | null;
   } | null;
 }
 
@@ -15,8 +13,8 @@ interface ProfessionalsSectionProps {
   professionals: ProfessionalData[];
 }
 
-// Fallback images for professionals when database photo is missing
-const professionalImageFallback: Record<string, string> = {
+// Static images for professionals
+const professionalImages: Record<string, string> = {
   "Gustavo": "/images/gustavobarber.jpg",
   "Guilherme": "/images/guilhermebarber.png",
 };
@@ -41,7 +39,7 @@ export function ProfessionalsSection({ professionals }: ProfessionalsSectionProp
           <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 justify-center">
             {featuredProfessionals.map((prof) => {
               const nome = prof.user?.nome ?? "Profissional";
-              const photoUrl = prof.user?.avatar_url ?? prof.foto_url ?? professionalImageFallback[nome];
+              const photoUrl = professionalImages[nome];
 
               return (
                 <article key={prof.id} className="relative h-[440px] sm:h-[520px] rounded-xl overflow-hidden border border-black">

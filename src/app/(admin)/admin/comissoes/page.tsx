@@ -455,10 +455,7 @@ export default function AdminComissoesPage() {
                     >
                       <div className="flex items-start gap-4 mb-4 sm:mb-0">
                         <Avatar className="h-10 w-10">
-                          <AvatarImage
-                            src={commission.profissional?.user?.avatar_url || undefined}
                             alt={commission.profissional?.user?.nome ?? "Profissional"}
-                          />
                           <AvatarFallback className="bg-primary text-[#EAD8AC]">
                             {getInitials(commission.profissional?.user?.nome ?? "P")}
                           </AvatarFallback>
@@ -534,10 +531,7 @@ export default function AdminComissoesPage() {
                     <div key={prof.id} className="space-y-3">
                       <div className="flex items-center gap-3">
                         <Avatar className="h-8 w-8">
-                          <AvatarImage
-                            src={prof.user?.avatar_url || undefined}
                             alt={prof.user?.nome ?? "Profissional"}
-                          />
                           <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                             {getInitials(prof.user?.nome ?? "P")}
                           </AvatarFallback>

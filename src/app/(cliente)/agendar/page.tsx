@@ -406,10 +406,7 @@ export default function AgendarPage() {
                       >
                         <CardContent className="p-4 sm:p-6">
                           <Avatar className="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-2 sm:mb-3">
-                            <AvatarImage
-                              src={prof?.foto_url || prof?.user?.avatar_url || undefined}
                               alt={prof?.user?.nome ?? "Profissional"}
-                            />
                             <AvatarFallback className="bg-primary text-[#EAD8AC] text-lg">
                               {getInitials(prof?.user?.nome ?? "P")}
                             </AvatarFallback>

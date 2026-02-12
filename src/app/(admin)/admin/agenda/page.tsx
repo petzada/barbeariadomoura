@@ -250,8 +250,8 @@ export default function AdminAgendaPage() {
           actionType === "start"
             ? "Atendimento iniciado"
             : actionType === "finish"
-            ? "Atendimento finalizado"
-            : "Marcado como não compareceu",
+              ? "Atendimento finalizado"
+              : "Marcado como não compareceu",
         variant: "success",
       });
 
@@ -357,10 +357,6 @@ export default function AdminAgendaPage() {
                         </div>
                         <div className="flex items-center gap-2">
                           <Avatar className="h-8 w-8">
-                            <AvatarImage
-                              src={appointment.cliente?.avatar_url || undefined}
-                              alt={appointment.cliente?.nome ?? "Cliente"}
-                            />
                             <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                               {getInitials(appointment.cliente?.nome ?? "C")}
                             </AvatarFallback>

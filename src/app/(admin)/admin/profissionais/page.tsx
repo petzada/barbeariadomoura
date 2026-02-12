@@ -499,10 +499,7 @@ export default function AdminProfissionaisPage() {
                 >
                   <div className="flex items-start gap-4 mb-4 sm:mb-0">
                     <Avatar className="h-12 w-12">
-                      <AvatarImage
-                        src={professional?.foto_url || professional?.user?.avatar_url || undefined}
                         alt={professional?.user?.nome ?? "Profissional"}
-                      />
                       <AvatarFallback className="bg-primary text-[#EAD8AC]">
                         {getInitials(professional?.user?.nome ?? "P")}
                       </AvatarFallback>
@@ -621,7 +618,6 @@ export default function AdminProfissionaisPage() {
                         )}
                       >
                         <Avatar className="h-8 w-8">
-                          <AvatarImage src={u.avatar_url || undefined} alt={u.nome} />
                           <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
                             {getInitials(u.nome)}
                           </AvatarFallback>

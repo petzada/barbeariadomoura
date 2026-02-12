@@ -40,10 +40,7 @@ export default async function ProfessionalsPage() {
                 <Card key={professional.id} variant="interactive" className="h-full">
                   <CardContent className="p-5 text-center">
                     <Avatar className="mx-auto h-20 w-20 mb-3" status="online">
-                      <AvatarImage
-                        src={professional.user?.avatar_url || undefined}
                         alt={professional.user?.nome || "Profissional"}
-                      />
                       <AvatarFallback className="text-lg">
                         {getInitials(professional.user?.nome || "P")}
                       </AvatarFallback>

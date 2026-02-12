@@ -322,10 +322,7 @@ export default function AdminFeedbacksPage() {
                       className="flex flex-col sm:flex-row sm:items-start gap-4 p-4 rounded-lg border"
                     >
                       <Avatar className="h-10 w-10">
-                        <AvatarImage
-                          src={feedback.cliente?.avatar_url || undefined}
                           alt={feedback.cliente?.nome ?? "Cliente"}
-                        />
                         <AvatarFallback className="bg-primary text-[#EAD8AC]">
                           {getInitials(feedback.cliente?.nome ?? "C")}
                         </AvatarFallback>
