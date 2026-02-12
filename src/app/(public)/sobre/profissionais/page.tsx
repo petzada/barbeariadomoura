@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowLeft, Scissors, Star, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -80,7 +80,7 @@ export default async function ProfessionalsPage() {
 
           <div className="mt-8 grid sm:grid-cols-2 gap-3">
             <Button asChild variant="gradient" size="lg">
-              <Link href="/cadastro">Criar conta</Link>
+              <Link href="/login">Criar conta</Link>
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link href="/sobre/servicos">Ver servicos</Link>
@@ -91,3 +91,5 @@ export default async function ProfessionalsPage() {
     </div>
   );
 }
+
+

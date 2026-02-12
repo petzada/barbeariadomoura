@@ -1,8 +1,4 @@
-import { Instagram } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getInitials } from "@/lib/utils";
-import { Container, SectionWrapper, SectionTitle } from "./primitives";
+﻿import { Container, SectionWrapper } from "./primitives";
 
 interface ProfessionalData {
   id: string;
@@ -18,50 +14,68 @@ interface ProfessionalsSectionProps {
   professionals: ProfessionalData[];
 }
 
-export function ProfessionalsSection({
-  professionals,
-}: ProfessionalsSectionProps) {
+export function ProfessionalsSection({ professionals }: ProfessionalsSectionProps) {
+  const featuredProfessionals = professionals.slice(0, 2);
+
   return (
     <SectionWrapper id="profissionais">
       <Container>
-        <SectionTitle
-          badge="Equipe"
-          title="Profissionais dedicados"
-          description="Conhca quem cuida do seu estilo com tecnica e atencao aos detalhes."
-        />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {professionals.map((prof) => {
-            const nome = prof.user?.nome ?? "Profissional";
-            const avatarUrl = prof.user?.avatar_url ?? prof.foto_url;
-
-            return (
-              <Card key={prof.id} variant="interactive">
-                <CardContent className="p-5 text-center space-y-3">
-                  <Avatar size="xl" className="mx-auto">
-                    <AvatarImage
-                      src={avatarUrl ?? undefined}
-                      alt={nome}
-                    />
-                    <AvatarFallback>{getInitials(nome)}</AvatarFallback>
-                  </Avatar>
-                  <h3 className="font-semibold text-[#EAD8AC]">{nome}</h3>
-                  {prof.bio && (
-                    <p className="text-sm text-[#EAD8AC]/70 line-clamp-2">
-                      {prof.bio}
-                    </p>
-                  )}
-                  <div className="flex justify-center gap-2 pt-1">
-                    <span className="w-8 h-8 rounded-full border border-black bg-black/30 flex items-center justify-center text-[#EAD8AC]/50 hover:text-[#EAD8AC] transition-colors cursor-pointer">
-                      <Instagram className="h-4 w-4" />
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+        <div className="mb-8 md:mb-10 text-center">
+          <span className="section-label">Equipe</span>
+          <h2 className="super-heading text-3xl sm:text-4xl lg:text-[2.75rem] mt-2">
+            Profissionais dedicados
+          </h2>
+          <p className="super-subheading mt-3 max-w-2xl mx-auto">
+            Conheca quem cuida do seu estilo com tecnica e atencao aos detalhes.
+          </p>
         </div>
+
+        {featuredProfessionals.length > 0 ? (
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 justify-center">
+            {featuredProfessionals.map((prof) => {
+              const nome = prof.user?.nome ?? "Profissional";
+              const photoUrl = prof.user?.avatar_url ?? prof.foto_url;
+
+              return (
+                <article key={prof.id} className="relative h-[440px] sm:h-[520px] rounded-xl overflow-hidden border border-black">
+                  {photoUrl ? (
+                    <div
+                      className="absolute inset-0 bg-cover bg-center"
+                      style={{ backgroundImage: `url(${photoUrl})` }}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 img-placeholder" />
+                  )}
+
+                  <div className="absolute inset-0 bg-black/55" />
+
+                  <div className="relative z-10 p-5 sm:p-6 flex h-full flex-col justify-end text-center">
+                    <h3 className="text-2xl font-semibold text-[#EAD8AC]">{nome}</h3>
+                    <p className="mt-2 text-sm sm:text-base text-[#EAD8AC]/85 max-w-md mx-auto">
+                      {prof.bio || "Especialista em cortes modernos, classicos e acabamento premium."}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 justify-center">
+            {Array.from({ length: 2 }).map((_, index) => (
+              <div
+                key={index}
+                className="relative h-[440px] sm:h-[520px] rounded-xl overflow-hidden border border-black img-placeholder"
+              >
+                <div className="absolute inset-0 bg-black/55" />
+                <div className="relative z-10 p-6 flex h-full items-end justify-center text-center">
+                  <p className="text-lg font-semibold text-[#EAD8AC]">Profissional</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </Container>
     </SectionWrapper>
   );
 }
+

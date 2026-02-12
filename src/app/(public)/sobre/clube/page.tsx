@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowLeft, Check, Crown, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -111,7 +111,7 @@ export default function ClubPage() {
                   </ul>
 
                   <Button asChild className="mt-5 w-full" variant={plan.featured ? "gradient" : "outline"}>
-                    <Link href="/cadastro">Assinar {plan.name}</Link>
+                    <Link href="/login">Assinar {plan.name}</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -120,7 +120,7 @@ export default function ClubPage() {
 
           <div className="mt-8 grid sm:grid-cols-2 gap-3">
             <Button asChild variant="gradient" size="lg">
-              <Link href="/cadastro">Criar conta e assinar</Link>
+              <Link href="/login">Criar conta e assinar</Link>
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link href="/sobre/servicos">Ver servicos incluidos</Link>
@@ -131,3 +131,5 @@ export default function ClubPage() {
     </div>
   );
 }
+
+

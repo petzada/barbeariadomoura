@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -274,7 +274,11 @@ html {
   }
 
   .section-landing {
-    @apply py-16 md:py-[100px];
+    @apply py-12 md:py-[92px];
+  }
+
+  .section-label {
+    @apply inline-block text-xs font-semibold tracking-[0.12em] uppercase text-[#EAD8AC]/90;
   }
 
   .img-placeholder {
@@ -394,3 +398,4 @@ html {
     }
   }
 }
+

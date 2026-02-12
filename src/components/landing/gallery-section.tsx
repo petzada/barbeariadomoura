@@ -1,37 +1,28 @@
-import { Container, SectionWrapper, SectionTitle } from "./primitives";
+﻿import { Container, SectionWrapper } from "./primitives";
 
 const galleryItems = [
-  { label: "Corte classico", gradient: "from-[#EAD8AC]/15 via-[#013648]/60 to-[#EAD8AC]/05" },
-  { label: "Barba delineada", gradient: "from-[#013648]/70 via-[#EAD8AC]/10 to-[#013648]/50" },
-  { label: "Degrade moderno", gradient: "from-[#EAD8AC]/10 via-[#012A3A]/80 to-[#EAD8AC]/08" },
-  { label: "Pigmentacao", gradient: "from-[#012A3A]/60 via-[#EAD8AC]/12 to-[#013648]/70" },
-  { label: "Ambiente premium", gradient: "from-[#EAD8AC]/12 via-[#013648]/50 to-[#012A3A]/80" },
-  { label: "Detalhes que importam", gradient: "from-[#013648]/60 via-[#EAD8AC]/08 to-[#012A3A]/70" },
+  "from-[#EAD8AC]/18 via-[#013648]/65 to-[#011E2D]/90",
+  "from-[#013648]/80 via-[#EAD8AC]/14 to-[#012A3A]/90",
+  "from-[#EAD8AC]/14 via-[#012A3A]/82 to-[#011E2D]/85",
+  "from-[#011E2D]/85 via-[#EAD8AC]/12 to-[#013648]/80",
+  "from-[#EAD8AC]/10 via-[#013648]/72 to-[#012A3A]/88",
 ];
 
 export function GallerySection() {
   return (
     <SectionWrapper bg="dark">
       <Container>
-        <SectionTitle
-          badge="Galeria"
-          title="Nosso trabalho fala por si"
-          description="Cada corte e uma expressao unica do estilo de quem nos visita."
-        />
+        <span className="section-label">Galeria</span>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {galleryItems.map((item) => (
+        <div className="mt-5 flex gap-2 overflow-x-auto hide-scrollbar md:overflow-visible md:h-[560px]">
+          {galleryItems.map((gradient, index) => (
             <div
-              key={item.label}
-              className="relative aspect-[4/3] rounded-xl border border-black overflow-hidden group"
+              key={index}
+              className="relative min-w-[220px] sm:min-w-[260px] md:min-w-0 md:flex-1 h-[420px] md:h-full rounded-lg overflow-hidden"
             >
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${item.gradient} transition-transform duration-500 group-hover:scale-105`}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <span className="absolute bottom-3 left-3 text-sm font-medium text-[#EAD8AC]">
-                {item.label}
-              </span>
+              <div className={`absolute inset-0 bg-gradient-to-br ${gradient}`} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+              <div className="absolute inset-0 animate-shimmer opacity-35" />
             </div>
           ))}
         </div>
@@ -39,3 +30,4 @@ export function GallerySection() {
     </SectionWrapper>
   );
 }
+

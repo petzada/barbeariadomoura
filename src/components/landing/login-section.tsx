@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect } from "react";
@@ -94,7 +94,7 @@ export function LoginSection() {
                     name="password"
                     type="password"
                     required
-                    placeholder="••••••••"
+                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                   />
                 </div>
 
@@ -123,7 +123,7 @@ export function LoginSection() {
                   Esqueceu a senha?
                 </Link>
                 <Link
-                  href="/cadastro"
+                  href="/login"
                   className="text-[#EAD8AC]/75 hover:text-[#EAD8AC] transition-colors"
                 >
                   Cadastrar
@@ -136,3 +136,5 @@ export function LoginSection() {
     </SectionWrapper>
   );
 }
+
+

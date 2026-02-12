@@ -1,4 +1,4 @@
-import { createServerClient } from "@supabase/ssr";
+﻿import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 interface CookieToSet {
@@ -7,10 +7,6 @@ interface CookieToSet {
   options?: Record<string, unknown>;
 }
 
-/**
- * Atualiza sessão do Supabase no middleware
- * Deve ser chamado no middleware.ts principal
- */
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -39,38 +35,37 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // IMPORTANTE: Não execute código entre createServerClient e supabase.auth.getUser()
-  // Um simples erro pode fazer com que usuários sejam deslogados aleatoriamente.
-
   let user = null;
   try {
     const { data } = await supabase.auth.getUser();
     user = data.user;
   } catch {
-    // Se falhar ao obter usuário, continua como não autenticado
     return supabaseResponse;
   }
 
-  // Rotas públicas que não requerem autenticação
-  const publicPaths = ["/", "/cadastro", "/esqueci-senha", "/resetar-senha", "/termos", "/privacidade"];
+  const publicPaths = [
+    "/",
+    "/login",
+    "/cadastro",
+    "/esqueci-senha",
+    "/resetar-senha",
+    "/termos",
+    "/privacidade",
+  ];
   const publicPrefixes = ["/api/webhooks", "/pagamento", "/sobre"];
-  const isPublicPath = publicPaths.some(
-    (path) => request.nextUrl.pathname === path
-  ) || publicPrefixes.some(
-    (prefix) => request.nextUrl.pathname.startsWith(prefix)
-  );
 
-  // Se não está autenticado e tenta acessar rota protegida
+  const isPublicPath =
+    publicPaths.some((path) => request.nextUrl.pathname === path) ||
+    publicPrefixes.some((prefix) => request.nextUrl.pathname.startsWith(prefix));
+
   if (!user && !isPublicPath) {
     const url = request.nextUrl.clone();
-    url.pathname = "/";
+    url.pathname = "/login";
     url.searchParams.set("redirect", request.nextUrl.pathname);
     return NextResponse.redirect(url);
   }
 
-  // Se está autenticado e tenta acessar login/cadastro, redireciona para dashboard do role
-  if (user && ["/", "/cadastro"].includes(request.nextUrl.pathname)) {
-    // Buscar role do usuário para redirecionar para o dashboard correto
+  if (user && ["/", "/login", "/cadastro"].includes(request.nextUrl.pathname)) {
     const { data: profile } = await supabase
       .from("users")
       .select("role")
@@ -79,7 +74,6 @@ export async function updateSession(request: NextRequest) {
 
     const url = request.nextUrl.clone();
 
-    // Redirecionar baseado no role
     if (profile?.role === "admin") {
       url.pathname = "/admin/dashboard";
     } else if (profile?.role === "barbeiro") {
@@ -93,3 +87,4 @@ export async function updateSession(request: NextRequest) {
 
   return supabaseResponse;
 }
+

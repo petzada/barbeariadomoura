@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -45,10 +45,10 @@ export function UserNav() {
     return (
       <div className="flex items-center gap-2">
         <Button variant="ghost" asChild>
-          <Link href="/">Entrar</Link>
+          <Link href="/login">Entrar</Link>
         </Button>
         <Button asChild>
-          <Link href="/cadastro">Cadastrar</Link>
+          <Link href="/login">Cadastrar</Link>
         </Button>
       </div>
     );
@@ -97,7 +97,7 @@ export function UserNav() {
             </DropdownMenuItem>
           )}
 
-          {/* Links exclusivos para clientes (não barbeiros e não admins) */}
+          {/* Links exclusivos para clientes (nÃ£o barbeiros e nÃ£o admins) */}
           {!isBarbeiro && !isAdmin && (
             <>
               <DropdownMenuItem asChild>
@@ -126,7 +126,7 @@ export function UserNav() {
           <DropdownMenuItem asChild>
             <Link href={isBarbeiro ? "/profissional/perfil/configuracoes" : "/perfil/configuracoes"}>
               <Settings className="mr-2 h-4 w-4" />
-              Configurações
+              ConfiguraÃ§Ãµes
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -144,5 +144,7 @@ export function UserNav() {
     </DropdownMenu>
   );
 }
+
+
 
 

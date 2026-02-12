@@ -1,30 +1,13 @@
-import Image from "next/image";
-import { Sparkles } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+﻿import { Button } from "@/components/ui/button";
 import { Container } from "./primitives";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[80vh] md:min-h-[90vh] flex items-center super-page-bg overflow-hidden">
+    <section className="relative min-h-[72vh] md:min-h-[88vh] flex items-center super-page-bg overflow-hidden">
       <div className="hero-atmosphere" />
+      <div className="absolute inset-x-5 md:inset-x-16 lg:inset-x-24 top-24 md:top-28 bottom-10 rounded-3xl border border-[#EAD8AC]/20 bg-gradient-to-br from-[#EAD8AC]/12 via-[#013648]/70 to-[#011E2D]/95 shadow-[0_40px_120px_rgba(0,0,0,0.35)]" />
       <Container className="relative z-10 pt-24 pb-16">
-        <div className="max-w-3xl mx-auto text-center space-y-6 animate-in">
-          <Badge className="bg-[#EAD8AC]/10 border-[#EAD8AC]/30 text-[#EAD8AC]">
-            <Sparkles className="h-3 w-3 mr-1" />
-            Estilo e Tradicao em Cada Corte
-          </Badge>
-
-          <div className="relative w-24 h-24 mx-auto">
-            <Image
-              src="/logo.png"
-              alt="Barbearia do Moura"
-              fill
-              className="rounded-full object-cover border-4 border-[#EAD8AC]/35 shadow-[0_0_24px_rgba(234,216,172,0.25)]"
-              priority
-            />
-          </div>
-
+        <div className="max-w-3xl mx-auto text-center space-y-7 animate-in">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#EAD8AC] text-balance">
             Experiencia premium para quem nao abre mao de presenca
           </h1>
@@ -34,12 +17,9 @@ export function HeroSection() {
             melhor visual. Desde 2018 em Maua-SP.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+          <div className="flex justify-center pt-2">
             <Button variant="gradient" size="lg" asChild>
-              <a href="#login">Agendar agora</a>
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <a href="#servicos">Ver servicos</a>
+              <a href="/login">Agendar agora</a>
             </Button>
           </div>
         </div>
@@ -47,3 +27,4 @@ export function HeroSection() {
     </section>
   );
 }
+
