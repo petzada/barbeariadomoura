@@ -38,7 +38,7 @@ export function MapSection() {
                   <span>
                     Av. Queiroz Pedroso, 433
                     <br />
-                    Jardim Pedroso, Maua-SP
+                    Jardim Pedroso, Mauá-SP
                   </span>
                 </li>
                 <li className="flex items-center gap-2 text-[#EAD8AC]/80">

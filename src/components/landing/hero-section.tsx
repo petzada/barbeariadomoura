@@ -20,16 +20,19 @@ export function HeroSection() {
       <Container className="relative z-10 pt-28 md:pt-32 pb-16">
         <div className="max-w-3xl mx-auto text-center space-y-7 animate-in">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#EAD8AC] text-balance">
-            Experiencia premium pra quem nao abre mao de presenca.
+            Experiência premium pra quem não abre mão de presença.
           </h1>
 
           <p className="super-subheading text-base sm:text-lg max-w-xl mx-auto">
-            Agenda facil, atendimento especializado e uma equipe focada no seu visual.
+            Agenda fácil, atendimento especializado e uma equipe focada no seu visual.
           </p>
 
-          <div className="flex justify-center pt-2">
+          <div className="flex justify-center gap-3 pt-2">
             <Button variant="gradient" size="lg" asChild>
               <a href="/login">Agendar agora</a>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <a href="/login">Entrar</a>
             </Button>
           </div>
         </div>

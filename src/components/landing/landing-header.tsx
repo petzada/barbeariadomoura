@@ -74,6 +74,21 @@ export function LandingHeader() {
                       </Link>
                     </SheetClose>
                   ))}
+
+                  <div className="border-t border-[#EAD8AC]/20 my-4" />
+
+                  <div className="flex flex-col gap-2 px-3">
+                    <SheetClose asChild>
+                      <Button variant="gradient" size="lg" asChild className="w-full">
+                        <Link href="/login">Entrar</Link>
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="outline" size="lg" asChild className="w-full">
+                        <Link href="/login">Cadastrar</Link>
+                      </Button>
+                    </SheetClose>
+                  </div>
                 </nav>
               </SheetContent>
             </Sheet>

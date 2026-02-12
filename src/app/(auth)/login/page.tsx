@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useFormState } from "react-dom";
 import { ArrowLeft, Loader2 } from "lucide-react";
@@ -78,22 +79,20 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setMode("login")}
-                    className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                      mode === "login"
-                        ? "bg-[#EAD8AC] text-[#013648]"
-                        : "text-[#EAD8AC]/80 hover:text-[#EAD8AC]"
-                    }`}
+                    className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${mode === "login"
+                      ? "bg-[#EAD8AC] text-[#013648]"
+                      : "text-[#EAD8AC]/80 hover:text-[#EAD8AC]"
+                      }`}
                   >
                     Login
                   </button>
                   <button
                     type="button"
                     onClick={() => setMode("cadastro")}
-                    className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                      mode === "cadastro"
-                        ? "bg-[#EAD8AC] text-[#013648]"
-                        : "text-[#EAD8AC]/80 hover:text-[#EAD8AC]"
-                    }`}
+                    className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${mode === "cadastro"
+                      ? "bg-[#EAD8AC] text-[#013648]"
+                      : "text-[#EAD8AC]/80 hover:text-[#EAD8AC]"
+                      }`}
                   >
                     Criar conta
                   </button>
@@ -104,7 +103,7 @@ export default function LoginPage() {
                     <div>
                       <h1 className="text-2xl font-bold">Entrar</h1>
                       <p className="text-sm text-[#EAD8AC]/75 mt-1">
-                        Acesse sua conta para agendar seus horarios.
+                        Acesse sua conta para agendar seus horários.
                       </p>
                     </div>
 
@@ -117,17 +116,16 @@ export default function LoginPage() {
 
                       <div className="space-y-1.5">
                         <Label htmlFor="password">Senha</Label>
-                        <Input id="password" name="password" type="password" required placeholder="Minimo 6 caracteres" autoComplete="current-password" />
+                        <Input id="password" name="password" type="password" required placeholder="Mínimo 6 caracteres" autoComplete="current-password" />
                         {loginState.errors?.password && <p className="text-xs text-red-300">{loginState.errors.password[0]}</p>}
                       </div>
 
                       {loginState.message && (
                         <div
-                          className={`text-sm p-2.5 rounded-lg border ${
-                            loginState.success
-                              ? "border-[#22C55E]/50 bg-[#22C55E]/10 text-[#BBF7D0]"
-                              : "border-[#EF4444]/50 bg-[#EF4444]/10 text-[#FECACA]"
-                          }`}
+                          className={`text-sm p-2.5 rounded-lg border ${loginState.success
+                            ? "border-[#22C55E]/50 bg-[#22C55E]/10 text-[#BBF7D0]"
+                            : "border-[#EF4444]/50 bg-[#EF4444]/10 text-[#FECACA]"
+                            }`}
                         >
                           {loginState.message}
                         </div>
@@ -181,7 +179,7 @@ export default function LoginPage() {
 
                       <div className="space-y-1.5">
                         <Label htmlFor="register-password">Senha</Label>
-                        <Input id="register-password" name="password" type="password" required minLength={6} placeholder="Minimo 6 caracteres" autoComplete="new-password" disabled={registerState.success} />
+                        <Input id="register-password" name="password" type="password" required minLength={6} placeholder="Mínimo 6 caracteres" autoComplete="new-password" disabled={registerState.success} />
                         {registerState.errors?.password && <p className="text-xs text-red-300">{registerState.errors.password[0]}</p>}
                       </div>
 
@@ -193,11 +191,10 @@ export default function LoginPage() {
 
                       {registerState.message && (
                         <div
-                          className={`text-sm p-2.5 rounded-lg border ${
-                            registerState.success
-                              ? "border-[#22C55E]/50 bg-[#22C55E]/10 text-[#BBF7D0]"
-                              : "border-[#EF4444]/50 bg-[#EF4444]/10 text-[#FECACA]"
-                          }`}
+                          className={`text-sm p-2.5 rounded-lg border ${registerState.success
+                            ? "border-[#22C55E]/50 bg-[#22C55E]/10 text-[#BBF7D0]"
+                            : "border-[#EF4444]/50 bg-[#EF4444]/10 text-[#FECACA]"
+                            }`}
                         >
                           {registerState.message}
                         </div>
@@ -222,7 +219,7 @@ export default function LoginPage() {
                       onClick={() => setMode("login")}
                       className="text-sm text-[#EAD8AC]/75 hover:text-[#EAD8AC] transition-colors"
                     >
-                      Ja tenho conta
+                      Já tenho conta
                     </button>
                   </div>
                 )}
@@ -231,19 +228,17 @@ export default function LoginPage() {
           </div>
         </section>
 
-        <aside className="order-1 lg:order-2 relative min-h-[260px] lg:min-h-screen border-b lg:border-b-0 lg:border-l border-black overflow-hidden">
-          <div className="absolute inset-0 img-placeholder" />
+        <aside className="hidden lg:block order-1 lg:order-2 relative min-h-[260px] lg:min-h-screen border-b lg:border-b-0 lg:border-l border-black overflow-hidden">
+          <Image
+            src="/images/hero-barbearia.jpg"
+            alt="Barbearia do Moura"
+            fill
+            priority
+            className="object-cover"
+            sizes="50vw"
+          />
           <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-transparent to-black/45" />
           <div className="absolute inset-0 hero-atmosphere opacity-70" />
-
-          <div className="relative z-10 h-full w-full flex items-end lg:items-center justify-center p-6 lg:p-10">
-            <div className="w-full max-w-md rounded-2xl border border-[#EAD8AC]/20 bg-black/40 p-5 text-center backdrop-blur-sm">
-              <p className="text-xs uppercase tracking-[0.12em] text-[#EAD8AC]/80">Placeholder de imagem</p>
-              <p className="mt-2 text-sm text-[#EAD8AC]/70">
-                Area reservada para voce inserir uma imagem da barbearia.
-              </p>
-            </div>
-          </div>
         </aside>
       </div>
     </div>

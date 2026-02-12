@@ -1,11 +1,18 @@
-﻿import { Container, SectionWrapper } from "./primitives";
+﻿"use client";
 
-const galleryItems = [
-  "from-[#EAD8AC]/18 via-[#013648]/65 to-[#011E2D]/90",
-  "from-[#013648]/80 via-[#EAD8AC]/14 to-[#012A3A]/90",
-  "from-[#EAD8AC]/14 via-[#012A3A]/82 to-[#011E2D]/85",
-  "from-[#011E2D]/85 via-[#EAD8AC]/12 to-[#013648]/80",
-  "from-[#EAD8AC]/10 via-[#013648]/72 to-[#012A3A]/88",
+import Image from "next/image";
+import { Container, SectionWrapper } from "./primitives";
+
+const galleryImages = [
+  "/images/galeria1.jpg",
+  "/images/galeria2.jpg",
+  "/images/galeria3.jpg",
+];
+
+const repeatedGalleryImages = [
+  ...galleryImages,
+  ...galleryImages,
+  ...galleryImages,
 ];
 
 export function GallerySection() {
@@ -14,20 +21,76 @@ export function GallerySection() {
       <Container>
         <span className="section-label">Galeria</span>
 
-        <div className="mt-5 flex gap-2 overflow-x-auto hide-scrollbar md:overflow-visible md:h-[560px]">
-          {galleryItems.map((gradient, index) => (
+        {/* Mobile: Infinite Scroll */}
+        <div className="md:hidden mt-5 relative overflow-hidden">
+          <div className="flex gap-2 animate-scroll">
+            {repeatedGalleryImages.map((src, index) => (
+              <div
+                key={index}
+                className="relative min-w-[220px] sm:min-w-[260px] h-[420px] rounded-lg overflow-hidden flex-shrink-0"
+              >
+                <Image
+                  src={src}
+                  alt={`Trabalho da Barbearia do Moura ${(index % 3) + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="260px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: Grid */}
+        <div className="hidden md:flex mt-5 gap-2 h-[560px]">
+          {[...galleryImages, galleryImages[0], galleryImages[1]].map((src, index) => (
             <div
               key={index}
-              className="relative min-w-[220px] sm:min-w-[260px] md:min-w-0 md:flex-1 h-[420px] md:h-full rounded-lg overflow-hidden"
+              className="relative flex-1 h-full rounded-lg overflow-hidden"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${gradient}`} />
+              <Image
+                src={src}
+                alt={`Trabalho da Barbearia do Moura ${(index % 3) + 1}`}
+                fill
+                className="object-cover"
+                sizes="20vw"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-              <div className="absolute inset-0 animate-shimmer opacity-35" />
             </div>
           ))}
         </div>
+
+        <style jsx>{`
+          @keyframes scroll {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(calc(-220px * 3 - 0.5rem * 3));
+            }
+          }
+
+          @media (min-width: 640px) {
+            @keyframes scroll {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(calc(-260px * 3 - 0.5rem * 3));
+              }
+            }
+          }
+
+          .animate-scroll {
+            animation: scroll 15s linear infinite;
+          }
+
+          .animate-scroll:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
       </Container>
     </SectionWrapper>
   );
 }
-

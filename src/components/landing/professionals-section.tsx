@@ -1,4 +1,5 @@
-﻿import { Container, SectionWrapper } from "./primitives";
+﻿import Image from "next/image";
+import { Container, SectionWrapper } from "./primitives";
 
 interface ProfessionalData {
   id: string;
@@ -14,6 +15,12 @@ interface ProfessionalsSectionProps {
   professionals: ProfessionalData[];
 }
 
+// Fallback images for professionals when database photo is missing
+const professionalImageFallback: Record<string, string> = {
+  "Gustavo": "/images/gustavobarber.jpg",
+  "Guilherme": "/images/guilhermebarber.png",
+};
+
 export function ProfessionalsSection({ professionals }: ProfessionalsSectionProps) {
   const featuredProfessionals = professionals.slice(0, 2);
 
@@ -26,7 +33,7 @@ export function ProfessionalsSection({ professionals }: ProfessionalsSectionProp
             Profissionais dedicados
           </h2>
           <p className="super-subheading mt-3 max-w-2xl mx-auto">
-            Conheca quem cuida do seu estilo com técnica e atenção aos detalhes.
+            Conheça quem cuida do seu estilo com técnica e atenção aos detalhes.
           </p>
         </div>
 
@@ -34,14 +41,17 @@ export function ProfessionalsSection({ professionals }: ProfessionalsSectionProp
           <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 justify-center">
             {featuredProfessionals.map((prof) => {
               const nome = prof.user?.nome ?? "Profissional";
-              const photoUrl = prof.user?.avatar_url ?? prof.foto_url;
+              const photoUrl = prof.user?.avatar_url ?? prof.foto_url ?? professionalImageFallback[nome];
 
               return (
                 <article key={prof.id} className="relative h-[440px] sm:h-[520px] rounded-xl overflow-hidden border border-black">
                   {photoUrl ? (
-                    <div
-                      className="absolute inset-0 bg-cover bg-center"
-                      style={{ backgroundImage: `url(${photoUrl})` }}
+                    <Image
+                      src={photoUrl}
+                      alt={nome}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   ) : (
                     <div className="absolute inset-0 img-placeholder" />
@@ -52,7 +62,7 @@ export function ProfessionalsSection({ professionals }: ProfessionalsSectionProp
                   <div className="relative z-10 p-5 sm:p-6 flex h-full flex-col justify-end text-center">
                     <h3 className="text-2xl font-semibold text-[#EAD8AC]">{nome}</h3>
                     <p className="mt-2 text-sm sm:text-base text-[#EAD8AC]/85 max-w-md mx-auto">
-                      {prof.bio || "Especialista em cortes modernos, classicos e acabamento premium."}
+                      {prof.bio || "Especialista em cortes modernos, clássicos e acabamento premium."}
                     </p>
                   </div>
                 </article>
@@ -78,4 +88,3 @@ export function ProfessionalsSection({ professionals }: ProfessionalsSectionProp
     </SectionWrapper>
   );
 }
-

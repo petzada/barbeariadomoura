@@ -9,21 +9,21 @@ export function InstitutionalSection() {
       <Container>
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div className="space-y-5">
-            <span className="section-label">Sobre nos</span>
+            <span className="section-label">Sobre nós</span>
             <h2 className="super-heading text-3xl sm:text-4xl">
-              Mais que uma barbearia, uma paixao pelo trabalho.
+              Mais que uma barbearia, uma paixão pelo trabalho.
             </h2>
             <p className="text-[#EAD8AC]/80 leading-relaxed">
-              A Barbearia do Moura reune tecnica, ambiente acolhedor e produtos
-              selecionados para entregar um resultado que faz diferenca no dia
-              a dia. Cada corte e pensado para valorizar o estilo de quem senta
+              A Barbearia do Moura reúne técnica, ambiente acolhedor e produtos
+              selecionados para entregar um resultado que faz diferença no dia
+              a dia. Cada corte é pensado para valorizar o estilo de quem senta
               na cadeira.
             </p>
             <div className="pt-2">
               <Button variant="outline" asChild>
                 <a href="#profissionais">
                   <Award className="h-4 w-4 mr-1" />
-                  Conheca nossa equipe
+                  Conheça nossa equipe
                 </a>
               </Button>
             </div>
@@ -44,7 +44,7 @@ export function InstitutionalSection() {
             <div className="absolute bottom-0 left-0 w-[55%] h-[55%] rounded-xl overflow-hidden border border-[#EAD8AC]/20 shadow-xl">
               <Image
                 src="/images/sobre-barba.jpg"
-                alt="Acabamento de barba com maquina"
+                alt="Acabamento de barba com máquina"
                 fill
                 className="object-cover"
                 sizes="(max-width: 640px) 55vw, 28vw"
