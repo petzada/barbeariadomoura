@@ -53,7 +53,7 @@ export async function updateSession(request: NextRequest) {
 
   // Rotas públicas que não requerem autenticação
   const publicPaths = ["/", "/cadastro", "/esqueci-senha", "/resetar-senha"];
-  const publicPrefixes = ["/api/webhooks", "/pagamento"];
+  const publicPrefixes = ["/api/webhooks", "/pagamento", "/sobre"];
   const isPublicPath = publicPaths.some(
     (path) => request.nextUrl.pathname === path
   ) || publicPrefixes.some(

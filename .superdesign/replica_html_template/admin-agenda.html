@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Agenda - Barbearia do Moura</title>
+  <style>
+    :root {
+      --bg: #05384B;
+      --primary: #E4D0B0;
+      --card: rgba(5, 56, 75, 0.5);
+      --border: rgba(228, 208, 176, 0.25);
+      --text-soft: rgba(228, 208, 176, 0.75);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--primary);
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .grid { display: grid; gap: 16px; }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .muted { color: var(--text-soft); }
+    h1 { margin: 0 0 8px; font-size: 30px; }
+    p { margin: 0; }
+    .section { margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>Agenda Admin</h1>
+      <p class="muted">Visao de agendamentos com filtros por data e profissional.</p>
+    </header>
+
+    <section class="section">
+      <div class="card"><h3>Calendario e Filtros</h3><p class="muted">Dia, semana, profissional e status.</p></div>
+      <div class="card section"><h3>Lista de Agendamentos</h3><p class="muted">Cards/linhas por horario.</p></div>
+    </section>
+  </main>
+</body>
+</html>
