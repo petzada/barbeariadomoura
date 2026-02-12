@@ -4,22 +4,20 @@ import { Container } from "./primitives";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[72vh] md:min-h-[88vh] flex items-center super-page-bg overflow-hidden">
+    <section className="relative min-h-[86vh] md:min-h-screen flex items-center super-page-bg overflow-hidden">
+      <Image
+        src="/images/hero-barbearia.jpg"
+        alt="Barbeiro finalizando acabamento de barba"
+        fill
+        priority
+        className="object-cover object-center"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-[#011E2D]/58" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#011E2D]/82 via-transparent to-[#011E2D]/72" />
       <div className="hero-atmosphere" />
-      <div className="absolute inset-x-5 md:inset-x-16 lg:inset-x-24 top-24 md:top-28 bottom-10 rounded-3xl border border-[#EAD8AC]/20 overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.35)]">
-        <Image
-          src="/images/hero-barbearia.jpg"
-          alt="Barbeiro finalizando acabamento de barba"
-          fill
-          priority
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 80vw"
-        />
-        <div className="absolute inset-0 bg-[#011E2D]/55" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#011E2D]/80 via-transparent to-[#011E2D]/70" />
-      </div>
 
-      <Container className="relative z-10 pt-24 pb-16">
+      <Container className="relative z-10 pt-28 md:pt-32 pb-16">
         <div className="max-w-3xl mx-auto text-center space-y-7 animate-in">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#EAD8AC] text-balance">
             Experiencia premium pra quem nao abre mao de presenca.
