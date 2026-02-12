@@ -4,18 +4,35 @@ import * as React from "react";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import { cn } from "@/lib/utils";
 
+type AvatarStatus = "online" | "busy" | "offline" | "none";
+
+interface AvatarProps extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
+  status?: AvatarStatus;
+}
+
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
+  AvatarProps
+>(({ className, status = "none", ...props }, ref) => (
   <AvatarPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
+      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full border border-black/60",
       className
     )}
     {...props}
-  />
+  >
+    {status !== "none" && (
+      <span
+        className={cn(
+          "absolute bottom-0.5 right-0.5 h-2.5 w-2.5 rounded-full border border-black",
+          status === "online" && "bg-[#22C55E]",
+          status === "busy" && "bg-[#F59E0B]",
+          status === "offline" && "bg-[#64748B]"
+        )}
+      />
+    )}
+  </AvatarPrimitive.Root>
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
 
@@ -46,4 +63,32 @@ const AvatarFallback = React.forwardRef<
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
-export { Avatar, AvatarImage, AvatarFallback };
+interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  limit?: number;
+}
+
+const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
+  ({ className, children, limit = 4, ...props }, ref) => {
+    const items = React.Children.toArray(children);
+    const visibleItems = items.slice(0, limit);
+    const remaining = items.length - visibleItems.length;
+
+    return (
+      <div ref={ref} className={cn("flex -space-x-3", className)} {...props}>
+        {visibleItems.map((item, index) => (
+          <div key={index} className="ring-2 ring-[#013648] rounded-full">
+            {item}
+          </div>
+        ))}
+        {remaining > 0 && (
+          <div className="h-10 w-10 rounded-full border border-black/60 bg-[#013648] text-[#EAD8AC] text-xs font-semibold flex items-center justify-center ring-2 ring-[#013648]">
+            +{remaining}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+AvatarGroup.displayName = "AvatarGroup";
+
+export { Avatar, AvatarImage, AvatarFallback, AvatarGroup };

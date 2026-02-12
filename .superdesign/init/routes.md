@@ -1,3 +1,37 @@
+# routes.md
+
+| Route | File |
+|---|---|
+
+
+## Middleware
+
+```ts
+import { type NextRequest } from "next/server";
+import { updateSession } from "@/lib/supabase/middleware";
+
+export async function middleware(request: NextRequest) {
+  return await updateSession(request);
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Aplica middleware em todas as rotas exceto:
+     * - _next/static (arquivos estáticos)
+     * - _next/image (otimização de imagens)
+     * - favicon.ico (favicon)
+     * - Arquivos públicos com extensão (svg, png, jpg, etc)
+     */
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};
+
+```
+
+## Supabase Route Guard
+
+```ts
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -52,7 +86,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   // Rotas públicas que não requerem autenticação
-  const publicPaths = ["/", "/cadastro", "/esqueci-senha", "/resetar-senha", "/termos", "/privacidade"];
+  const publicPaths = ["/", "/cadastro", "/esqueci-senha", "/resetar-senha"];
   const publicPrefixes = ["/api/webhooks", "/pagamento", "/sobre"];
   const isPublicPath = publicPaths.some(
     (path) => request.nextUrl.pathname === path
@@ -93,3 +127,5 @@ export async function updateSession(request: NextRequest) {
 
   return supabaseResponse;
 }
+
+```

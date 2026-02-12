@@ -1,14 +1,17 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ArrowLeft, KeyRound, Loader2 } from "lucide-react";
 import { resetPasswordAction, type AuthState } from "@/lib/auth/actions";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { Lock, Loader2 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const initialState: AuthState = {
   success: false,
@@ -21,7 +24,6 @@ export default function ResetarSenhaPage() {
   const [state, setState] = useState<AuthState>(initialState);
   const [isPending, setIsPending] = useState(false);
 
-  // Redirect quando reset for bem-sucedido
   useEffect(() => {
     if (state.success && state.redirectTo) {
       toast({
@@ -32,16 +34,18 @@ export default function ResetarSenhaPage() {
       const timer = setTimeout(() => {
         router.push(state.redirectTo!);
         router.refresh();
-      }, 1500);
+      }, 1200);
       return () => clearTimeout(timer);
-    } else if (state.message && !state.success) {
+    }
+
+    if (state.message && !state.success) {
       toast({
         title: "Erro",
         description: state.message,
         variant: "destructive",
       });
     }
-  }, [state.success, state.redirectTo, state.message, router, toast]);
+  }, [state.success, state.message, state.redirectTo, router, toast]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -51,105 +55,91 @@ export default function ResetarSenhaPage() {
     try {
       const formData = new FormData(e.currentTarget);
       const result = await resetPasswordAction(initialState, formData);
-      if (result) {
-        setState(result);
-      } else {
-        setState({
-          success: false,
-          message: "Erro inesperado. Tente novamente.",
-        });
-      }
-    } catch (error) {
-      console.error("Reset password error:", error);
-      setState({
-        success: false,
-        message: "Erro ao redefinir senha. Tente novamente.",
-      });
+      setState(result || { success: false, message: "Erro inesperado. Tente novamente." });
+    } catch {
+      setState({ success: false, message: "Erro ao redefinir senha. Tente novamente." });
     } finally {
       setIsPending(false);
     }
   }
 
   return (
-    <div className="relative">
-      {/* Overlay de loading */}
-      {isPending && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#013648]/80 backdrop-blur-sm rounded-lg">
-          <div className="flex flex-col items-center gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
-            <p className="text-sm text-[#EAD8AC]">Redefinindo senha...</p>
+    <div className="min-h-screen super-page-bg">
+      <div className="hero-atmosphere" />
+      <div className="container-app py-8 sm:py-10">
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/" className="flex items-center gap-2 text-[#EAD8AC] hover:text-[#EAD8AC]/85 transition-colors">
+            <ArrowLeft className="h-4 w-4" />
+            <span className="text-sm">Voltar</span>
+          </Link>
+
+          <div className="relative h-16 w-16 sm:h-20 sm:w-20">
+            <Image
+              src="/logo.png"
+              alt="Barbearia do Moura"
+              fill
+              className="rounded-full object-cover border-2 border-[#EAD8AC]/35"
+            />
           </div>
         </div>
-      )}
 
-      <Card className="border-black bg-card">
-      <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold">Redefinir senha</CardTitle>
-        <CardDescription>
-          Digite sua nova senha abaixo
-        </CardDescription>
-      </CardHeader>
+        <div className="mx-auto w-full max-w-md">
+          <Card variant="highlighted">
+            <CardContent className="p-5 sm:p-6">
+              <Badge className="mb-3 bg-[#EAD8AC]/10 border-[#EAD8AC]/30 text-[#EAD8AC]">
+                <KeyRound className="h-3 w-3 mr-1" />
+                Nova senha
+              </Badge>
 
-      <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-4">
-          {/* Nova Senha */}
-          <div className="space-y-2">
-            <Label htmlFor="password">Nova senha</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Mínimo 6 caracteres"
-                className="pl-10"
-                required
-                autoComplete="new-password"
-                minLength={6}
-                disabled={state.success}
-              />
-            </div>
-            {state.errors?.password && (
-              <p className="text-sm text-[#EAD8AC]">{state.errors.password[0]}</p>
-            )}
-          </div>
+              <h1 className="text-2xl font-bold text-center mb-2">Redefinir senha</h1>
+              <p className="text-sm text-[#EAD8AC]/70 text-center mb-6">
+                Informe e confirme sua nova senha para concluir o acesso.
+              </p>
 
-          {/* Confirmar Nova Senha */}
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirmar nova senha</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                placeholder="Digite a senha novamente"
-                className="pl-10"
-                required
-                autoComplete="new-password"
-                disabled={state.success}
-              />
-            </div>
-            {state.errors?.confirmPassword && (
-              <p className="text-sm text-[#EAD8AC]">{state.errors.confirmPassword[0]}</p>
-            )}
-          </div>
-        </CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-1.5">
+                  <Label htmlFor="password">Nova senha</Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Minimo 6 caracteres"
+                    required
+                    minLength={6}
+                    autoComplete="new-password"
+                    disabled={state.success}
+                  />
+                  {state.errors?.password && <p className="text-xs text-red-300">{state.errors.password[0]}</p>}
+                </div>
 
-        <CardFooter>
-          <Button
-            type="submit"
-            className="w-full"
-            loading={isPending}
-            disabled={state.success || isPending}
-          >
-            {state.success ? "Redirecionando..." : isPending ? "Redefinindo..." : "Redefinir senha"}
-          </Button>
-        </CardFooter>
-      </form>
-    </Card>
+                <div className="space-y-1.5">
+                  <Label htmlFor="confirmPassword">Confirmar senha</Label>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Repita a senha"
+                    required
+                    autoComplete="new-password"
+                    disabled={state.success}
+                  />
+                  {state.errors?.confirmPassword && <p className="text-xs text-red-300">{state.errors.confirmPassword[0]}</p>}
+                </div>
+
+                {isPending && (
+                  <div className="flex items-center justify-center py-1">
+                    <Loader2 className="h-5 w-5 animate-spin text-[#EAD8AC]" />
+                  </div>
+                )}
+
+                <Button type="submit" variant="gradient" className="w-full" size="lg" disabled={state.success || isPending}>
+                  {state.success ? "Redirecionando..." : isPending ? "Redefinindo..." : "Redefinir senha"}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
-
-

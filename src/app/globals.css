@@ -4,6 +4,12 @@
 
 @layer base {
   :root {
+    --brand-gold: #EAD8AC;
+    --brand-gold-dark: #C4B48A;
+    --brand-blue: #013648;
+    --brand-blue-light: #05384B;
+    --brand-blue-dark: #012030;
+    --brand-surface: rgba(5, 56, 75, 0.56);
     --background: 197 100% 14%;
     --foreground: 43 56% 80%;
     --card: 0 0% 0% / 50%;
@@ -33,6 +39,11 @@
   body {
     @apply bg-[#013648] text-[#EAD8AC] antialiased overflow-x-hidden;
     font-family: var(--font-roboto), system-ui, sans-serif;
+    background-image:
+      radial-gradient(circle at 12% 10%, rgba(234, 216, 172, 0.08), transparent 40%),
+      radial-gradient(circle at 88% 6%, rgba(234, 216, 172, 0.05), transparent 32%),
+      linear-gradient(180deg, #013648 0%, #012A3A 100%);
+    background-attachment: fixed;
   }
 
   ::-webkit-scrollbar {
@@ -60,6 +71,112 @@
 }
 
 @layer components {
+  .super-page-bg {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .super-page-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 80% 10%, rgba(234, 216, 172, 0.08), transparent 30%),
+      radial-gradient(circle at 15% 80%, rgba(234, 216, 172, 0.06), transparent 38%);
+    opacity: 0.9;
+    z-index: -1;
+  }
+
+  .super-surface {
+    @apply border border-black rounded-xl bg-black/45 backdrop-blur-sm shadow-md;
+  }
+
+  .super-heading {
+    @apply text-2xl sm:text-3xl font-bold tracking-tight text-[#EAD8AC];
+  }
+
+  .super-subheading {
+    @apply text-sm sm:text-base text-[#EAD8AC]/80;
+  }
+
+  .kpi-strip {
+    @apply grid grid-cols-2 sm:grid-cols-4 gap-3;
+  }
+
+  .kpi-card {
+    @apply super-surface p-3 sm:p-4 transition-transform duration-200 hover:-translate-y-0.5;
+  }
+
+  .timeline-rail {
+    position: relative;
+  }
+
+  .timeline-rail::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, rgba(234, 216, 172, 0.35), rgba(234, 216, 172, 0.05));
+  }
+
+  .timeline-item {
+    @apply relative pl-8;
+  }
+
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 10px;
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: #EAD8AC;
+    box-shadow: 0 0 0 4px rgba(234, 216, 172, 0.18);
+  }
+
+  .mini-chart {
+    @apply mt-3 h-2 w-full overflow-hidden rounded-full bg-[#EAD8AC]/15;
+  }
+
+  .mini-chart > span {
+    @apply block h-full rounded-full bg-[#EAD8AC];
+  }
+
+  .floating-quick-actions {
+    @apply fixed right-4 bottom-4 z-40 flex flex-col gap-2;
+  }
+
+  .nav-item {
+    @apply relative rounded-lg text-sm font-medium text-[#EAD8AC] transition-colors;
+  }
+
+  .nav-item::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 4px;
+    height: 2px;
+    border-radius: 999px;
+    background: #EAD8AC;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 220ms ease;
+  }
+
+  .nav-item:hover::after,
+  .nav-item-active::after {
+    transform: scaleX(1);
+  }
+
+  .nav-item-active {
+    @apply bg-[#013648]/70 text-[#EAD8AC];
+  }
+
   .hero-atmosphere {
     position: absolute;
     inset: 0;
@@ -150,6 +267,20 @@
 }
 
 @layer utilities {
+  .animate-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      rgba(234, 216, 172, 0.08) 0%,
+      rgba(234, 216, 172, 0.22) 50%,
+      rgba(234, 216, 172, 0.08) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -200,6 +331,24 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
+  @keyframes toast-progress {
+    from {
+      transform: scaleX(1);
+    }
+    to {
+      transform: scaleX(0);
     }
   }
 

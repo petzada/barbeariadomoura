@@ -95,10 +95,10 @@ export function AdminNav() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors",
+                  "nav-item flex items-center gap-1.5 px-2.5 py-2 text-xs",
                   isActive
-                    ? "bg-[#013648]/70 text-[#EAD8AC]"
-                    : "text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC]"
+                    ? "nav-item-active"
+                    : "hover:text-[#EAD8AC] hover:bg-[#013648]"
                 )}
               >
                 <item.icon className="h-4 w-4" />
@@ -202,10 +202,10 @@ export function AdminNav() {
                         href={item.href}
                         onClick={closeMenu}
                         className={cn(
-                          "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors",
+                          "nav-item flex items-center gap-3 px-3 py-3",
                           isActive
-                            ? "bg-[#013648]/70 text-[#EAD8AC]"
-                            : "text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC]"
+                            ? "nav-item-active"
+                            : "hover:text-[#EAD8AC] hover:bg-[#013648]"
                         )}
                       >
                         <item.icon className="h-5 w-5" />

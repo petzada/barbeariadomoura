@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { getWhatsAppLink } from "@/lib/utils";
 import { UserNav } from "./user-nav";
 import { Scissors, Users, Crown, Phone } from "lucide-react";
@@ -10,6 +11,7 @@ interface HeaderProps {
 }
 
 export function Header({ showNav = true }: HeaderProps) {
+  const pathname = usePathname();
   const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5511960234545";
   const navLinks = [
     { href: "/sobre/servicos", label: "Servicos", icon: Scissors },
@@ -53,7 +55,7 @@ export function Header({ showNav = true }: HeaderProps) {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="text-sm font-medium text-[#EAD8AC] hover:text-[#EAD8AC] transition-colors"
+                      className={`nav-item px-2 py-1.5 ${pathname === link.href ? "nav-item-active" : ""}`}
                     >
                       {link.label}
                     </Link>

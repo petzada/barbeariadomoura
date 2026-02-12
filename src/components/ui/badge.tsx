@@ -15,9 +15,20 @@ const badgeVariants = cva(
         warning: "bg-black/50 backdrop-blur-sm text-[#EAD8AC] border border-black",
         info: "bg-black/50 backdrop-blur-sm text-[#EAD8AC] border border-black",
       },
+      size: {
+        sm: "px-2 py-0 text-[10px]",
+        default: "px-2.5 py-0.5 text-xs",
+        lg: "px-3 py-1 text-sm",
+      },
+      pulse: {
+        off: "",
+        on: "animate-pulse",
+      },
     },
     defaultVariants: {
       variant: "default",
+      size: "default",
+      pulse: "off",
     },
   }
 );
@@ -26,9 +37,9 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({ className, variant, size, pulse, ...props }: BadgeProps) {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <div className={cn(badgeVariants({ variant, size, pulse }), className)} {...props} />
   );
 }
 

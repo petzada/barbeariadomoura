@@ -9,6 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-[#EAD8AC] text-[#013648] border border-black hover:brightness-110",
+        gradient: "bg-gradient-to-r from-[#EAD8AC] to-[#C4B48A] text-[#013648] border border-black hover:brightness-110 shadow-[0_0_18px_rgba(234,216,172,0.28)]",
         destructive: "bg-[#013648] text-[#EAD8AC] border border-black hover:opacity-90",
         outline: "border border-black bg-transparent text-[#EAD8AC] hover:bg-[#EAD8AC] hover:text-[#013648]",
         secondary: "bg-[#013648] text-[#EAD8AC] border border-black hover:opacity-90",
@@ -22,6 +23,7 @@ const buttonVariants = cva(
         sm: "h-9 rounded-md px-3 text-xs",
         lg: "h-12 rounded-lg px-8 text-base",
         icon: "h-10 w-10",
+        iconOnly: "h-11 w-11 rounded-full",
       },
     },
     defaultVariants: {
