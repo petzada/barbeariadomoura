@@ -5,19 +5,29 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import { cn } from "@/lib/utils";
 
 type AvatarStatus = "online" | "busy" | "offline" | "none";
+type AvatarSize = "sm" | "md" | "lg" | "xl";
 
 interface AvatarProps extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
   status?: AvatarStatus;
+  size?: AvatarSize;
 }
+
+const avatarSizeClasses: Record<AvatarSize, string> = {
+  sm: "h-8 w-8",
+  md: "h-10 w-10",
+  lg: "h-12 w-12",
+  xl: "h-16 w-16",
+};
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   AvatarProps
->(({ className, status = "none", ...props }, ref) => (
+>(({ className, status = "none", size = "md", ...props }, ref) => (
   <AvatarPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full border border-black/60",
+      "relative flex shrink-0 overflow-hidden rounded-full border border-black/60",
+      avatarSizeClasses[size],
       className
     )}
     {...props}

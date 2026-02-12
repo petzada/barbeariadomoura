@@ -300,6 +300,7 @@ export default function AdminServicosPage() {
                       variant="ghost"
                       size="icon"
                       onClick={() => toggleActive(service)}
+                      aria-label={service.ativo ? "Desativar servico" : "Ativar servico"}
                       title={service.ativo ? "Desativar" : "Ativar"}
                     >
                       {service.ativo ? (
@@ -312,6 +313,7 @@ export default function AdminServicosPage() {
                       variant="ghost"
                       size="icon"
                       onClick={() => openEditDialog(service)}
+                      aria-label="Editar servico"
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
@@ -319,6 +321,7 @@ export default function AdminServicosPage() {
                       variant="ghost"
                       size="icon"
                       onClick={() => setDeleteId(service.id)}
+                      aria-label="Excluir servico"
                     >
                       <Trash2 className="h-4 w-4 text-[#EAD8AC]" />
                     </Button>
