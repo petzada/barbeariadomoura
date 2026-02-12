@@ -45,15 +45,14 @@ export function LoginSection() {
               Entre e agende seu horario
             </h2>
             <p className="text-[#EAD8AC]/80 leading-relaxed">
-              Faca login para agendar servicos, acompanhar seus horarios e
-              aproveitar beneficios exclusivos do Clube do Moura.
+              Faca login para agendar serviços, acompanhar seus horários e aproveitar beneficios exclusivos do Clube do Moura.
             </p>
             <div className="flex items-center gap-3 pt-2">
               <Button variant="outline" asChild>
                 <a
                   href={getWhatsAppLink(
                     WHATSAPP_NUMBER,
-                    "Ola! Gostaria de saber mais sobre a Barbearia do Moura."
+                    "Olá! Gostaria de saber mais sobre a Barbearia do Moura."
                   )}
                   target="_blank"
                   rel="noopener noreferrer"

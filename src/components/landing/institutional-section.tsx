@@ -8,21 +8,21 @@ export function InstitutionalSection() {
       <Container>
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div className="space-y-5">
-            <span className="section-label">Sobre nos</span>
+            <span className="section-label">Sobre nós</span>
             <h2 className="super-heading text-3xl sm:text-4xl">
-              Mais que uma barbearia, um ritual de cuidado masculino
+              Mais que uma barbearia, uma paixão pelo trabalho.
             </h2>
             <p className="text-[#EAD8AC]/80 leading-relaxed">
-              Desde 2018 a Barbearia do Moura reune tecnica, ambiente acolhedor
+              A Barbearia do Moura reune técnica, ambiente acolhedor
               e produtos selecionados para entregar um resultado que faz
-              diferenca no dia a dia. Cada corte e pensado para valorizar o
+              diferença no dia a dia. Cada corte é pensado para valorizar o
               estilo de quem senta na cadeira.
             </p>
             <div className="pt-2">
               <Button variant="outline" asChild>
                 <a href="#profissionais">
                   <Award className="h-4 w-4 mr-1" />
-                  Conhecer a equipe
+                  Conheça nossa equipe
                 </a>
               </Button>
             </div>

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sheet";
 
 const leftNavLinks = [
-  { href: "#servicos", label: "Servicos" },
+  { href: "#servicos", label: "Serviços" },
   { href: "#profissionais", label: "Profissionais" },
 ];
 

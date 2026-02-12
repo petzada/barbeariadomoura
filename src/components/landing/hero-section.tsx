@@ -9,12 +9,11 @@ export function HeroSection() {
       <Container className="relative z-10 pt-24 pb-16">
         <div className="max-w-3xl mx-auto text-center space-y-7 animate-in">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#EAD8AC] text-balance">
-            Experiencia premium para quem nao abre mao de presenca
+            Experiência premium pra quem não abre mão de presença.
           </h1>
 
           <p className="super-subheading text-base sm:text-lg max-w-xl mx-auto">
-            Agenda facil, atendimento consistente e uma equipe focada no seu
-            melhor visual. Desde 2018 em Maua-SP.
+            Agenda fácil, atendimento especializado e uma equipe focada no seu visual.
           </p>
 
           <div className="flex justify-center pt-2">

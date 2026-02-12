@@ -18,10 +18,10 @@ export function ServicesSection({ services }: ServicesSectionProps) {
         <div className="mb-8 md:mb-10 text-center">
           <span className="section-label">Servicos</span>
           <h2 className="super-heading text-3xl sm:text-4xl lg:text-[2.75rem] mt-2">
-            O que oferecemos
+            O que oferecemos?
           </h2>
           <p className="super-subheading mt-3 max-w-2xl mx-auto">
-            Cortes modernos, barba classica e tratamentos para manter seu estilo sempre em dia.
+            Cortes modernos, barba clássica e tratamentos para manter seu estilo sempre em dia.
           </p>
         </div>
 

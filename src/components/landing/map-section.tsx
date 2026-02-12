@@ -38,9 +38,9 @@ export function MapSection() {
                 <li className="flex items-start gap-2 text-[#EAD8AC]/80">
                   <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-[#EAD8AC]" />
                   <span>
-                    Rua Exemplo, 123
+                    Av. Queiróz Pedroso, 433
                     <br />
-                    Centro, Maua-SP
+                    Jardim Pedroso, Mauá-SP
                   </span>
                 </li>
                 <li className="flex items-center gap-2 text-[#EAD8AC]/80">
@@ -56,12 +56,12 @@ export function MapSection() {
                 </li>
                 <li className="flex items-center gap-2 text-[#EAD8AC]/80">
                   <Mail className="h-4 w-4 flex-shrink-0 text-[#EAD8AC]" />
-                  <span>contato@barbeariadomoura.com</span>
+                  <span>contato@barbeariadomoura.com.br</span>
                 </li>
                 <li className="flex items-start gap-2 text-[#EAD8AC]/80">
                   <Clock className="h-4 w-4 mt-0.5 flex-shrink-0 text-[#EAD8AC]" />
                   <span>
-                    Ter a Sex: 09h - 20h
+                    Ter a Sex: 09h - 19h
                     <br />
                     Sab: 09h - 18h
                   </span>

@@ -26,7 +26,7 @@ export function ProfessionalsSection({ professionals }: ProfessionalsSectionProp
             Profissionais dedicados
           </h2>
           <p className="super-subheading mt-3 max-w-2xl mx-auto">
-            Conheca quem cuida do seu estilo com tecnica e atencao aos detalhes.
+            Conheca quem cuida do seu estilo com técnica e atenção aos detalhes.
           </p>
         </div>
 
