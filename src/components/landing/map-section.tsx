@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getWhatsAppLink } from "@/lib/utils";
 import { Container } from "./primitives";
@@ -6,26 +6,24 @@ import { Container } from "./primitives";
 const WHATSAPP_NUMBER =
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5511960234545";
 
+const MAPS_LINK = "https://maps.app.goo.gl/c8QLxPKBgaAbkACV6";
+const MAPS_EMBED_SRC =
+  "https://www.google.com/maps?q=Barbearia+do+Moura,+Av.+Queiroz+Pedroso,+433,+Maua,+SP&output=embed";
+
 export function MapSection() {
   return (
     <section id="contato" className="relative section-landing bg-[#012A3A]">
-      {/* Map placeholder */}
-      <div className="relative h-[400px] md:h-[500px] w-full overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#013648] via-[#012A3A] to-[#011E2D]" />
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(234,216,172,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(234,216,172,0.06)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center space-y-2">
-            <MapPin className="h-10 w-10 text-[#EAD8AC]/40 mx-auto" />
-            <p className="text-sm text-[#EAD8AC]/40">
-              Mapa interativo (Google Maps)
-            </p>
-          </div>
-        </div>
+      <div className="relative h-[420px] md:h-[540px] w-full overflow-hidden">
+        <iframe
+          title="Mapa da Barbearia do Moura"
+          src={MAPS_EMBED_SRC}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="absolute inset-0 w-full h-full border-0"
+        />
+        <div className="absolute inset-0 bg-[#011E2D]/35" />
 
-        {/* Info card overlay */}
-        <Container className="absolute inset-0 flex items-end pb-8 pointer-events-none">
+        <Container className="absolute inset-0 flex items-end pb-6 sm:pb-8 pointer-events-none">
           <Card
             variant="highlighted"
             className="pointer-events-auto max-w-sm w-full"
@@ -38,9 +36,9 @@ export function MapSection() {
                 <li className="flex items-start gap-2 text-[#EAD8AC]/80">
                   <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-[#EAD8AC]" />
                   <span>
-                    Av. Queiróz Pedroso, 433
+                    Av. Queiroz Pedroso, 433
                     <br />
-                    Jardim Pedroso, Mauá-SP
+                    Jardim Pedroso, Maua-SP
                   </span>
                 </li>
                 <li className="flex items-center gap-2 text-[#EAD8AC]/80">
@@ -67,6 +65,16 @@ export function MapSection() {
                   </span>
                 </li>
               </ul>
+
+              <a
+                href={MAPS_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-[#EAD8AC] hover:opacity-90"
+              >
+                Abrir no Google Maps
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
             </CardContent>
           </Card>
         </Container>
