@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogContent,
@@ -70,7 +70,6 @@ interface Appointment {
   cliente: {
     nome: string;
     telefone: string | null;
-    avatar_url: string | null;
   };
   servico: {
     nome: string;
@@ -156,7 +155,7 @@ export default function ProfissionalDashboardPage() {
           .from("appointments")
           .select(`
             *,
-            cliente:users!appointments_cliente_id_fkey(nome, telefone, avatar_url),
+            cliente:users!appointments_cliente_id_fkey(nome, telefone),
             servico:services(nome, duracao_minutos)
           `)
           .eq("profissional_id", professionalId)
@@ -208,7 +207,7 @@ export default function ProfissionalDashboardPage() {
           .from("appointments")
           .select(`
             *,
-            cliente:users!appointments_cliente_id_fkey(nome, telefone, avatar_url),
+            cliente:users!appointments_cliente_id_fkey(nome, telefone),
             servico:services(nome, duracao_minutos)
           `)
           .eq("profissional_id", professionalId)
@@ -657,6 +656,4 @@ export default function ProfissionalDashboardPage() {
     </div>
   );
 }
-
-
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/hooks/use-user";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Sheet,
   SheetContent,
@@ -182,51 +182,53 @@ export function ClientNav() {
                 </SheetHeader>
 
                 {/* Mobile Nav Links */}
-                <nav className="flex flex-col gap-1 mt-6">
-                  {navItems.map((item) => {
-                    const isActive = pathname === item.href ||
-                      (item.href !== "/dashboard" && pathname.startsWith(item.href));
+                <div className="flex flex-col justify-between flex-1 mt-6 overflow-y-auto">
+                  <nav className="flex flex-col gap-1">
+                    {navItems.map((item) => {
+                      const isActive = pathname === item.href ||
+                        (item.href !== "/dashboard" && pathname.startsWith(item.href));
 
-                    return (
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={closeMenu}
+                          className={cn(
+                            "nav-item flex items-center gap-3 px-3 py-3",
+                            isActive
+                              ? "nav-item-active"
+                              : "hover:text-[#EAD8AC] hover:bg-[#013648]"
+                          )}
+                        >
+                          <item.icon className="h-5 w-5" />
+                          {item.label}
+                        </Link>
+                      );
+                    })}
+                  </nav>
+
+                  {/* Mobile Footer */}
+                  <div className="mt-auto pt-4">
+                    <div className="border-t border-black pt-4 space-y-2">
                       <Link
-                        key={item.href}
-                        href={item.href}
+                        href="/perfil/configuracoes"
                         onClick={closeMenu}
-                        className={cn(
-                          "nav-item flex items-center gap-3 px-3 py-3",
-                          isActive
-                            ? "nav-item-active"
-                            : "hover:text-[#EAD8AC] hover:bg-[#013648]"
-                        )}
+                        className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC] transition-colors"
                       >
-                        <item.icon className="h-5 w-5" />
-                        {item.label}
+                        <Settings className="h-5 w-5" />
+                        Configurações
                       </Link>
-                    );
-                  })}
-                </nav>
-
-                {/* Mobile Footer */}
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div className="border-t border-black pt-4 space-y-2">
-                    <Link
-                      href="/perfil/configuracoes"
-                      onClick={closeMenu}
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC] transition-colors"
-                    >
-                      <Settings className="h-5 w-5" />
-                      Configurações
-                    </Link>
-                    <button
-                      onClick={() => {
-                        closeMenu();
-                        handleLogout();
-                      }}
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#EAD8AC] hover:bg-[#EAD8AC]/10 transition-colors w-full"
-                    >
-                      <LogOut className="h-5 w-5" />
-                      Sair
-                    </button>
+                      <button
+                        onClick={() => {
+                          closeMenu();
+                          handleLogout();
+                        }}
+                        className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#EAD8AC] hover:bg-[#EAD8AC]/10 transition-colors w-full"
+                      >
+                        <LogOut className="h-5 w-5" />
+                        Sair
+                      </button>
+                    </div>
                   </div>
                 </div>
               </SheetContent>

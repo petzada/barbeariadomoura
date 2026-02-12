@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogContent,
@@ -58,10 +58,8 @@ interface Appointment {
     duracao_minutos: number;
   };
   profissional: {
-    foto_url: string | null;
     user: {
       nome: string;
-      avatar_url: string | null;
     };
   } | null;
 }
@@ -386,8 +384,7 @@ function AppointmentCard({
   const podeCancelar = horasAteAgendamento >= 4 && appointment.status === "agendado";
   const podeContatarWhatsApp = horasAteAgendamento > 0 && horasAteAgendamento < 4 && appointment.status === "agendado";
 
-  const profissionalNome = appointment.profissional?.user?.nome || appointment.profissional_nome || "Profissional removido";
-  const profissionalFoto = appointment.profissional?.foto_url || appointment.profissional?.user?.avatar_url || undefined;
+  const profissionalNome = appointment.profissional?.user?.nome || appointment.profissional_nome || "Profissional removido";
 
   return (
     <Card className={cn(isPast && "opacity-70")}>
@@ -396,7 +393,6 @@ function AppointmentCard({
           {/* Info */}
           <div className="flex items-start gap-4">
             <Avatar className="h-12 w-12">
-                src={profissionalFoto}
               <AvatarFallback className="bg-primary text-[#EAD8AC]">
                 {getInitials(profissionalNome)}
               </AvatarFallback>
@@ -491,6 +487,4 @@ function AppointmentCard({
     </Card >
   );
 }
-
-
 

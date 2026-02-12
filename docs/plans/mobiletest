@@ -1,0 +1,267 @@
+Validação UI/UX Mobile-First (overlays, modais, menus, popups)
+
+Quero que você atue como QA Mobile-First + UI Engineer e realize uma verificação profunda de toda a camada de UI/UX interativa do meu app (React no front), focando 100% em telas pequenas e garantindo usabilidade impecável em dispositivos mobile atuais e nos menores formatos ainda comuns no mercado.
+
+Objetivo
+
+Validar todos os componentes interativos: botões, menus, drawers, tooltips, popovers, dropdowns, selects, checkboxes, radios, switches, toasts, snackbars, bottom sheets, modais, dialogs, overlays, context menus, datepickers, e qualquer “sobreposição” por cima da tela.
+
+Garantir que em viewports pequenos nenhum overlay/modal/popup:
+
+fique fora da tela
+
+seja cortado (clipping)
+
+apareça desalinhado
+
+trave scroll do usuário
+
+fique impossível de fechar
+
+fique atrás de outro elemento (z-index)
+
+cause “double scroll” (body + modal)
+
+estoure largura/altura
+
+quebre o layout com teclado aberto (mobile keyboard)
+
+Garantir acessibilidade mínima e usabilidade touch: alvos de toque confortáveis, navegação previsível, foco correto, aria quando aplicável, e comportamento consistente.
+
+1) Antes de testar: inventário completo de UI interativa (obrigatório)
+
+Antes de qualquer teste, faça um “UI Interaction Map” do projeto:
+
+Liste todas as páginas/rotas e, para cada uma:
+
+botões e ações principais
+
+menus (header, sidebar, dropdowns)
+
+modais/dialogs (criar, editar, confirmar, alertas)
+
+popovers/tooltips
+
+selects/combobox/autocomplete
+
+checkboxes/radios/switches
+
+toasts/snackbars e notificações
+
+drawers/bottom sheets
+
+Localize os componentes-base reutilizáveis (ex.: Modal, Dialog, Dropdown, Popover, Tooltip, Select, Drawer, Toast), e identifique:
+
+biblioteca usada (ex.: Radix, Headless UI, MUI, Chakra, AntD, custom)
+
+forma de posicionamento (portals, fixed/absolute)
+
+gerenciamento de z-index, focus trap, scroll lock
+
+Gere um arquivo UI_INTERACTION_MAP.md com esse inventário (rastreamento do que foi encontrado).
+
+2) Padrões mobile-first que você deve garantir
+
+Valide e ajuste a implementação para cumprir estes padrões:
+
+2.1 Viewports “pequenos de verdade”
+
+Teste e valide em pelo menos estes tamanhos (portrait):
+
+320×568 (muito pequeno)
+
+360×640 (comum Android)
+
+375×667 (iPhone clássico)
+
+390×844 (iPhone moderno)
+
+412×915 (Android grande)
+E também landscape em pelo menos 2 tamanhos pequenos.
+
+Se você achar melhor, inclua mais variações, mas não remova os menores.
+
+2.2 Overlays e containers
+
+Para todo overlay/modal/menu/popover:
+
+Nunca ultrapassar a área útil da tela (considerar safe-area quando aplicável).
+
+Conter conteúdo com:
+
+max-width, max-height
+
+scroll interno consistente (overflow-y: auto) quando necessário
+
+Garantir “tap outside” para fechar quando fizer sentido (exceto fluxos críticos).
+
+Garantir botão/ação clara de fechar (X, cancelar, etc).
+
+Garantir que sempre exista um estado onde o usuário consegue sair (inclusive com Esc no desktop, mas no mobile com toque).
+
+Garantir z-index correto e consistência (tokens de camadas).
+
+2.3 Teclado mobile e campos de formulário
+
+Ao abrir o teclado, o input focado não pode ficar escondido atrás do teclado.
+
+Em modais com formulários:
+
+rolar automaticamente para o campo focado quando necessário
+
+evitar “jumps” de layout
+
+Valide tipos de input adequados (type=email, tel, number etc) se aplicável.
+
+2.4 Toque e ergonomia
+
+Alvos de toque confortáveis em elementos clicáveis.
+
+Evitar elementos clicáveis muito próximos (mis-taps).
+
+Estados de disabled, loading e feedback (spinner, skeleton) consistentes.
+
+2.5 Scroll e travamentos
+
+Ao abrir modal: body scroll lock correto (sem “scroll da página por trás”).
+
+Dentro do modal: scroll interno suave, sem “double scroll”.
+
+Ao fechar: restaurar o scroll original corretamente.
+
+2.6 Robustez contra conteúdo variável
+
+Teste overlays/modais com:
+
+textos longos (títulos, descrições)
+
+listas grandes
+
+mensagens de erro extensas
+
+campos com labels longas
+
+diferentes traduções (se existir i18n)
+Nada pode quebrar o layout.
+
+3) Plano de testes (manual + automatizado)
+
+Crie uma matriz UI_QA_MATRIX.md ligando:
+
+Tela/Fluxo
+
+Componente (modal/menu/popover/etc)
+
+Interações (abrir, fechar, selecionar, confirmar)
+
+Cenários (pequeno viewport, teclado, erro, lista longa)
+
+Severidade (P0/P1/P2)
+
+Como validar (manual / e2e / unit)
+
+3.1 Testes automatizados E2E (obrigatório)
+
+Implemente Playwright (ou Cypress se já existir), com testes que:
+
+rodem nos viewports definidos
+
+validem comportamentos e layout de overlays
+
+Obrigatório validar programaticamente:
+
+Overlay está visível e clicável
+
+Overlay não está fora da viewport (ex.: bounding box dentro do viewport)
+
+Elementos essenciais (botão fechar/confirmar) estão acessíveis
+
+Não existe clipping por overflow: hidden indevido em ancestrais
+
+Z-index correto: overlay acima do conteúdo
+
+Ao abrir modal, foco vai para o primeiro elemento interativo (quando aplicável)
+
+Ao fechar modal, foco retorna ao elemento que abriu (quando aplicável)
+
+Inclua asserts do tipo:
+
+bounding box do modal/menu/popover dentro do viewport
+
+ausência de overflow horizontal na página (document.documentElement.scrollWidth <= viewportWidth)
+
+screenshots por viewport (apenas para detectar regressões visuais importantes)
+
+teste com “conteúdo longo” (injeção de dados seed ou mock)
+
+3.2 Testes unit/integration (opcional, mas recomendado)
+
+Testar componentes base (Modal/Dropdown/Popover/Select) com Testing Library:
+
+abre/fecha
+
+click outside
+
+focus trap (se existir)
+
+escape/close
+
+scroll lock
+
+4) Correções e hardening de UI (se achar falhas)
+
+Se você encontrar inconsistências, implemente correções com critérios:
+
+Preferir tokens/variáveis de design para z-index e spacing
+
+Padronizar um “Overlay System”:
+
+portal único
+
+camada de backdrop
+
+gerenciador de foco
+
+scroll lock
+
+Garantir responsividade com CSS robusto:
+
+max-width: min(…, 100vw - …)
+
+max-height: min(…, 100vh - …)
+
+containers com overflow-y: auto
+
+Se existirem popovers com posicionamento frágil:
+
+ajustar estratégia de placement
+
+fallback para “flip/shift” (quando biblioteca permitir)
+
+Garantir safe-area no mobile quando necessário.
+
+5) Entregáveis finais
+
+Ao concluir, gere:
+
+UI_INTERACTION_MAP.md (inventário completo)
+
+UI_QA_MATRIX.md (matriz de cobertura)
+
+Testes E2E executáveis:
+
+scripts no package.json: test:e2e, test:e2e:ui, test:e2e:mobile
+
+UI_QA_REPORT.md com:
+
+problemas encontrados (com severidade)
+
+passos para reproduzir
+
+correção aplicada (ou sugestão)
+
+risco residual
+
+Lista final de “gates” para release mobile-first (o que deve passar sempre)
+
+Agora comece. Primeiro gere o UI_INTERACTION_MAP.md, depois a matriz UI_QA_MATRIX.md, e então implemente os testes E2E nos viewports definidos, garantindo que overlays/modais/menus/popups não quebram em telas pequenas.

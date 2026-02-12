@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogContent,
@@ -48,10 +48,8 @@ interface AgendamentoPendente {
   };
   profissional: {
     id: string;
-    foto_url: string | null;
     user: {
       nome: string;
-      avatar_url: string | null;
     };
   } | null;
 }
@@ -266,10 +264,6 @@ export default function FeedbackPage() {
                       agendamento.profissional?.user?.nome ||
                       agendamento.profissional_nome ||
                       "Profissional";
-                    const profFoto =
-                      agendamento.profissional?.foto_url ||
-                      agendamento.profissional?.user?.avatar_url ||
-                      undefined;
 
                     return (
                       <Card key={agendamento.id}>
@@ -481,6 +475,4 @@ export default function FeedbackPage() {
     </>
   );
 }
-
-
 
