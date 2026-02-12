@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   :root {
     --brand-gold: #EAD8AC;
@@ -264,6 +268,26 @@
   .text-gradient-gold {
     color: #EAD8AC;
   }
+
+  .container-landing {
+    @apply w-full max-w-[1200px] mx-auto px-5 md:px-6 lg:px-10;
+  }
+
+  .section-landing {
+    @apply py-16 md:py-[100px];
+  }
+
+  .img-placeholder {
+    background: linear-gradient(135deg, rgba(234, 216, 172, 0.12) 0%, rgba(1, 54, 72, 0.6) 50%, rgba(234, 216, 172, 0.08) 100%);
+    background-size: 200% 200%;
+    animation: placeholder-shift 8s ease-in-out infinite;
+  }
+
+  .img-placeholder-alt {
+    background: linear-gradient(225deg, rgba(234, 216, 172, 0.15) 0%, rgba(1, 54, 72, 0.7) 40%, rgba(234, 216, 172, 0.06) 100%);
+    background-size: 200% 200%;
+    animation: placeholder-shift 10s ease-in-out infinite reverse;
+  }
 }
 
 @layer utilities {
@@ -354,6 +378,12 @@
 
   .glass {
     @apply bg-black/50 backdrop-blur-sm;
+  }
+
+  @keyframes placeholder-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
