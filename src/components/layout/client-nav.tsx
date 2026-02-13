@@ -1,244 +1,140 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useUser } from "@/hooks/use-user";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { UserNav } from "./user-nav";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Skeleton } from "@/components/ui/skeleton";
-import { createClient } from "@/lib/supabase/client";
-import { getInitials, cn } from "@/lib/utils";
-import {
-  Menu,
-  Home,
   Calendar,
   CalendarCheck,
   Crown,
-  User,
-  Settings,
-  LogOut,
-  Scissors,
+  Home,
+  Plus,
   Star,
+  User,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
-const navItems = [
-  { href: "/dashboard", label: "Início", icon: Home },
-  { href: "/agendar", label: "Agendar", icon: Calendar },
+const desktopNavItems = [
+  { href: "/dashboard", label: "Inicio", icon: Home },
   { href: "/meus-agendamentos", label: "Agendamentos", icon: CalendarCheck },
-  { href: "/feedback", label: "Avaliações", icon: Star },
+  { href: "/feedback", label: "Avaliacoes", icon: Star },
   { href: "/clube", label: "Clube", icon: Crown },
   { href: "/perfil", label: "Perfil", icon: User },
 ];
 
+const mobileNavItems = [
+  { href: "/dashboard", label: "Inicio", icon: Home },
+  { href: "/meus-agendamentos", label: "Agenda", icon: CalendarCheck },
+  { href: "/clube", label: "Clube", icon: Crown },
+  { href: "/perfil", label: "Perfil", icon: User },
+];
+
+function isItemActive(pathname: string, href: string) {
+  if (href === "/dashboard") return pathname === href;
+  if (href === "/perfil") return pathname === "/perfil" || pathname.startsWith("/perfil/");
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function ClientNav() {
   const pathname = usePathname();
-  const router = useRouter();
-  const { user, loading } = useUser();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const closeMenu = () => setIsOpen(false);
-
-  const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/");
-    router.refresh();
-  };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-black bg-[#013648] backdrop-blur ">
-      <div className="container-app flex h-14 items-center justify-between">
-        {/* Logo */}
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-black">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/logo.png"
-              alt="Barbearia do Moura"
-              className="h-full w-full object-cover"
-            />
+    <>
+      <header className="sticky top-0 z-50 w-full border-b border-black bg-[#013648]/95 backdrop-blur supports-[backdrop-filter]:bg-[#013648]/70">
+        <div className="container-app flex h-16 items-center justify-between">
+          <Link href="/dashboard" className="flex items-center gap-2">
+            <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-black">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo.png"
+                alt="Barbearia do Moura"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <span className="hidden text-lg font-bold tracking-tight sm:inline">
+              MOURA
+            </span>
+          </Link>
+
+          <nav className="hidden items-center gap-1 md:flex">
+            {desktopNavItems.map((item) => {
+              const active = isItemActive(pathname, item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
+                    active
+                      ? "border-black bg-[#EAD8AC]/10 text-[#EAD8AC]"
+                      : "border-transparent text-[#EAD8AC]/80 hover:border-black hover:bg-black/20 hover:text-[#EAD8AC]"
+                  )}
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <div className="hidden text-right leading-tight lg:block">
+              <p className="text-xs text-[#EAD8AC]/60">Area do cliente</p>
+              <p className="text-sm font-medium">Barbearia do Moura</p>
+            </div>
+            <UserNav />
           </div>
-        </Link>
+        </div>
+      </header>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href ||
-              (item.href !== "/dashboard" && pathname.startsWith(item.href));
-
+      <nav className="safe-area-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-black bg-[#013648]/95 px-4 py-2 backdrop-blur md:hidden">
+        <div className="container-app flex items-center justify-between">
+          {mobileNavItems.slice(0, 2).map((item) => {
+            const active = isItemActive(pathname, item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "nav-item flex items-center gap-2 px-3 py-2",
-                  isActive
-                    ? "nav-item-active"
-                    : "hover:text-[#EAD8AC] hover:bg-[#013648]"
+                  "flex min-w-[56px] flex-col items-center gap-1 rounded-md px-2 py-1 text-[10px] font-semibold transition-colors",
+                  active ? "text-[#EAD8AC]" : "text-[#EAD8AC]/50"
                 )}
               >
-                <item.icon className="h-4 w-4" />
-                {item.label}
+                <item.icon className="h-5 w-5" />
+                <span>{item.label}</span>
               </Link>
             );
           })}
-        </nav>
 
-        {/* User Menu Desktop */}
-        <div className="hidden md:flex items-center gap-2">
-          {loading ? (
-            <Skeleton className="h-8 w-8 rounded-full" />
-          ) : user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-primary text-[#EAD8AC] text-xs">
-                      {getInitials(user.nome)}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium">{user.nome}</p>
-                    <p className="text-xs text-[#EAD8AC]">{user.email}</p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem asChild>
-                    <Link href="/perfil">
-                      <User className="mr-2 h-4 w-4" />
-                      Meu Perfil
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/perfil/configuracoes">
-                      <Settings className="mr-2 h-4 w-4" />
-                      Configurações
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="text-[#EAD8AC] focus:text-[#EAD8AC] cursor-pointer"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sair
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : null}
+          <Link
+            href="/agendar"
+            className={cn(
+              "relative -top-4 flex h-14 w-14 items-center justify-center rounded-full border-4 border-[#013648] bg-[#EAD8AC] text-[#013648] shadow-lg transition-transform active:scale-95",
+              pathname === "/agendar" && "ring-2 ring-[#EAD8AC]/40"
+            )}
+            aria-label="Novo agendamento"
+          >
+            <Plus className="h-6 w-6" />
+          </Link>
+
+          {mobileNavItems.slice(2).map((item) => {
+            const active = isItemActive(pathname, item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex min-w-[56px] flex-col items-center gap-1 rounded-md px-2 py-1 text-[10px] font-semibold transition-colors",
+                  active ? "text-[#EAD8AC]" : "text-[#EAD8AC]/50"
+                )}
+              >
+                <item.icon className="h-5 w-5" />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
         </div>
-
-        {/* Mobile Menu */}
-        <div className="md:hidden flex items-center gap-2">
-          {loading ? (
-            <Skeleton className="h-8 w-8 rounded-full" />
-          ) : user ? (
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[280px]">
-                <SheetHeader>
-                  <SheetTitle className="text-left">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="h-10 w-10">
-                        <AvatarFallback className="bg-primary text-[#EAD8AC]">
-                          {getInitials(user.nome)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium">{user.nome}</p>
-                        <p className="text-xs text-[#EAD8AC]">{user.email}</p>
-                      </div>
-                    </div>
-                  </SheetTitle>
-                </SheetHeader>
-
-                {/* Mobile Nav Links */}
-                <div className="flex flex-col justify-between flex-1 mt-6 overflow-y-auto">
-                  <nav className="flex flex-col gap-1">
-                    {navItems.map((item) => {
-                      const isActive = pathname === item.href ||
-                        (item.href !== "/dashboard" && pathname.startsWith(item.href));
-
-                      return (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          onClick={closeMenu}
-                          className={cn(
-                            "nav-item flex items-center gap-3 px-3 py-3",
-                            isActive
-                              ? "nav-item-active"
-                              : "hover:text-[#EAD8AC] hover:bg-[#013648]"
-                          )}
-                        >
-                          <item.icon className="h-5 w-5" />
-                          {item.label}
-                        </Link>
-                      );
-                    })}
-                  </nav>
-
-                  {/* Mobile Footer */}
-                  <div className="mt-auto pt-4">
-                    <div className="border-t border-black pt-4 space-y-2">
-                      <Link
-                        href="/perfil/configuracoes"
-                        onClick={closeMenu}
-                        className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#EAD8AC] hover:text-[#EAD8AC] hover:bg-[#013648] hover:border-[#EAD8AC] transition-colors"
-                      >
-                        <Settings className="h-5 w-5" />
-                        Configurações
-                      </Link>
-                      <button
-                        onClick={() => {
-                          closeMenu();
-                          handleLogout();
-                        }}
-                        className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#EAD8AC] hover:bg-[#EAD8AC]/10 transition-colors w-full"
-                      >
-                        <LogOut className="h-5 w-5" />
-                        Sair
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          ) : null}
-        </div>
-      </div>
-    </header>
+      </nav>
+    </>
   );
 }
-
-
-

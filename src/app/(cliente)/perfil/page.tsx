@@ -1,32 +1,32 @@
-"use client";
+﻿"use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { updateProfileAction, type AuthState } from "@/lib/auth/actions";
+import { useUser } from "@/hooks/use-user";
+import { useToast } from "@/hooks/use-toast";
+import { createClient } from "@/lib/supabase/client";
+import { formatCurrency, getInitials } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/hooks/use-toast";
-import { useUser } from "@/hooks/use-user";
-import { updateProfileAction, type AuthState } from "@/lib/auth/actions";
-import { createClient } from "@/lib/supabase/client";
-import { getInitials, formatCurrency } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
-  User,
+  AlertCircle,
+  ArrowRight,
+  Calendar,
+  CheckCircle,
+  Crown,
+  Loader2,
   Mail,
   Phone,
-  Calendar,
-  Crown,
   Settings,
-  CheckCircle,
-  AlertCircle,
-  Loader2,
-  ArrowLeft,
+  User,
 } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -58,14 +58,12 @@ export default function PerfilPage() {
   const [loadingSubscription, setLoadingSubscription] = useState(true);
   const [appointmentsCount, setAppointmentsCount] = useState(0);
 
-  // Redirecionar se não autenticado
   useEffect(() => {
     if (!loadingUser && !isAuthenticated) {
-      router.push("/?redirect=/perfil");
+      router.push("/login?redirect=/perfil");
     }
   }, [loadingUser, isAuthenticated, router]);
 
-  // Carregar dados adicionais
   useEffect(() => {
     async function loadAdditionalData() {
       if (!user) return;
@@ -73,7 +71,6 @@ export default function PerfilPage() {
       try {
         const supabase = createClient();
 
-        // Carregar assinatura ativa
         const { data: subData } = await supabase
           .from("subscriptions")
           .select(`*, plano:subscription_plans(nome, preco_mensal)`)
@@ -81,27 +78,20 @@ export default function PerfilPage() {
           .eq("status", "ativa")
           .maybeSingle();
 
-        if (subData) {
-          setSubscription(subData as Subscription);
-        }
+        if (subData) setSubscription(subData as Subscription);
 
-        // Contar agendamentos
         const { count } = await supabase
           .from("appointments")
           .select("*", { count: "exact", head: true })
           .eq("cliente_id", user.id);
 
         setAppointmentsCount(count || 0);
-      } catch {
-        // Silently handle - data will show defaults
       } finally {
         setLoadingSubscription(false);
       }
     }
 
-    if (user) {
-      loadAdditionalData();
-    }
+    if (user) loadAdditionalData();
   }, [user]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -114,7 +104,6 @@ export default function PerfilPage() {
     try {
       const formData = new FormData(e.currentTarget);
       const result = await updateProfileAction(initialState, formData);
-      
       if (result) {
         setState(result);
         if (result.success) {
@@ -123,11 +112,10 @@ export default function PerfilPage() {
             description: result.message,
             variant: "success",
           });
-          refresh(); // Atualizar dados do usuário
+          refresh();
         }
       }
-    } catch (error) {
-      console.error("Profile update error:", error);
+    } catch {
       setState({
         success: false,
         message: "Erro ao atualizar perfil. Tente novamente.",
@@ -139,244 +127,199 @@ export default function PerfilPage() {
 
   if (loadingUser) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-[60vh] items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-[#EAD8AC]" />
       </div>
     );
   }
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-[#013648]">
-      <div className="container-app max-w-4xl py-8">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/dashboard">
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold">Meu Perfil</h1>
-            <p className="text-[#EAD8AC]">
-              Gerencie suas informações pessoais
-            </p>
+    <div className="bg-[#013648] pb-8">
+      <section className="bg-gradient-to-b from-black/20 to-transparent py-8 md:py-10">
+        <div className="container-app">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm text-[#EAD8AC]/60">Area do cliente</p>
+              <h1 className="text-4xl font-bold tracking-tight">Meu Perfil</h1>
+              <p className="text-[#EAD8AC]/70">Gerencie seus dados e assinatura</p>
+            </div>
+            <Button asChild variant="outline" className="hidden sm:inline-flex">
+              <Link href="/dashboard">Voltar ao dashboard</Link>
+            </Button>
           </div>
         </div>
+      </section>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {/* Sidebar - Info do Usuário */}
-          <div className="md:col-span-1 space-y-6">
-            {/* Card Avatar */}
-            <Card>
-              <CardContent className="pt-6 text-center">
-                <Avatar className="h-24 w-24 mx-auto mb-4">
-                  <AvatarFallback className="bg-primary text-[#EAD8AC] text-2xl">
-                    {getInitials(user.nome)}
-                  </AvatarFallback>
-                </Avatar>
-                <h2 className="font-semibold text-lg">{user.nome}</h2>
-                <p className="text-sm text-[#EAD8AC]">{user.email}</p>
-                <Badge variant="secondary" className="mt-2">
-                  {user.role === "admin" ? "Administrador" : user.role === "barbeiro" ? "Profissional" : "Cliente"}
-                </Badge>
-              </CardContent>
-            </Card>
+      <div className="container-app grid gap-8 lg:grid-cols-12">
+        <div className="space-y-6 lg:col-span-4">
+          <Card className="rounded-3xl border-black bg-black/50 backdrop-blur-sm">
+            <CardContent className="space-y-4 p-8 text-center">
+              <Avatar className="mx-auto h-24 w-24 border-2 border-black">
+                <AvatarImage src={user.avatar_url || undefined} alt={user.nome} />
+                <AvatarFallback className="bg-[#EAD8AC] text-[#013648] text-2xl">
+                  {getInitials(user.nome)}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <h2 className="text-xl font-bold">{user.nome}</h2>
+                <p className="text-sm text-[#EAD8AC]/70">{user.email}</p>
+              </div>
+              <Badge variant="outline" className="border-black">
+                {user.role === "admin" ? "Administrador" : user.role === "barbeiro" ? "Profissional" : "Cliente"}
+              </Badge>
+            </CardContent>
+          </Card>
 
-            {/* Card Assinatura */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Crown className="h-4 w-4 text-[#EAD8AC]" />
-                  Clube do Moura
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {loadingSubscription ? (
-                  <Skeleton className="h-16" />
-                ) : subscription ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#EAD8AC]">Plano</span>
-                      <Badge variant="success">{subscription.plano.nome}</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#EAD8AC]">Valor</span>
-                      <span className="font-medium">
-                        {formatCurrency(subscription.plano.preco_mensal)}/mês
-                      </span>
-                    </div>
-                    {subscription.proxima_cobranca && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-[#EAD8AC]">Próxima cobrança</span>
-                        <span className="text-sm">
-                          {format(parseISO(subscription.proxima_cobranca), "dd/MM/yyyy", { locale: ptBR })}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="text-center py-2">
-                    <p className="text-sm text-[#EAD8AC] mb-3">
-                      Você não possui assinatura ativa
+          <Card className="rounded-3xl border-black bg-black/50 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Crown className="h-4 w-4" />
+                Clube do Moura
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loadingSubscription ? (
+                <Skeleton className="h-16" />
+              ) : subscription ? (
+                <div className="space-y-3">
+                  <p className="font-semibold">{subscription.plano.nome}</p>
+                  <p className="text-sm text-[#EAD8AC]/70">
+                    {formatCurrency(subscription.plano.preco_mensal)}/mes
+                  </p>
+                  {subscription.proxima_cobranca && (
+                    <p className="text-xs text-[#EAD8AC]/60">
+                      Proxima cobranca: {format(parseISO(subscription.proxima_cobranca), "dd/MM/yyyy", { locale: ptBR })}
                     </p>
-                    <Button size="sm" asChild>
-                      <Link href="/clube">Conhecer Planos</Link>
-                    </Button>
+                  )}
+                  <Button asChild className="w-full" size="sm">
+                    <Link href="/clube">Gerenciar assinatura</Link>
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-3 text-center">
+                  <p className="text-sm text-[#EAD8AC]/70">Nenhuma assinatura ativa.</p>
+                  <Button asChild size="sm" className="w-full">
+                    <Link href="/clube">Conhecer planos</Link>
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-3xl border-black bg-black/50 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Calendar className="h-4 w-4" />
+                Estatisticas
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-[#EAD8AC]/70">Total de agendamentos</span>
+                <span className="text-lg font-bold">{appointmentsCount}</span>
+              </div>
+              <Separator />
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-[#EAD8AC]/70">Membro desde</span>
+                <span className="text-sm font-medium">
+                  {user.created_at ? format(parseISO(user.created_at), "MMM/yyyy", { locale: ptBR }) : "-"}
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-6 lg:col-span-8">
+          <Card className="rounded-3xl border-black bg-black/50 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-2xl">Informacoes Pessoais</CardTitle>
+              <CardDescription>Atualize seus dados de cadastro</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {state.success && (
+                  <div className="flex items-center gap-2 rounded-lg bg-green-500/20 p-3 text-sm text-green-300">
+                    <CheckCircle className="h-4 w-4" />
+                    <span>{state.message}</span>
                   </div>
                 )}
-              </CardContent>
-            </Card>
 
-            {/* Card Estatísticas */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  Estatísticas
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-[#EAD8AC]">Total de agendamentos</span>
-                  <span className="font-semibold">{appointmentsCount}</span>
+                {state.message && !state.success && (
+                  <div className="flex items-center gap-2 rounded-lg bg-red-500/20 p-3 text-sm text-red-300">
+                    <AlertCircle className="h-4 w-4" />
+                    <span>{state.message}</span>
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="nome">Nome completo</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#EAD8AC]/60" />
+                    <Input id="nome" name="nome" type="text" defaultValue={user.nome} className="pl-10" required />
+                  </div>
                 </div>
-                <Separator className="my-3" />
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-[#EAD8AC]">Membro desde</span>
-                  <span className="text-sm">
-                    {user.created_at
-                      ? format(parseISO(user.created_at), "MMM/yyyy", { locale: ptBR })
-                      : "-"}
-                  </span>
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#EAD8AC]/60" />
+                    <Input id="email" type="email" value={user.email} className="pl-10" disabled />
+                  </div>
+                  <p className="text-xs text-[#EAD8AC]/60">O email nao pode ser alterado.</p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
 
-          {/* Main Content - Formulário */}
-          <div className="md:col-span-2 space-y-6">
-            {/* Formulário de Edição */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Informações Pessoais</CardTitle>
-                <CardDescription>
-                  Atualize suas informações de perfil
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Mensagem de sucesso */}
-                  {state.success && (
-                    <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
-                      <CheckCircle className="h-4 w-4 flex-shrink-0" />
-                      <span>{state.message}</span>
-                    </div>
-                  )}
-
-                  {/* Mensagem de erro */}
-                  {state.message && !state.success && (
-                    <div className="flex items-center gap-2 p-3 rounded-lg bg-[#EAD8AC]/10 text-[#EAD8AC] text-sm">
-                      <AlertCircle className="h-4 w-4 flex-shrink-0" />
-                      <span>{state.message}</span>
-                    </div>
-                  )}
-
-                  {/* Nome */}
-                  <div className="space-y-2">
-                    <Label htmlFor="nome">Nome completo</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
-                      <Input
-                        id="nome"
-                        name="nome"
-                        type="text"
-                        defaultValue={user.nome}
-                        className="pl-10"
-                        required
-                      />
-                    </div>
+                <div className="space-y-2">
+                  <Label htmlFor="telefone">Telefone</Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#EAD8AC]/60" />
+                    <Input
+                      id="telefone"
+                      name="telefone"
+                      type="tel"
+                      defaultValue={user.telefone || ""}
+                      placeholder="(11) 99999-9999"
+                      className="pl-10"
+                    />
                   </div>
+                </div>
 
-                  {/* Email (readonly) */}
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
-                      <Input
-                        id="email"
-                        type="email"
-                        value={user.email}
-                        className="pl-10"
-                        disabled
-                      />
-                    </div>
-                    <p className="text-xs text-[#EAD8AC]">
-                      O email não pode ser alterado
-                    </p>
-                  </div>
+                <div className="pt-2">
+                  <Button type="submit" disabled={isPending} className="h-11 px-6">
+                    {isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Salvando...
+                      </>
+                    ) : (
+                      "Salvar alteracoes"
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
 
-                  {/* Telefone */}
-                  <div className="space-y-2">
-                    <Label htmlFor="telefone">Telefone</Label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EAD8AC]" />
-                      <Input
-                        id="telefone"
-                        name="telefone"
-                        type="tel"
-                        defaultValue={user.telefone || ""}
-                        placeholder="(11) 99999-9999"
-                        className="pl-10"
-                      />
-                    </div>
+          <Card className="rounded-3xl border-black bg-black/50 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <Link
+                href="/perfil/configuracoes"
+                className="flex items-center justify-between rounded-2xl border border-black p-4 transition-colors hover:border-[#EAD8AC] hover:bg-black/20"
+              >
+                <div className="flex items-center gap-3">
+                  <Settings className="h-5 w-5 text-[#EAD8AC]" />
+                  <div>
+                    <p className="font-medium">Configuracoes da conta</p>
+                    <p className="text-sm text-[#EAD8AC]/70">Senha, notificacoes e privacidade</p>
                   </div>
-
-                  <div className="flex justify-end pt-4">
-                    <Button type="submit" disabled={isPending}>
-                      {isPending ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Salvando...
-                        </>
-                      ) : (
-                        "Salvar Alterações"
-                      )}
-                    </Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
-
-            {/* Link para Configurações */}
-            <Card>
-              <CardContent className="pt-6">
-                <Link
-                  href="/perfil/configuracoes"
-                  className="flex items-center justify-between p-4 rounded-lg border border-black hover:bg-[#013648] hover:border-[#EAD8AC] transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <Settings className="h-5 w-5 text-[#EAD8AC]" />
-                    <div>
-                      <p className="font-medium">Configurações</p>
-                      <p className="text-sm text-[#EAD8AC]">
-                        Alterar senha, preferências e mais
-                      </p>
-                    </div>
-                  </div>
-                  <ArrowLeft className="h-5 w-5 rotate-180 text-[#EAD8AC]" />
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
+                </div>
+                <ArrowRight className="h-5 w-5 text-[#EAD8AC]/70" />
+              </Link>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
   );
 }
-
-
-

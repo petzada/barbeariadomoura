@@ -38,7 +38,7 @@ export default async function ClienteLayout({
   return (
     <div className="min-h-screen flex flex-col bg-[#013648] text-[#EAD8AC]">
       <ClientNav />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 pb-24 md:pb-0">{children}</main>
     </div>
   );
 }
